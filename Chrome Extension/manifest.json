@@ -1,0 +1,50 @@
+{
+   "author": "Joe Looney",
+   "background": {
+      "scripts": [ "js/jquery.min.js", "js/bitcoinjs-min.js" ]
+   },
+   "browser_action": {
+      "default_icon": "pockets-48.png",
+      "default_popup": "popup.html"
+   },
+   "description": "Digital Token Wallet powered by Bitcoin",
+   "icons": {
+      "128": "pockets-128.png",
+      "16": "pockets-16.png",
+      "48": "pockets-48.png"
+   },
+   "content_scripts": [
+    {
+      "matches": ["*://*/*"],
+      "js": ["js/jquery.min.js", "js/tipbutton.js"]
+    }
+   ],
+   "web_accessible_resources": [
+        "*.png",
+        "tipsplash.html",
+        "js/jquery.min.js",
+        "js/bootstrap.min.js",
+        "js/aes.js",
+        "js/biginteger.js",
+        "js/utxo.js",
+        "js/xcp-js/transactions.js",
+        "js/xcp-js/rc4.js",
+        "js/xcp-js/convert-type.js",
+        "js/xcp-js/decode.js",
+        "popup.js",
+        "js/mnemonic.js",
+        "js/bitcore/bitcore.min.js",
+        "js/bitcoinsig.js",
+        "js/brainlite.js",
+        "js/bitcoinjs-min.js",
+        "js/qrcode.min.js",
+        "bootstrap.min.css",
+        "tipsplash.js",
+        "tipticker.js"
+   ],
+   "manifest_version": 2,
+   "name": "Tokenly Pockets",
+   "permissions": [ "storage", "clipboardWrite" ],
+   "short_name": "Tokenly Pockets",
+   "version": "0.1.0"
+}
