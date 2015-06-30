@@ -87,7 +87,7 @@ function setEncryptedTest() {
 
 function setPinBackground() {
 
-                    var randomBackground = Math.floor(Math.random() * 6);
+                    var randomBackground = Math.floor(Math.random() * 5);
             
                     var bg_link = "url('/pin_bg/"+randomBackground+".jpg')";
             
