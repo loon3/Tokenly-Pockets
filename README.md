@@ -19,4 +19,4 @@ v0.1.0 - Primary token is BTC with BTC price feed, Tokenly branding
 - Message signing
 - Bitcoinaverage BTC/USD rate
 
-Please report all issues at https://github.com/loon3/Tockenly-Pockets/issues
+Please report all issues at https://github.com/loon3/Tokenly-Pockets/issues
