@@ -2,8 +2,6 @@
 
 Digital Token Wallet powered by Bitcoin
 
-Donate to 1LrM4bojLAKfuoFMXkDtVPMGydX1rkaMqH
-
 ## Release Notes
 
 v0.0.0 - Initial fork from LTB Companion v0.4.6 and re-branding
@@ -19,4 +17,4 @@ v0.1.0 - Primary token is BTC with BTC price feed, Tokenly branding
 - Message signing
 - Bitcoinaverage BTC/USD rate
 
-Please report all issues at https://github.com/loon3/Tokenly-Pockets/issues
+Please report all issues at https://github.com/Tokenly/Tokenly-Pockets/issues
