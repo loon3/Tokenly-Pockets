@@ -1,3 +1,37 @@
+function getExchangeRatesList() { 
+    
+    chrome.storage.local.get(function(data) {
+        
+        var btcperusd = parseFloat(data.btcperusd);
+        
+        console.log(data);
+        
+        $("#ExchangeRate").html("");
+        
+            $.each(data.assetrates, function(i, item) {
+               
+                var assetname = data.assetrates[i]["assetname"];   
+            
+                var assetprice = parseFloat(data.assetrates[i]["assetprice"]);
+                
+                if (assetprice <= 1) {
+                    var assetpricedisplay = assetprice.toFixed(6);
+                } else {
+                    var assetpricedisplay = assetprice.toFixed(2);
+                }
+                
+                var assetbtcprice = (btcperusd * assetprice).toFixed(8);
+                
+                var iconname = assetname.toLowerCase();
+                
+                var ratedisplay = "<div class='assetratedisplay' align='center'><img src='http://counterpartychain.io/content/images/icons/"+iconname+".png'><div class='lead' style='padding: 20px 0 0 0; font-size: 30px;'>"+assetname+"</div><div style='border: 1px solid #ccc; background-color: #fff; padding: 15px 5px 5px 5px; margin: 5px;'><div style='padding: 5px 0 0 0; font-size: 14px; font-style: italic;' class='lead'>Market Rate per Token</div><div style='padding: 0 0 0 0; font-size: 22px;font-weight: bold; ' class='lead'>$"+assetpricedisplay+"</div><div style='padding: 0 0 0 0; font-size: 22px;font-weight: bold; ' class='lead'>"+assetbtcprice+" BTC</div></div></div>"; 
+                $("#ExchangeRate").append(ratedisplay);
+                
+            });
+    });
+}
+
+
 function getNews(){
      var source_html = "https://letstalkbitcoin.com/api/v1/blog/posts?limit=5";
       
@@ -384,38 +418,69 @@ function getPrimaryBalance(pubkey){
 function getRate(assetbalance, pubkey, currenttoken){
     
     if ($("#ltbPrice").html() == "...") {
+        
+        
+        
+          $.getJSON( "http://www.coincap.io/front/xcp", function( data ) {
     
-    //$.getJSON( "http://joelooney.org/ltbcoin/ltb.php", function( data ) {
-    $.getJSON( "https://api.bitcoinaverage.com/ticker/USD/", function( data ) {
-        
-//        var ltbprice = 1 / parseFloat(data.usd_ltb);     
-//        $("#ltbPrice").html(Number(ltbprice.toFixed(0)).toLocaleString('en'));
+              var assetrates = new Array();     
+              
+             $.each(data, function(i, item) {
+                    var assetname = data[i].short;
+                    var assetprice = data[i].price;  
+                 
+                    if (assetname == "LTBC"){ 
+                        assetname = "LTBCOIN";
+                    }
+                 
+                    assetrates[i] = {assetname, assetprice};
+             });
+              
+              chrome.storage.local.set(
+                    {
+                        'assetrates': assetrates,
+                        
+                    }, function () {
+                        
+                                               //$.getJSON( "http://joelooney.org/ltbcoin/ltb.php", function( data ) {
+                        $.getJSON( "https://api.bitcoinaverage.com/ticker/USD/", function( data ) {
 
-//        $("#ltbPrice").data("ltbcoin", { price: ltbprice.toFixed(0) });
-        
-       
-        var btcprice = 1 / parseFloat(data.last);
-        
-        $("#ltbPrice").html(Number(btcprice.toFixed(4).toLocaleString('en')));
-        
-        $("#ltbPrice").data("btc", { price: btcprice.toFixed(6) });
-        
-        
-        
-            
-        if (currenttoken == "BTC") {
-            var usdValue = parseFloat(data.last) * parseFloat(assetbalance);
-        
-            $("#xcpfiatValue").html(usdValue.toFixed(2)); 
-            $("#switchtoxcp").hide();
-            $("#fiatvaluebox").show();
-        } else {
-            $("#fiatvaluebox").hide();
-            $("#switchtoxcp").show();
-        }
-        
-        
-    });
+                    //        var ltbprice = 1 / parseFloat(data.usd_ltb);     
+                    //        $("#ltbPrice").html(Number(ltbprice.toFixed(0)).toLocaleString('en'));
+
+                    //        $("#ltbPrice").data("ltbcoin", { price: ltbprice.toFixed(0) });
+
+
+                            var btcprice = 1 / parseFloat(data.last);
+
+                            $("#ltbPrice").html(Number(btcprice.toFixed(4).toLocaleString('en')));
+
+                            $("#ltbPrice").data("btc", { price: btcprice.toFixed(6) });
+
+
+
+
+                            if (currenttoken == "BTC") {
+                                var usdValue = parseFloat(data.last) * parseFloat(assetbalance);
+
+                                $("#xcpfiatValue").html(usdValue.toFixed(2)); 
+                                $("#switchtoxcp").hide();
+                                $("#fiatvaluebox").show();
+                            } else {
+                                $("#fiatvaluebox").hide();
+                                $("#switchtoxcp").show();
+                            }
+                            
+                           chrome.storage.local.set(
+                                {
+                                    'btcperusd': btcprice
+
+                                });
+
+                        }); 
+                    
+                    });
+           });
     
     } else {
         

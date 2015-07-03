@@ -24,6 +24,8 @@ $( document ).ready(function() {
      return false;
    });
     
+    
+
   
     
     $('#shapeshiftButton').click(function(){
@@ -634,7 +636,11 @@ $(document).on('click', '#toolsTab', function () {
 //        
 //    });
 //    
-    
+    $('#ExchangeRateApp').click(function(){
+        
+        getExchangeRatesList();
+        
+   });
                 
     
 
