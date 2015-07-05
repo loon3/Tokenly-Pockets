@@ -8,6 +8,8 @@ v0.0.0 - Initial fork from LTB Companion v0.4.6 and re-branding
 
 v0.1.0 - Primary token is BTC with BTC price feed, Tokenly branding 
 
+v0.1.3 - Fix pin splash asset display bug, Exchange Rates app
+
 
 ## Features
 
