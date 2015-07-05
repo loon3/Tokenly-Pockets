@@ -3,10 +3,10 @@
 var iconpath = chrome.extension.getURL('pockets-48.png');
 var tipsplash = chrome.extension.getURL('tipsplash.html');
 
-$('.companionurl').html(tipsplash);
-$('.companionimage').html(iconpath);
+$('.pockets-url').html(tipsplash);
+$('.pockets-image').html(iconpath);
 
-$('.companion-tip-button').each(function(i, obj) {
+$('.pockets-payment-button').each(function(i, obj) {
     
     var address = $(this).attr("data-address");
     var label = $(this).attr("data-label");

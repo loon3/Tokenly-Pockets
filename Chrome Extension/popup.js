@@ -1,5 +1,7 @@
 function getExchangeRatesList() { 
     
+   
+    
     chrome.storage.local.get(function(data) {
         
         var btcperusd = parseFloat(data.btcperusd);
@@ -28,6 +30,9 @@ function getExchangeRatesList() {
                 $("#ExchangeRate").append(ratedisplay);
                 
             });
+        
+         $("#ExchangeRate").append("<div style='padding-bottom: 30px; font-style: italic;' align='center'>Market Data provided by Coincap.io</div>");
+    
     });
 }
 
