@@ -377,6 +377,38 @@ $( document ).ready(function() {
           
       });
     
+    
+    $(document).on("click", '.tokenlistingheader', function (event)
+  {
+      
+            $( ".tokenlistingbody" ).remove(); 
+  });
+    
+$(document).on("click", '.tokenlisting', function (event)
+  {
+        
+      var currenttoken = $(this).data("token"); 
+      
+      if ($( "button:contains('"+currenttoken+"')" ).length) {
+      
+          $( ".tokenlistingbody" ).remove(); 
+      
+      } else {
+      
+          if ($('.tokenlistingbody').length) {
+
+                $( ".tokenlistingbody" ).remove(); 
+
+          } 
+
+          var row = $(this).closest('tr');
+
+          $("<tr class='tokenlistingbody'><td colspan='3'><button class='btn btn-warning btn-block' type='button' disabled>Swap "+currenttoken+"</button><button class='btn btn-info btn-block' type='button' disabled>Spend "+currenttoken+"</button></td></tr>").insertAfter(row);
+      
+      }
+      
+  });
+    
   $(document).on("click", '#refreshWallet', function (event)
   {
       

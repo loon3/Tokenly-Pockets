@@ -8,30 +8,45 @@ function getExchangeRatesList() {
         
         console.log(data);
         
+     
+        
         $("#ExchangeRate").html("");
         
-            $.each(data.assetrates, function(i, item) {
-               
-                var assetname = data.assetrates[i]["assetname"];   
-            
-                var assetprice = parseFloat(data.assetrates[i]["assetprice"]);
-                
-                if (assetprice <= 1) {
-                    var assetpricedisplay = assetprice.toFixed(6);
-                } else {
-                    var assetpricedisplay = assetprice.toFixed(2);
-                }
-                
-                var assetbtcprice = (btcperusd * assetprice).toFixed(8);
-                
-                var iconname = assetname.toLowerCase();
-                
-                var ratedisplay = "<div class='assetratedisplay' align='center'><img src='http://counterpartychain.io/content/images/icons/"+iconname+".png'><div class='lead' style='padding: 20px 0 0 0; font-size: 30px;'>"+assetname+"</div><div style='border: 1px solid #ccc; background-color: #fff; padding: 15px 5px 5px 5px; margin: 5px;'><div style='padding: 5px 0 0 0; font-size: 14px; font-style: italic;' class='lead'>Market Rate per Token</div><div style='padding: 0 0 0 0; font-size: 22px;font-weight: bold; ' class='lead'>$"+assetpricedisplay+"</div><div style='padding: 0 0 0 0; font-size: 22px;font-weight: bold; ' class='lead'>"+assetbtcprice+" BTC</div></div></div>"; 
-                $("#ExchangeRate").append(ratedisplay);
-                
-            });
+        var ratedisplay = "<table class='table table-condensed' style='margin-top: 20px;'><thead class='small tokenlistingheader' style='cursor: pointer;'><th></th><th>Token</th><th style='text-align:center;'>Market Price per Token*</th></thead><tbody>";
         
-         $("#ExchangeRate").append("<div style='padding-bottom: 30px; font-style: italic;' align='center'>Market Data provided by Coincap.io</div>");
+        //<th>Price USD</th>
+
+        $.each(data.assetrates, function(i, item) {
+
+            var assetname = data.assetrates[i]["assetname"];   
+
+            var assetprice = parseFloat(data.assetrates[i]["assetprice"]);
+
+            if (assetprice <= 1) {
+                var assetpricedisplay = assetprice.toFixed(6);
+            } else {
+                var assetpricedisplay = assetprice.toFixed(2);
+            }
+
+            var assetbtcprice = (btcperusd * assetprice).toFixed(8);
+
+            var iconname = assetname.toLowerCase();
+            
+            ratedisplay += "<tr class='tokenlisting' style='cursor: pointer;' data-token='"+assetname+"'><td style='vertical-align:middle'><img src='http://counterpartychain.io/content/images/icons/"+iconname+".png' width='32px' height='32px'></td><td style='vertical-align:middle'>"+assetname+"</td><td style='vertical-align:middle; text-align:center;'>"+assetbtcprice+" BTC<br>$"+assetpricedisplay+"</td></tr>"; 
+            
+            //<td>$"+assetpricedisplay+"</td>
+            
+
+            //var ratedisplay = "<div class='assetratedisplay' align='center'><img src='http://counterpartychain.io/content/images/icons/"+iconname+".png'><div class='lead' style='padding: 20px 0 0 0; font-size: 30px;'>"+assetname+"</div><div style='border: 1px solid #ccc; background-color: #fff; padding: 15px 5px 5px 5px; margin: 5px;'><div style='padding: 5px 0 0 0; font-size: 14px; font-style: italic;' class='lead'>Market Rate per Token</div><div style='padding: 0 0 0 0; font-size: 22px;font-weight: bold; ' class='lead'>$"+assetpricedisplay+"</div><div style='padding: 0 0 0 0; font-size: 22px;font-weight: bold; ' class='lead'>"+assetbtcprice+" BTC</div></div></div>"; 
+            
+            
+
+        });
+        
+        ratedisplay += "</tbody></table><div style='padding-bottom: 30px; font-style: italic;' align='center'>*Market Data provided by Coincap.io</div>";
+        
+        
+         $("#ExchangeRate").html(ratedisplay);
     
     });
 }
