@@ -10,6 +10,8 @@ v0.1.0 - Primary token is BTC with BTC price feed, Tokenly branding
 
 v0.1.3 - Fix pin splash asset display bug, Exchange Rates app
 
+v0.1.4 - New payment button class, Exchange Rates update, Add option to disable Chain.so parsing
+
 
 ## Features
 

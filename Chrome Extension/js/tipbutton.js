@@ -24,7 +24,20 @@ $('.pockets-payment-button').each(function(i, obj) {
     
 });
 
+
+
+
+
 if (document.location.hostname == "chain.so") {
+    
+    chrome.storage.local.get(function(data) {
+        
+        data["chainso_detect"];
+        
+        if(data["chainso_detect"] == 'yes') { 
+          
+            
+    
 
     $('kbd').each(function(i, obj) {
     
@@ -57,13 +70,16 @@ if (document.location.hostname == "chain.so") {
                     if (data.divisible == 0) { amount_dec = Math.round(amount_dec * 100000000); }
                     
                     
-                    $( "<div align='center' style='padding: 10px; background-color: #666;  border: solid 10px #666; color: #fff; margin: 20px auto 40px auto; width: 480px;'><div class='row'><div class='col-xs-12'><div class='lead'>Counterparty Data Detected!</div><div style='margin-bottom: 15px;'>"+confirmation_text+"</div></div></div><div class='row' style='background-color: #fafafa; color: #000; padding-top: 10px; border: solid 3px #7EB06A;'><div class='col-xs-6'><p align='center'>Counterparty Asset:</p><p style='font-size: 24px; font-weight: bold; color: #7EB06A;'>"+assetnamed+"</p></div><div class='col-xs-6'><p align='center'>Amount Sent:</p><p style='font-size: 24px; font-weight: bold; color: #7EB06A;' >"+amount_dec+"</p></div><p style='font-size: 16px; padding-top: 30px;' >Sent to: <a href='https://counterpartychain.io/transaction/"+txid+"'>"+sendaddress+"</a></p></div><div align='center' class='small' style='margin: 10px 0 -10px 0;'>Data parsed by Tokenly Pockets</div></div>" ).insertAfter( ".row:first" );
+                    $( "<div align='center' style='padding: 10px; background-color: #1C265E;  border: solid 10px #1C265E; border-radius: 15px; box-shadow: 10px 10px 10px -2px rgba(0,0,0,0.25); color: #fff; margin: 20px auto 40px auto; width: 480px;'><div class='row'><div class='col-xs-12'><div class='lead' style='font-weight: bold;'>Token Transaction Detected!</div><div style='margin-bottom: 15px;'>"+confirmation_text+"</div></div></div><div class='row' style='background-color: #fff; color: #000; padding-top: 10px; border: solid 3px #7EB06A;'><div class='col-xs-6'><p align='center'>Token:</p><p style='font-size: 24px; font-weight: bold; color: #7EB06A;'>"+assetnamed+"</p></div><div class='col-xs-6'><p align='center'>Amount Sent:</p><p style='font-size: 24px; font-weight: bold; color: #7EB06A;' >"+amount_dec+"</p></div><p style='font-size: 16px; padding-top: 30px;' >Sent to: <a href='https://counterpartychain.io/transaction/"+txid+"'>"+sendaddress+"</a></p></div><div align='center' class='small' style='margin: 10px 0 -10px 0;'>Counterparty Data parsed by Tokenly Pockets</div></div>" ).insertAfter( ".row:first" );
                 });
             });
             
             
             
         }
+    });
+            
+    }
     });
 }
 

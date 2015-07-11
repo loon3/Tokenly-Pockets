@@ -322,11 +322,7 @@ a {
 
 .newsArticle {
     border-radius: 10px 10px 10px 10px;
--moz-border-radius: 10px 10px 10px 10px;
--webkit-border-radius: 10px 10px 10px 10px;
-    -webkit-box-shadow: 5px 5px 5px -2px rgba(0,0,0,0.75);
--moz-box-shadow: 5px 5px 5px -2px rgba(0,0,0,0.75);
-box-shadow: 5px 5px 5px -2px rgba(0,0,0,0.75);
+    box-shadow: 5px 5px 5px -2px rgba(0,0,0,0.75);
     border: 2px solid #999; 
     background-color: #3987AD;
     color: #fff;
@@ -356,6 +352,12 @@ box-shadow: 5px 5px 5px -2px rgba(0,0,0,0.75);
     
 
 }
+
+.swapbotselect {
+    
+    cursor: pointer;
+}
+
 
 .activetool:hover {
     background-color: #f8f8f8;

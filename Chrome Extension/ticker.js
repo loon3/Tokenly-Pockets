@@ -389,7 +389,7 @@ $(document).on("click", '.tokenlisting', function (event)
         
       var currenttoken = $(this).data("token"); 
       
-      if ($( "button:contains('"+currenttoken+"')" ).length) {
+      if ($( "div:contains('"+currenttoken+" Swapbots')" ).length) {
       
           $( ".tokenlistingbody" ).remove(); 
       
@@ -403,7 +403,10 @@ $(document).on("click", '.tokenlisting', function (event)
 
           var row = $(this).closest('tr');
 
-          $("<tr class='tokenlistingbody'><td colspan='3'><button class='btn btn-warning btn-block' type='button' disabled>Swap "+currenttoken+"</button><button class='btn btn-info btn-block' type='button' disabled>Spend "+currenttoken+"</button></td></tr>").insertAfter(row);
+         // $("<tr class='tokenlistingbody'><td colspan='3'><button class='btn btn-warning btn-block' type='button' disabled>Exchange  "+currenttoken+"</button><button class='btn btn-info btn-block' type='button' disabled>Shop with "+currenttoken+"</button></td></tr>").insertAfter(row);
+          
+          $("<tr class='tokenlistingbody'><td colspan='3'><div><div class='lead' style='text-align: center; width: 100%; font-weight: bold; background-color: #fff; color: #000; margin: 5px 0 0 0; padding: 3px;'>"+currenttoken+" Swapbots</div><div style='padding: 20px 0 25px 0; text-align: center;'>Coming Soon...</div><div style='margin: 15px 0 10px 0; display: none;'><table class='table table-hover'><thead><th>Owner</th><th>Available Tokens</th></thead><tbody><tr class='swapbotselect'><td><div style='width: 80px;'>loon3</div></td><td>BTC, SJCX, LTBCOIN</td></tr><tr class='swapbotselect'><td>Adam</td><td>BTC, TOKENLY, LTBCOIN, TATIANACOIN</td></tr></tbody></table></div></div>").insertAfter(row);
+      
       
       }
       
@@ -674,6 +677,43 @@ $(document).on('click', '#toolsTab', function () {
         
    });
                 
+    
+    
+       $('#chainsobutton').click( function ()
+        {
+            var state = $('#turnoffchainso').html();
+            
+
+            
+            if (state == "Disable Chain.so Detection") {
+                
+                var detect = "no";
+
+                chrome.storage.local.set(
+                        {
+                            'chainso_detect': detect
+                        }, function () {
+                            
+                            $('#turnoffchainso').html("Enable Chain.so Detection");
+                        
+                        });
+                
+                
+            } else {
+                
+                var detect = "yes";
+
+                chrome.storage.local.set(
+                        {
+                            'chainso_detect': detect
+                        }, function () {
+                            
+                            $('#turnoffchainso').html("Disable Chain.so Detection");
+                        
+                        });
+                
+            }
+        });
     
 
        

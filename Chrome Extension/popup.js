@@ -12,7 +12,9 @@ function getExchangeRatesList() {
         
         $("#ExchangeRate").html("");
         
-        var ratedisplay = "<table class='table table-condensed' style='margin-top: 20px;'><thead class='small tokenlistingheader' style='cursor: pointer;'><th></th><th>Token</th><th style='text-align:center;'>Market Price per Token*</th></thead><tbody>";
+        var ratedisplay = "<table class='table table-condensed' style='margin-top: 20px;'><thead class='small tokenlistingheader' style='cursor: pointer;'><th>Symbol</th><th>Token</th><th style='text-align:center;'>Market Price per Token*</th></thead><tbody>";
+        
+        ratedisplay += "<tr class='tokenlisting' style='cursor: pointer;' data-token='BTC'><td style='vertical-align:middle'><div style='width: 50px;'><img src='bitcoin_48x48.png' width='36' height='36px'></div></td><td style='vertical-align:middle'>BTC</td><td style='vertical-align:middle; text-align:center;'>1 BTC<br>$"+parseFloat(1/btcperusd).toFixed(2)+"</td></tr>"; 
         
         //<th>Price USD</th>
 
@@ -32,7 +34,7 @@ function getExchangeRatesList() {
 
             var iconname = assetname.toLowerCase();
             
-            ratedisplay += "<tr class='tokenlisting' style='cursor: pointer;' data-token='"+assetname+"'><td style='vertical-align:middle'><img src='http://counterpartychain.io/content/images/icons/"+iconname+".png' width='32px' height='32px'></td><td style='vertical-align:middle'>"+assetname+"</td><td style='vertical-align:middle; text-align:center;'>"+assetbtcprice+" BTC<br>$"+assetpricedisplay+"</td></tr>"; 
+            ratedisplay += "<tr class='tokenlisting' style='cursor: pointer;' data-token='"+assetname+"'><td style='vertical-align:middle'><div style='width: 50px;'><img src='http://counterpartychain.io/content/images/icons/"+iconname+".png' width='36' height='36px'></div></td><td style='vertical-align:middle'>"+assetname+"</td><td style='vertical-align:middle; text-align:center;'>"+assetbtcprice+" BTC<br>$"+assetpricedisplay+"</td></tr>"; 
             
             //<td>$"+assetpricedisplay+"</td>
             
@@ -1086,7 +1088,67 @@ function resetFive() {
     
 }
 
+function setChainsoOn() {
+
+    chrome.storage.local.get(function(data) {
+        
+        if(typeof(data["chainso_detect"]) !== 'undefined') { 
+               //already set
+                
+                var detect = data["chainso_detect"];
+
+                if (detect == "no") {
+
+                    var detect = "no";
+
+                    chrome.storage.local.set(
+                            {
+                                'chainso_detect': detect
+                            }, function () {
+
+                                $('#turnoffchainso').html("Enable Chain.so Detection");
+
+                            });
+
+
+                } else {
+
+                    var detect = "yes";
+
+                    chrome.storage.local.set(
+                            {
+                                'chainso_detect': detect
+                            }, function () {
+
+                                $('#turnoffchainso').html("Disable Chain.so Detection");
+
+                            });
+
+                }
+            
+            } else {
+            
+                var detect = "yes";
+
+                    chrome.storage.local.set(
+                            {
+                                'chainso_detect': detect
+                            }, function () {
+
+                                $('#turnoffchainso').html("Disable Chain.so Detection");
+
+                            });
+            
+        }
+
+            
+    })
+
+}
+
 function setInitialAddressCount() {
+    
+       setChainsoOn();
     
        chrome.storage.local.get(function(data) {
         
