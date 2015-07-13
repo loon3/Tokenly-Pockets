@@ -8,5 +8,5 @@ var pocketsimage = $('.pockets-image').text();
 var label_encoded = encodeURIComponent(paymentlabel).replace(/[!'()*]/g, escape);
 var urlattributes = "?address="+address+"&label="+label_encoded+"&tokens="+tokensaccepted;
 					
-$('#payment-button').html("<a href='"+companionurl+urlattributes+"' target='_blank'><img src='"+companionimage+"' height='24px' width='24px'></a>"); //assumes payment button location is <span id="payment-button"></span>
+$('#payment-button').html("<a href='"+pocketsurl+urlattributes+"' target='_blank'><img src='"+pocketsimage+"' height='24px' width='24px'></a>"); //assumes payment button location is <span id="payment-button"></span>
 
