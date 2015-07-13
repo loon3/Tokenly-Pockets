@@ -45,7 +45,7 @@ function getExchangeRatesList() {
 
         });
         
-        ratedisplay += "</tbody></table><div style='padding-bottom: 30px; font-style: italic;' align='center'>*Market Data provided by Coincap.io</div>";
+        ratedisplay += "</tbody></table><div style='padding-bottom: 10px; align='center'>Market Data provided by Coincap.io</div><div style='padding-bottom: 30px;' align='center'><span id='assetratesupdated'></span></div>";
         
         
          $("#ExchangeRate").html(ratedisplay);
@@ -228,8 +228,18 @@ function showBTCtransactions(transactions) {
         $("#btcbalance").html("<div style='font-size: 12px;'>Deposit bitcoin to send tokens from this address.<span id='txsAvailable' style='display: none;'>"+transactions.toFixed(0)+"</span></div>");        
                 
     } else {
+        
+        chrome.storage.local.get(function (data) { 
+            
+            var ratenum = (0.00015470 * (1/data["btcperusd"]));
+            var txrate = " @ $" + ratenum.toFixed(2) + " / tx";
+       
+            $("#btcbalance").html("<div style='font-size: 12px;'>You can perform <span id='txsAvailable'>"+transactions.toFixed(0)+"</span> transactions" + txrate);
+        }); 
     
-        $("#btcbalance").html("<div style='font-size: 12px;'>You can perform <span id='txsAvailable'>"+transactions.toFixed(0)+"</span> transactions</div>");
+        
+        
+        
                 
     }
         
@@ -439,33 +449,10 @@ function getPrimaryBalance(pubkey){
 
 function getRate(assetbalance, pubkey, currenttoken){
     
-    if ($("#ltbPrice").html() == "...") {
+    if ($("#ltbPriceFlipped").html() == "...") {
         
-        
-        
-          $.getJSON( "http://www.coincap.io/front/xcp", function( data ) {
-    
-              var assetrates = new Array();     
-              
-             $.each(data, function(i, item) {
-                    var assetname = data[i].short;
-                    var assetprice = data[i].price;  
-                 
-                    if (assetname == "LTBC"){ 
-                        assetname = "LTBCOIN";
-                    }
-                 
-                    assetrates[i] = {assetname, assetprice};
-             });
-              
-              chrome.storage.local.set(
-                    {
-                        'assetrates': assetrates,
-                        
-                    }, function () {
-                        
-                                               //$.getJSON( "http://joelooney.org/ltbcoin/ltb.php", function( data ) {
-                        $.getJSON( "https://api.bitcoinaverage.com/ticker/USD/", function( data ) {
+                                   //$.getJSON( "http://joelooney.org/ltbcoin/ltb.php", function( data ) {
+        $.getJSON( "https://api.bitcoinaverage.com/ticker/USD/", function( data ) {
 
                     //        var ltbprice = 1 / parseFloat(data.usd_ltb);     
                     //        $("#ltbPrice").html(Number(ltbprice.toFixed(0)).toLocaleString('en'));
@@ -476,6 +463,10 @@ function getRate(assetbalance, pubkey, currenttoken){
                             var btcprice = 1 / parseFloat(data.last);
 
                             $("#ltbPrice").html(Number(btcprice.toFixed(4).toLocaleString('en')));
+                            
+                            var btcpriceflipped = Number(data.last.toFixed(2).toLocaleString('en'));
+                            
+                            $("#ltbPriceFlipped").html("$"+btcpriceflipped);
 
                             $("#ltbPrice").data("btc", { price: btcprice.toFixed(6) });
 
@@ -497,12 +488,41 @@ function getRate(assetbalance, pubkey, currenttoken){
                                 {
                                     'btcperusd': btcprice
 
-                                });
-
-                        }); 
+                                }, function () {
+                        
                     
-                    });
-           });
+
+                                }); 
+        
+              $.getJSON( "http://www.coincap.io/front/xcp", function( data ) {
+
+                  var assetrates = new Array();     
+
+                 $.each(data, function(i, item) {
+                        var assetname = data[i].short;
+                        var assetprice = data[i].price;  
+
+                        if (assetname == "LTBC"){ 
+                            assetname = "LTBCOIN";
+                        }
+
+                        assetrates[i] = {assetname, assetprice};
+                 });
+                  
+                  var currentdate = new Date(); 
+                    var datetime = currentdate.getDate() + "/" + (currentdate.getMonth()+1) + "/" + currentdate.getFullYear() + " | " + currentdate.getHours() + ":" + currentdate.getMinutes();
+                  
+                  $("#assetratesupdated").html("Last Updated: " + datetime);  //current time
+
+                  chrome.storage.local.set(
+                        {
+                            'assetrates': assetrates,
+                            'assetrates_updated': assetratesupdated
+
+                        });
+
+                });
+        });
     
     } else {
         
@@ -1106,7 +1126,7 @@ function setChainsoOn() {
                                 'chainso_detect': detect
                             }, function () {
 
-                                $('#turnoffchainso').html("Enable Chain.so Detection");
+                                $('#turnoffchainso').html("Enable Chain.so Token Detection");
 
                             });
 
@@ -1120,7 +1140,7 @@ function setChainsoOn() {
                                 'chainso_detect': detect
                             }, function () {
 
-                                $('#turnoffchainso').html("Disable Chain.so Detection");
+                                $('#turnoffchainso').html("Disable Chain.so Token Detection");
 
                             });
 
@@ -1135,7 +1155,7 @@ function setChainsoOn() {
                                 'chainso_detect': detect
                             }, function () {
 
-                                $('#turnoffchainso').html("Disable Chain.so Detection");
+                                $('#turnoffchainso').html("Disable Chain.so Token Detection");
 
                             });
             

@@ -685,7 +685,7 @@ $(document).on('click', '#toolsTab', function () {
             
 
             
-            if (state == "Disable Chain.so Detection") {
+            if (state == "Disable Chain.so Token Detection") {
                 
                 var detect = "no";
 
@@ -694,7 +694,7 @@ $(document).on('click', '#toolsTab', function () {
                             'chainso_detect': detect
                         }, function () {
                             
-                            $('#turnoffchainso').html("Enable Chain.so Detection");
+                            $('#turnoffchainso').html("Enable Chain.so Token Detection");
                         
                         });
                 
@@ -708,7 +708,7 @@ $(document).on('click', '#toolsTab', function () {
                             'chainso_detect': detect
                         }, function () {
                             
-                            $('#turnoffchainso').html("Disable Chain.so Detection");
+                            $('#turnoffchainso').html("Disable Chain.so Token Detection");
                         
                         });
                 
