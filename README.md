@@ -14,6 +14,8 @@ v0.1.4 - New payment button class, Exchange Rates update, Add option to disable 
 
 v0.1.5 - Convert to standard BTC/USD exchange rate
 
+v0.1.6 - Payment page updates
+
 ## Features
 
 - Send Bitcoin and Counterparty assets

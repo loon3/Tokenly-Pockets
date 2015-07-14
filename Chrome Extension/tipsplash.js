@@ -343,7 +343,10 @@ function getAssetsandBalances(add) {
 
                     });
                     
-                } 
+                }
+                
+                var displayedassetname = $("#assetdisplayed").find(".assetname").text();
+                $("#sendtokenbutton").html("Send "+displayedassetname);
                 
                 $("#fulldropdown").css( "display", "block" );
                 //$("#fulldropdown").show();
@@ -359,7 +362,7 @@ function getAssetsandBalances(add) {
                 
                 if (assetdisplayed.length == 0) {
 
-                        $("#btcbalance").html("<div style='font-size: 12px;'>You do not have accepted tokens at this address.</div>");        
+                        $("#btcbalance").html("<div style='font-size: 12px;'>You do not have accepted tokens in this Pocket.</div>");        
                         $("#tokendropdown").hide(); 
 
                 }

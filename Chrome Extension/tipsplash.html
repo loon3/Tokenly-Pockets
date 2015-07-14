@@ -133,7 +133,7 @@
             <div class="hideEncrypted" align="center">    
 
                 <div style="margin: 20px auto 5px auto; width: 300px;">
-                    <div style="font-weight: bold; padding-bottom: 3px; font-size: 14px;" align="center">Your Wallet Address</div>
+                    <div style="font-weight: bold; padding-bottom: 3px; font-size: 14px;" align="center">Your Pockets</div>
                     <select id="walletaddresses" class="addressselect form-control" style="font-size: 12px; border: 2px solid #BB827B;"></select>
                 </div>
                 <div align="center" id="btcbalance" style="padding: 0 0 30px 0;"></div>
@@ -156,14 +156,16 @@
                     <div id="dropdown-working" style="display: none; height: 90px; padding-top: 10px;" align="center"><i class="fa fa-cog fa-spin fa-2x"></i></div>
                 </div>
 
-                <div class="row" style="width: 375px; margin: 30px auto; padding: 0 0 10px 0;">
-                    <div class="col-xs-12" align="center">
-                        <div class="input-group">
-                          <input type="text" class="form-control" placeholder="Send Amount" id="sendtoamount" style="border: 1px solid #BB827B; ">
-                          <span class="input-group-btn">
-                            <button id="sendtokenbutton" class="btn btn-success" type="button" style="border: 1px solid #BB827B; ">Send</button>
-                          </span>
-                        </div>
+                <div class="row" style="width: 350px; margin: 40px auto; padding: 0 0 0 0;">
+                    <div class="col-xs-12" align="center" style="background-color: #593E3B; padding: 15px 20px 20px 20px; border-radius: 15px; border: 4px solid #BB827B;">
+                        <div align="center" style="color: #fff; font-size: 20px; font-weight: bold; padding-bottom: 10px;">Enter Amount</div>
+                        <div style="padding: 10px 0 15px 0;"> 
+                          <input type="text" class="form-control" id="sendtoamount" placeholder="Amount of Tokens to Send" style="border: 1px solid #BB827B; text-align: center;">
+                             </div>
+                          <div>
+                            <button id="sendtokenbutton" class="btn btn-success" type="button" style="border: 1px solid #BB827B; ">Send <span class="displayedassetname"></span></button>
+                          </div>
+                       
                     </div>
 
                 </div>

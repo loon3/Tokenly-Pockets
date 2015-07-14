@@ -8,6 +8,11 @@ $( document ).ready(function() {
      var addressfromurl = parseURLParams(thisurl);
      var sendtoaddress = addressfromurl["address"][0];
      var addresslabel = addressfromurl["label"][0];
+     
+    if (addressfromurl["amount"][0] !== "undefined") {
+        $("#sendtoamount").val(addressfromurl["amount"][0]);
+    }
+    
     //var isxcpurl = addressfromurl["isxcp"][0];
     
 //    if (isxcpurl != "true") {
@@ -86,8 +91,8 @@ getExtStorage();
         $("#fulldropdown").css("display", "none");
         $("#dropdown-working").css("display", "block");
         
-        $("#sendtokenbutton").html("Send");
-        $("#sendtoamount").val("");
+        //$("#sendtokenbutton").html("Send");
+        //$("#sendtoamount").val("");
         $("#sendtokenbutton").prop('disabled', false);
     
         var addr = $(this).val();
@@ -108,7 +113,10 @@ getExtStorage();
 
           $(".selectedtoken").html("<div style='padding-top: 10px;'><input type='button' class='btn btn-default' id='tipsendbutton' value='Click'></div>");
         
-          $("#sendtokenbutton").html("Send");
+         var displayedassetname = $("#assetdisplayed").find(".assetname").text();
+         
+        
+            $("#sendtokenbutton").html("Send "+displayedassetname);
             $("#sendtoamount").val("");
             $("#sendtokenbutton").prop('disabled', false); 
         
@@ -118,7 +126,9 @@ getExtStorage();
     $(document).on("click", '#sendtokenbutton', function (event) {  
         if ($("#sendtokenbutton").html() == "Click to continue") {
             
-            $("#sendtokenbutton").html("Send");
+            var displayedassetname = $("#assetdisplayed").find(".assetname").text();
+            $("#sendtokenbutton").html("Send "+displayedassetname);
+            
             $("#sendtoamount").val("");
             $("#sendtokenbutton").prop('disabled', false);
             

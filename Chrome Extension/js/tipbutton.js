@@ -12,11 +12,12 @@ $('.pockets-payment-button').each(function(i, obj) {
     var label = $(this).attr("data-label");
 //    var isxcp = $(this).attr("data-isxcp");
     var tokens = $(this).attr("data-tokens");
+    var amount = $(this).attr("data-amount");
     
     var labelurl = encodeURIComponent(label).replace(/[!'()*]/g, escape);
     var tokensurl = encodeURIComponent(tokens);
     
-    var tipbutton = "<div style='display: inline-block; padding: 5px;'><a href='"+tipsplash+"?address="+address+"&label="+labelurl+"&tokens="+tokensurl+"' target='_blank'><img src='"+iconpath+"' height='24px' width='24px'></a></div>";
+    var tipbutton = "<div style='display: inline-block; padding: 5px;'><a href='"+tipsplash+"?address="+address+"&label="+labelurl+"&tokens="+tokensurl+"&amount="+amount+"' target='_blank'><img src='"+iconpath+"' height='24px' width='24px'></a></div>";
     
     //"&isxcp="+isxcp+
 

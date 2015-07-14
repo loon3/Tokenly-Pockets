@@ -12,7 +12,7 @@ function getExchangeRatesList() {
         
         $("#ExchangeRate").html("");
         
-        var ratedisplay = "<table class='table table-condensed' style='margin-top: 20px;'><thead class='small tokenlistingheader' style='cursor: pointer;'><th>Symbol</th><th>Token</th><th style='text-align:center;'>Market Price per Token*</th></thead><tbody>";
+        var ratedisplay = "<table class='table table-condensed' style='margin-top: 20px;'><thead class='small tokenlistingheader' style='cursor: pointer;'><th>Symbol</th><th>Token</th><th style='text-align:center;'>Market Price per Token</th></thead><tbody>";
         
         ratedisplay += "<tr class='tokenlisting' style='cursor: pointer;' data-token='BTC'><td style='vertical-align:middle'><div style='width: 50px;'><img src='bitcoin_48x48.png' width='36' height='36px'></div></td><td style='vertical-align:middle'>BTC</td><td style='vertical-align:middle; text-align:center;'>1 BTC<br>$"+parseFloat(1/btcperusd).toFixed(2)+"</td></tr>"; 
         
@@ -45,10 +45,28 @@ function getExchangeRatesList() {
 
         });
         
-        ratedisplay += "</tbody></table><div style='padding-bottom: 10px; align='center'>Market Data provided by Coincap.io</div><div style='padding-bottom: 30px;' align='center'><span id='assetratesupdated'></span></div>";
+        ratedisplay += "</tbody></table><div style='padding-bottom: 10px; align='center'>Market Data provided by Coincap.io</div><div style='padding-bottom: 30px;' align='center'>";
         
+        chrome.storage.local.get(function(data) {
+            
+            if(typeof(data["assetrates_updated"]) !== 'undefined') { 
+               //already set
+              
+                var ratesupdated = "Last Updated " + data["assetrates_updated"];
+                
+            } else {
+                
+                var ratesupdated = "API ERROR";
+                
+            }
+
+            ratedisplay += "<span id='assetratesupdated' class='small' style='font-style: italic;'>" + ratesupdated + "</span></div>";
+
+            $("#ExchangeRate").html(ratedisplay);
+            
+        });
         
-         $("#ExchangeRate").html(ratedisplay);
+         
     
     });
 }
@@ -231,10 +249,10 @@ function showBTCtransactions(transactions) {
         
         chrome.storage.local.get(function (data) { 
             
-            var ratenum = (0.00015470 * (1/data["btcperusd"]));
-            var txrate = " @ $" + ratenum.toFixed(2) + " / tx";
+            //var ratenum = (0.00015470 * (1/data["btcperusd"]));
+            //var txrate = " at $" + ratenum.toFixed(2) + " / tx";
        
-            $("#btcbalance").html("<div style='font-size: 12px;'>You can perform <span id='txsAvailable'>"+transactions.toFixed(0)+"</span> transactions" + txrate);
+            $("#btcbalance").html("<div style='font-size: 12px;'>You can perform <span id='txsAvailable'>"+transactions.toFixed(0)+"</span> transactions");
         }); 
     
         
@@ -464,9 +482,9 @@ function getRate(assetbalance, pubkey, currenttoken){
 
                             $("#ltbPrice").html(Number(btcprice.toFixed(4).toLocaleString('en')));
                             
-                            var btcpriceflipped = Number(data.last.toFixed(2).toLocaleString('en'));
+                            var btcpriceflipped = data.last;
                             
-                            $("#ltbPriceFlipped").html("$"+btcpriceflipped);
+                            $("#ltbPriceFlipped").html("$"+parseFloat(Math.round(btcpriceflipped * 100) / 100).toFixed(2));
 
                             $("#ltbPrice").data("btc", { price: btcprice.toFixed(6) });
 
@@ -510,14 +528,14 @@ function getRate(assetbalance, pubkey, currenttoken){
                  });
                   
                   var currentdate = new Date(); 
-                    var datetime = currentdate.getDate() + "/" + (currentdate.getMonth()+1) + "/" + currentdate.getFullYear() + " | " + currentdate.getHours() + ":" + currentdate.getMinutes();
+                    var datetime = (currentdate.getMonth()+1) + "/" + currentdate.getDate() + "/" + currentdate.getFullYear() + " at " + currentdate.getHours() + ":" + currentdate.getMinutes();
                   
-                  $("#assetratesupdated").html("Last Updated: " + datetime);  //current time
+                  
 
                   chrome.storage.local.set(
                         {
                             'assetrates': assetrates,
-                            'assetrates_updated': assetratesupdated
+                            'assetrates_updated': datetime
 
                         });
 
@@ -540,8 +558,7 @@ function getRate(assetbalance, pubkey, currenttoken){
             $("#switchtoxcp").show();
         }        
         
-        
-        
+    
     }
     
     getBTCBalance(pubkey);
