@@ -16,6 +16,8 @@ v0.1.5 - Convert to standard BTC/USD exchange rate
 
 v0.1.6 - Payment page updates
 
+v0.1.7 - Show unconfirmed tx amounts
+
 ## Features
 
 - Send Bitcoin and Counterparty assets

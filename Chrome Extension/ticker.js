@@ -414,7 +414,7 @@ $(document).on("click", '.tokenlisting', function (event)
     
   $(document).on("click", '#refreshWallet', function (event)
   {
-      
+      $("#currenttoken-pending").html("");
 
       $("#ltbDirectorySearchResults").html("");
       $("#ltbUserSearch").val("");
@@ -443,10 +443,13 @@ $(document).on("click", '.tokenlisting', function (event)
       getRate(array[0], pubkey, currenttoken);
       
       getPrimaryBalance(pubkey);
+      
+      currenttokenpending(currenttoken);
   });
     
   $('#switchtoxcp').click(function ()
   {
+      $("#currenttoken-pending").html("");
       $(".currenttoken").html("BTC"); 
       $("#sendtokenbutton").html("Send BTC");
       var pubkey = $("#xcpaddress").html();
@@ -479,10 +482,16 @@ $(document).on("click", '.tokenlisting', function (event)
   
    $(document).on("click", '.movetowallet', function (event)
   {  
-  
+      $("#currenttoken-pending").html("");
+      
       var $assetdiv = $( this ).prev();
       var currentasset = $assetdiv.html();
       $(".currenttoken").html(currentasset);
+      
+      var qtypending = $("."+currentasset+"-pending").html();
+      
+      $("#currenttoken-pending").html(qtypending);
+      
       //$(".currenttoken").html("WORKS");
       
       $("#sendtokenbutton").html("Send "+currentasset);

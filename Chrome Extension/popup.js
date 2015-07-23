@@ -6,7 +6,7 @@ function getExchangeRatesList() {
         
         var btcperusd = parseFloat(data.btcperusd);
         
-        console.log(data);
+        //console.log(data);
         
      
         
@@ -363,7 +363,7 @@ if (currenttoken == "XCP") {
         
         $("#isdivisible").html("yes");
     
-        $("#xcpbalance").html("<span id='currentbalance'>" + assetbalance + "</span><span class='unconfirmedbal'></span><br><div style='font-size: 22px; font-weight: bold;'><span id='currenttoken'>" + currenttoken + "</span>");
+        $("#xcpbalance").html("<div id='currentbalance'>" + assetbalance + "</div><div id='currenttoken-pending' class='unconfirmedbal'></div><br><div style='font-size: 22px; font-weight: bold;'><span id='currenttoken'>" + currenttoken + "</span>");
         $('#assetbalhide').html(assetbalance);
         
         getRate(assetbalance, pubkey, currenttoken);
@@ -398,8 +398,11 @@ if (currenttoken == "XCP") {
                 
   
                 //var assetbalance = parseFloat(data.data[0].balance) + parseFloat(data.data[0].unconfirmed_balance);   
-                $("#xcpbalance").html("<span id='currentbalance'>" + assetbalance + "</span><span class='unconfirmedbal'></span><br><div style='font-size: 22px; font-weight: bold;'><span id='currenttoken'>" + currenttoken + "</span>");
+                $("#xcpbalance").html("<div id='currentbalance'>" + assetbalance + "</div><div id='currenttoken-pending' class='unconfirmedbal'></div><br><div style='font-size: 22px; font-weight: bold;'><span id='currenttoken'>" + currenttoken + "</span>");
                 $('#assetbalhide').html(assetbalance);
+                
+                currenttokenpending(currenttoken);
+                
                 getRate(assetbalance, pubkey, currenttoken);
                      
             }
@@ -410,7 +413,7 @@ if (currenttoken == "XCP") {
 }
     
     if (typeof assetbalance === 'undefined') {
-            $("#xcpbalance").html("<span id='currentbalance'>0</span><span class='unconfirmedbal'></span><br><div style='font-size: 22px; font-weight: bold;'>" + currenttoken + "</div>");
+            $("#xcpbalance").html("<div id='currentbalance'>0</div><div id='currenttoken-pending' class='unconfirmedbal'></div><br><div style='font-size: 22px; font-weight: bold;'>" + currenttoken + "</div>");
             $('#assetbalhide').html(0);
             getRate(0, pubkey, currenttoken);
     }
@@ -528,7 +531,8 @@ function getRate(assetbalance, pubkey, currenttoken){
                  });
                   
                   var currentdate = new Date(); 
-                    var datetime = (currentdate.getMonth()+1) + "/" + currentdate.getDate() + "/" + currentdate.getFullYear() + " at " + currentdate.getHours() + ":" + currentdate.getMinutes();
+                  var datetime = (currentdate.getMonth()+1) + "/" + currentdate.getDate() + "/" + currentdate.getFullYear() + " at " + currentdate.getHours() + ":" + padprefix(currentdate.getMinutes(), 2);
+                  
                   
                   
 
@@ -783,7 +787,7 @@ function loadAssets(add) {
     
         $.getJSON( source_html, function( data ) {
         
-            $( "#allassets" ).html("<div class='btcasset row'><div class='col-xs-2' style='margin-left: -10px;'><img src='bitcoin_48x48.png'></div><div class='col-xs-10'><div class='assetname'>BTC</div><div class='movetowallet'>Send</div><div class='assetqty' id='btcassetbal'></div></div></div>");
+            $( "#allassets" ).html("<div class='btcasset row'><div class='col-xs-2' style='margin-left: -10px;'><img src='bitcoin_48x48.png'></div><div class='col-xs-10'><div class='assetname'>BTC</div><div class='movetowallet'>Send</div><div class='assetqtybox'><div class='assetqty' id='btcassetbal'></div></div></div></div>");
             
             
             var isbtcloading = $("#isbtcloading").html();
@@ -816,34 +820,88 @@ function loadAssets(add) {
             
             if (xcpbalance != 0) {
             
-            $( "#allassets" ).append("<div class='xcpasset row'><div class='col-xs-2' style='margin-left: -10px;'><img src='"+xcpicon+"'></div><div class='col-xs-10'><div class='assetname'>XCP</div><div class='movetowallet'>Send</div><div class='assetqty'>"+xcpbalance+"</div></div></div>");
+                $( "#allassets" ).append("<div class='xcpasset row'><div class='col-xs-2' style='margin-left: -10px;'><img src='"+xcpicon+"'></div><div class='col-xs-10'><div class='assetname'>XCP</div><div class='movetowallet'>Send</div><div class='assetqtybox'><div class='assetqty'>"+xcpbalance+"</div>  <div class='XCP-pending assetqty-unconfirmed'></div></div></div></div>");
         
             }
         
-        
-            $.each(data.data, function(i, item) {
-                var assetname = data.data[i].asset;
-                var assetbalance = data.data[i].amount; //.balance for blockscan
-                if (assetbalance.indexOf(".")==-1) {var divisible = "no";} else {var divisible = "yes";}
-                
-                var iconname = assetname.toLowerCase();
-                var iconlink = "http://counterpartychain.io/content/images/icons/"+iconname+".png";
-            
-                if (assetname.charAt(0) != "A") {
-                    var assethtml = "<div class='singleasset row'><div class='col-xs-2' style='margin-left: -10px;'><img src='"+iconlink+"'></div><div class='col-xs-10'><div class='assetname'>"+assetname+"</div><div class='movetowallet'>Send</div><div class='assetqty'>"+assetbalance+"</div><div id='assetdivisible' style='display: none;'>"+divisible+"</div></div></div>";
-        
-//<div class='tokenlink'>Hide</div> - <div class='tokenlink'>Add to Favorites</div>                    
-                    
-//                    if(assetname == "LTBCOIN") {
-//                    var assethtml = "<div class='enhancedasset'><div class='assetname'>"+assetname+"</div><div class='movetowallet'>Send</div><div class='assetqty'>Balance: "+assetbalance+"</div><div id='assetdivisible' style='display: none;'>"+divisible+"</div></div>";
-//                    }
-                    
-                    
-                } 
-    
-                $( "#allassets" ).append( assethtml );
 
+        
+                $.each(data.data, function(i, item) {
+                    var assetname = data.data[i].asset;
+                    var assetbalance = data.data[i].amount; //.balance for blockscan
+                    if (assetbalance.indexOf(".")==-1) {var divisible = "no";} else {var divisible = "yes";}
+
+                    var iconname = assetname.toLowerCase();
+                    var iconlink = "http://counterpartychain.io/content/images/icons/"+iconname+".png";
+
+                    if (assetname.charAt(0) != "A") {
+                        var assethtml = "<div class='singleasset row'><div class='col-xs-2' style='margin-left: -10px;'><img src='"+iconlink+"'></div><div class='col-xs-10'><div class='assetname'>"+assetname+"</div><div class='movetowallet'>Send</div><div class='assetqtybox'><div class='assetqty'>"+assetbalance+"</div> <div class='"+assetname+"-pending assetqty-unconfirmed'></div></div><div id='assetdivisible' style='display: none;'>"+divisible+"</div></div></div>";
+
+                    } 
+
+                    $( "#allassets" ).append( assethtml );
+
+                });
+            
+            
+            var xcp_mempool_html = "https://counterpartychain.io/api/mempool";
+            
+            $.getJSON( xcp_mempool_html, function( data ) {  
+            
+                if (data.success == 1 && data.total > 0) {
+
+                    var currentaddr = $("#xcpaddress").html();
+
+                    $.each(data.data, function(i, item)  {
+
+                        if (currentaddr == data.data[i].source || currentaddr == data.data[i].destination) {
+
+                            if (currentaddr == data.data[i].source) {var debitorcredit = "-";};                    
+                            if (currentaddr == data.data[i].destination) {var debitorcredit = "+";};
+
+                            var assetqty = debitorcredit + (data.data[i].quantity * 1);          
+                            var assetname = data.data[i].asset;
+                            var assetnameclass = "."+assetname+"-pending";
+                            
+                            if($(assetnameclass).html() != '') {
+                            
+                                var currentunconf = $(assetnameclass).html();
+                                
+                                var result = currentunconf.substring(1, currentunconf.length-1);
+                                
+                                console.log(result);
+                                
+                                var combinetxs = parseFloat(result) + parseFloat(assetqty);
+                                
+                                console.log(combinetxs);
+                                
+                                if (combinetxs > 0) { 
+                                    
+                                    var unconftxs = "+" + combinetxs;
+                                    
+                                } else {
+                                    
+                                    var unconftxs = combinetxs;
+                                    
+                                }
+                                
+                                $(assetnameclass).html("("+unconftxs+")")
+                                
+                            } else {
+
+                                $(assetnameclass).html("("+assetqty+")");
+                                
+                            }
+
+                        }
+
+                    });
+
+                }
+            
             });
+            
+            
             
             $( "#allassets" ).append("<div style='height: 20px;'></div>");
         
@@ -1275,6 +1333,59 @@ function insertAddressLabel(newlabel, callback) {
         
     });
         
+}
+
+function currenttokenpending(token) {
+
+            var xcp_mempool_html = "https://counterpartychain.io/api/mempool";
+            
+            $.getJSON( xcp_mempool_html, function( data ) {  
+            
+            if (data.success == 1 && data.total > 0) {
+                
+                var currentaddr = $("#xcpaddress").html();
+                
+                var totalunconfirmed = 0;
+                
+                $.each(data.data, function(i, item)  {
+                    
+                    if (currentaddr == data.data[i].source || currentaddr == data.data[i].destination) {
+                    
+                        var assetname = data.data[i].asset;
+                        
+                        if (token == assetname) {
+                        
+                            if (currentaddr == data.data[i].source) {
+                                totalunconfirmed -= parseFloat(data.data[i].quantity);
+                            };
+                        
+                            if (currentaddr == data.data[i].destination) {
+                                totalunconfirmed += parseFloat(data.data[i].quantity);
+                            };
+                            
+                            
+                        }
+                          
+                    }
+                    
+                });
+                
+                var totalqty = totalunconfirmed * 1;
+                
+                if (totalunconfirmed > 0) {
+                
+                    $("#currenttoken-pending").html("(+"+totalqty+")");
+                    
+                } else if (totalunconfirmed < 0) {
+
+                    $("#currenttoken-pending").html("("+totalqty+")");
+                    
+                }
+                
+            }
+            
+            });
+
 }
 
 

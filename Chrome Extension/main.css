@@ -398,11 +398,43 @@ a {
 
 
 .assetqty {
+   
+    display: inline-block;
+    
+}
+
+.assetqtybox {
     clear: both;
     padding: 2px 0 2px 8px;
     text-align: left;
-
+    display: block;
+    
 }
+
+#currentbalance {
+    display: inline-block;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+#currenttoken-pending {
+    font-size: 14px;
+    font-style: italic;
+    
+    padding-bottom: 6px;
+    display: inline-block;
+    vertical-align: middle;
+    color: #999;
+    
+}
+
+.assetqty-unconfirmed {
+    font-style: italic;
+    color: #ccc;
+    display: inline-block;
+    
+}
+
 .addressselect {
     margin-left: 10px;
     width: 240px;
