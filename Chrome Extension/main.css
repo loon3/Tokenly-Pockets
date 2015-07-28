@@ -424,13 +424,12 @@ a {
     padding-bottom: 6px;
     display: inline-block;
     vertical-align: middle;
-    color: #999;
+
     
 }
 
 .assetqty-unconfirmed {
     font-style: italic;
-    color: #ccc;
     display: inline-block;
     
 }

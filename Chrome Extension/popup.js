@@ -879,10 +879,12 @@ function loadAssets(add) {
                                     
                                     var unconftxs = "+" + combinetxs;
                                     
+                                    
+                                    
                                 } else {
                                     
                                     var unconftxs = combinetxs;
-                                    
+                            
                                 }
                                 
                                 $(assetnameclass).html("("+unconftxs+")")
@@ -891,6 +893,21 @@ function loadAssets(add) {
 
                                 $(assetnameclass).html("("+assetqty+")");
                                 
+                            }
+                            
+                            
+                            var currentunconf = $(assetnameclass).html();
+                                
+                            var result = parseFloat(currentunconf.substring(1, currentunconf.length-1));
+                            
+                            if( result > 0 ) {
+                                
+                                $( ".assetqty-unconfirmed" ).css( "color", "#9CFFA7" );
+                                
+                            } else {
+                                
+                                $( ".assetqty-unconfirmed" ).css( "color", "#FA9B9B" );
+                                    
                             }
 
                         }
@@ -1362,6 +1379,16 @@ function currenttokenpending(token) {
                             if (currentaddr == data.data[i].destination) {
                                 totalunconfirmed += parseFloat(data.data[i].quantity);
                             };
+                            
+                            if(totalunconfirmed > 0) {
+                                
+                                    $( "#currenttoken-pending" ).css( "color", "#679967" );
+                                    
+                                } else {
+                                    
+                                    $( "#currenttoken-pending" ).css( "color", "#FA7A7A" );
+                                    
+                                }
                             
                             
                         }
