@@ -1,5 +1,5 @@
 Pockets Payment Button
-----------------------
+======================
 
 The Pockets Payment Button can be added to any web page and provides an interface with Tokenly Pockets that eliminates the need for users to copy and paste token addresses and amounts.
 
@@ -13,7 +13,8 @@ Developers can define the following parameters:
 There are two ways to include the Pockets Payment Button on your web site...
 
 
-**Static Method**
+Static Method
+-------------
 
 The first method is to use the `.pockets-payment-button` class.  This HTML method only works if your parameters are known upon initial page load. See example below.
 
@@ -22,7 +23,8 @@ The first method is to use the `.pockets-payment-button` class.  This HTML metho
 The `data-tokens` attribute is used to indicate what tokens are accepted.  There are three options: a single token `data-tokens="TOKENLY"`, multiple tokens `data-tokens="TOKENLY,LTBCOIN,BTC"` or all tokens `data-tokens="all"` (this includes BTC).
 
 
-**Dynamic Method**
+Dynamic Method
+--------------
 
 In addition to the Static Method, you can also generate a Pockets Payment Button dynamically using Javascript.
 
