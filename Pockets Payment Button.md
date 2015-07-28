@@ -12,10 +12,12 @@ Users can define the following parameters:
 
 There are two ways to include the Pockets Payment Button into your web page...
 
+**Static Method**
+
 The first method is to use the *pockets-payment-button* class.  This method only works if your parameters are known upon initial page load. See example below.
 
 `<span class="pockets-payment-button" data-address="1EUgmNoALra2YSCGcqdpLCNnGYAFQeLEp9" data-label="joelooney.org tips" data-tokens="dough" data-amount="100"></span>`
 
-The data-tokens attribute can be a single token `DOUGH`, multiple tokens separated by commas data-tokens='DOUGH,LTBCOIN,BTC', or 'all'.k
+The data-tokens attribute is used to indicate what tokens are accepted.  There are three options: a single token `data-tokens="DOUGH"`, multiple tokens `data-tokens="DOUGH,LTBCOIN,BTC"` or all tokens `data-tokens="all"`.
 
 
