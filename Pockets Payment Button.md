@@ -20,7 +20,7 @@ The first method is to use the `.pockets-payment-button` class.  This HTML metho
 
 `<span class="pockets-payment-button" data-address="1EUgmNoALra2YSCGcqdpLCNnGYAFQeLEp9" data-label="Payment Button Demo" data-tokens="TOKENLY" data-amount="100"></span>`
 
-The `data-tokens` attribute is used to indicate what tokens are accepted.  There are three options: a single token `data-tokens="TOKENLY"`, multiple tokens `data-tokens="TOKENLY,LTBCOIN,BTC"` or all tokens `data-tokens="all"` (this includes BTC).
+The `data-tokens` attribute is used to indicate which tokens are accepted.  There are three options: a single token `data-tokens="TOKENLY"`, multiple tokens `data-tokens="TOKENLY,LTBCOIN,BTC"` or all tokens `data-tokens="all"` (this includes BTC).
 
 
 Dynamic Method
