@@ -30,7 +30,7 @@ $( document ).ready(function() {
     
     $('#shapeshiftButton').click(function(){
         
-        var selectedaddress = $("#shapeshiftPubAddress").val();
+        var selectedaddress = $("#getbtcAddress").val();
         
         chrome.tabs.create({url: "https://shapeshift.io/shifty.html?destination="+selectedaddress+"&amp;apiKey=da63a102dd3dbbf683d7123c90ce66dad4b7b9c5636bb5c842b6bf207be84195b2a8199dc933aeb7e83ca3a234551673753b0e9c6e53f529e37abc919d108691&amp;amount="});
         
@@ -502,6 +502,8 @@ $(document).on("click", '.tokenlisting', function (event)
       getPrimaryBalance(pubkey);
       
       
+      
+      
       $('#allTabs a:first').tab('show');
       
   });
@@ -563,6 +565,8 @@ $(document).on('click', '#toolsTab', function () {
     $link.parent().removeClass('active');
     var tabLink = $link.attr('href');
     $('#allTabs a[href="' + tabLink + '"]').tab('show');
+    
+    loadAddresslist();
 });
     
     

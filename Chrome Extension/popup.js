@@ -657,6 +657,7 @@ function dynamicAddressDropdown(addresslabels, type)
     if (type == "newaddress") {
         getBTCBalance(pubkey);
         var newaddress_position = parseInt(currentsize) - 1;
+        var newaddress_select = "#walletaddresses option:eq("+newaddress_position+")";
         var newaddress_val = $(newaddress_select).val();
         $("#xcpaddress").html(newaddress_val);
         getPrimaryBalance(newaddress_val);
@@ -1443,7 +1444,45 @@ function currenttokenpending(token) {
 //
 //}
 
+function loadAddresslist() {
 
+    var string = $("#newpassphrase").html();
+    var array = string.split(" ");
+    m = new Mnemonic(array);
+    
+    var currentsize = $('#walletaddresses option').size(); 
+    
+   
+    currentsize = currentsize - 1;
+    var addressindex = $("#walletaddresses option:selected").index();
+    
+    
+    $(".addressselectnoadd").html("");  
+    
+    var HDPrivateKey = bitcore.HDPrivateKey.fromSeed(m.toHex(), bitcore.Networks.livenet);
+    
+    
+    chrome.storage.local.get(function(data) {
+    
+        var addresslabels = data.addressinfo;
+        
+                    
+    
+                     
+    for (var i = 0; i < currentsize; i++) {
+                            
+        var derived = HDPrivateKey.derive("m/0'/0/" + i);
+        var address1 = new bitcore.Address(derived.publicKey, bitcore.Networks.livenet);
+                           
+        var pubkey = address1.toString();
+        
+        //$(".addressselect").append("<option label='"+pubkey+"'>"+pubkey+"</option>");
+        
+        $(".addressselectnoadd").append("<option label='"+addresslabels[i].label+"' title='"+pubkey+"'>"+pubkey+"</option>");
+    }
+    
+    });
+};
 
 
 

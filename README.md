@@ -1,3 +1,7 @@
+__[Help fund development with POCKTS](https://counterpartychain.io/asset/POCKTS)__
+
+---
+
 # Tokenly Pockets
 
 Digital Token Wallet powered by Bitcoin
@@ -16,7 +20,7 @@ v0.1.5 - Convert to standard BTC/USD exchange rate
 
 v0.1.6 - Payment page updates
 
-v0.1.7 - Show unconfirmed tx amounts
+v0.1.7 - Show unconfirmed tx amounts, show pending new features
 
 ## Features
 

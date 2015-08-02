@@ -366,6 +366,7 @@ a {
 
 .comingsoon {
     opacity: 0.3;
+    cursor: default;
 }
 
 .assetname {
@@ -435,6 +436,11 @@ a {
 }
 
 .addressselect {
+    margin-left: 10px;
+    width: 240px;
+}
+
+.addressselectnoadd {
     margin-left: 10px;
     width: 240px;
 }
