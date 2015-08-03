@@ -1,4 +1,4 @@
-__[Help fund development with POCKTS](https://counterpartychain.io/asset/POCKTS)__
+__[Help fund development with POCKETCHANGE](https://counterpartychain.io/asset/POCKETCHANGE)__
 
 ---
 
