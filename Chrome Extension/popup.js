@@ -401,13 +401,14 @@ if (currenttoken == "XCP") {
                 $("#xcpbalance").html("<div id='currentbalance'>" + assetbalance + "</div><div id='currenttoken-pending' class='unconfirmedbal'></div><br><div style='font-size: 22px; font-weight: bold;'><span id='currenttoken'>" + currenttoken + "</span>");
                 $('#assetbalhide').html(assetbalance);
                 
-                currenttokenpending(currenttoken);
+                
                 
                 getRate(assetbalance, pubkey, currenttoken);
                      
             }
         });
                     
+        currenttokenpending(currenttoken);
     });
     
 }

@@ -55,10 +55,13 @@ if (document.location.hostname == "chain.so") {
                 //$("#arc").html(data_chunk);
                 var asset = data_chunk.substring(42, 26);
                 var amount = data_chunk.substring(58, 42);
-                var asset_dec = parseInt(asset, 16);
+                
+                //var asset_dec = parseInt(asset, 16);
+                var asset_dec = hexToDec(asset);
+                
                 console.log(asset_dec);
-                var amount_dec = parseInt(amount, 16) / 100000000;
-                console.log(amount_dec);
+                var amount_dec = hexToDec(amount) / 100000000;
+                console.log("asset id: "+asset_dec);
                 var assetnamed = assetname(asset_dec);
                 
                 console.log(assetnamed);
@@ -215,7 +218,6 @@ function bin2hex(s) {
     
 }; 
 
-
 function assetname(assetid) {
 
     if(assetid != 1){
@@ -226,10 +228,50 @@ function assetname(assetid) {
         var div;
         var rem;
         
-        while (assetid > 0) { 
+        var rem_bigint;
+        var div_bigint;
+        var div_bigint_parsed;
+        var rem_bigint_parsed;
+        
+         console.log("Asset ID: " + assetid);
+                
+                console.log("96" + BigIntegerSM.toJSValue(BigIntegerSM.divide(57044491945578596, 26)));
+                console.log("96" + BigIntegerSM.toJSValue(BigIntegerSM.remainder(57044491945578596, 26)));
             
-            div = Math.floor(assetid/26);
-            rem = assetid % 26;
+                console.log("90" + BigIntegerSM.toJSValue(BigIntegerSM.divide(57044491945578590, 26)));
+                console.log("90" + BigIntegerSM.toJSValue(BigIntegerSM.remainder(57044491945578590, 26)));
+        
+        while (assetid > 0) { 
+
+//            if (assetid >= 9007199254740992) {
+                
+              
+            
+           // console.log(BigIntegerSM.toJSValue(BigIntegerSM.divideAndRemainder(57044491945578590, 26)));
+                
+                var assetid_bigint = BigIntegerSM(assetid);
+
+                div_bigint = BigIntegerSM(assetid_bigint).divide(26);
+//                div_bigint_parsed = div_bigint.toString(16);                
+////                console.log(div_bigint_parsed);              
+//                div = parseInt(div_bigint_parsed);
+                div = Math.floor(BigIntegerSM.toJSValue(div_bigint)); 
+                
+              //  console.log(div);
+
+                rem_bigint = BigIntegerSM(assetid_bigint).remainder(26);
+//                rem_bigint_parsed = rem_bigint.toString(16);
+//                rem = parseInt(rem_bigint_parsed);
+                rem = BigIntegerSM.toJSValue(rem_bigint);
+                
+           //     console.log(rem);
+                
+//            } else {
+//
+//                div = assetid/26);
+//                rem = assetid % 26;
+//                
+//            }
             
             assetid = div;
             
@@ -248,6 +290,40 @@ function assetname(assetid) {
     return final_name;
     
 }
+
+
+//function assetname(assetid) {
+//
+//    if(assetid != 1){
+//    
+//        var b26_digits = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'; 
+//        var letter_array = b26_digits.split("");
+//        var asset_name = "";
+//        var div;
+//        var rem;
+//        
+//        while (assetid > 0) { 
+//            
+//            div = Math.floor(assetid/26);
+//            rem = assetid % 26;
+//            
+//            assetid = div;
+//            
+//            asset_name = asset_name + letter_array[rem];
+//            
+//        }    
+//        
+//        var final_name = asset_name.split("").reverse().join("");
+//    
+//    } else {
+//        
+//        var final_name = "XCP";
+//        
+//    }
+//    
+//    return final_name;
+//    
+//}
 
 //var address = $("companion-tip-button").attr("data-address");
 //var label = $("#companion-tip-button").attr("data-label");
