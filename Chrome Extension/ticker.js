@@ -728,6 +728,6 @@ $(document).on('click', '#toolsTab', function () {
             }
         });
     
-
+loadSwapbots();
        
 });

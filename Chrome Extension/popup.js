@@ -1485,6 +1485,28 @@ function loadAddresslist() {
     });
 };
 
+function loadSwapbots() {
 
+
+    
+     var swapbots_public_html = "http://swapbot.tokenly.com/api/v1/public/bots";
+            
+            $.getJSON( swapbots_public_html, function( data ) {  
+
+                if (data.length > 0) {
+                    
+                    var allbots = [];
+
+                    $.each(data, function(i, item)  {
+
+                            allbots.push(data[i].id);
+
+                    });
+                    
+                    console.log(allbots);
+                }
+            });
+
+}
 
  

@@ -533,7 +533,7 @@ function sendtokenaction() {
                         
                         var txsAvailable = $("#txsAvailable").html();
                         
-                        if (txsAvailable > 1) {
+                        if (txsAvailable >= 1) {
                             
                             if (currenttoken == "BTC") {
                     
