@@ -358,6 +358,12 @@ a {
     cursor: pointer;
 }
 
+.sendlabel {
+ 
+    color: yellow;
+    padding-left: 15px;
+}
+
 
 .activetool:hover {
     background-color: #f8f8f8;

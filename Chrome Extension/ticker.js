@@ -24,6 +24,12 @@ $( document ).ready(function() {
      return false;
    });
     
+    $('#FundDevBody').on('click', 'a', function(){
+     chrome.tabs.create({url: $(this).attr('href')});
+     return false;
+   });
+    
+
     
 
   
@@ -314,10 +320,18 @@ $( document ).ready(function() {
         });
     
     $('#sendAssetButton').click( function () {
+        
+        
+        
         $("#btcsendbox").toggle();
+        
+        
+        
         if($("#moreBTCinfo").is(":visible")) {
             $("#moreBTCinfo").hide();
         }
+            
+            
     });
     
     $('#manualAddressButton').click( function ()
@@ -376,6 +390,10 @@ $( document ).ready(function() {
           $("#pocketdropdown").toggle();
           
       });
+    
+
+    
+    
     
     
     $(document).on("click", '.tokenlistingheader', function (event)
@@ -508,12 +526,19 @@ $(document).on("click", '.tokenlisting', function (event)
       
   });
     
+    
+    
+    
      $(document).on("click", '.movetosend', function (event)
   {  
   
       var sendaddress = $( this ).text();
       
+      var username = $( this ).data("user");
+      
       $("#sendtoaddress").val(sendaddress);
+      
+      $(".sendlabel").html(username);
       
       $("#btcsendbox").show();
       $("#moreBTCinfo").hide();
@@ -521,6 +546,45 @@ $(document).on("click", '.tokenlisting', function (event)
       $('#allTabs a:first').tab('show');
       
   });
+    
+     $(document).on("click", '.movetosendFundDev', function (event)
+  {    
+      
+      $("#currenttoken-pending").html("");
+      
+      var currentasset = $( this ).data("token");
+      var title = $( this ).data("title");
+      $(".currenttoken").html(currentasset);
+      
+      var qtypending = $("."+currentasset+"-pending").html();
+      
+      $("#currenttoken-pending").html(qtypending);
+      
+      //$(".currenttoken").html("WORKS");
+      
+      $("#sendtokenbutton").html("Send "+currentasset);
+      
+      var pubkey = $("#xcpaddress").html();
+      
+      //var pubkey = FindAsset(currentasset);
+      
+      $(".sendlabel").html(title);
+      
+      getPrimaryBalance(pubkey);
+      
+      var sendaddress = $( this ).data("address");
+      
+      $("#sendtoaddress").val(sendaddress);
+      
+      $("#btcsendbox").show();
+      $("#moreBTCinfo").hide();
+      
+      
+      
+      $('#allTabs a:first').tab('show');
+      
+  });
+
 
 
   $('#inventoryTab').click(function ()
@@ -631,8 +695,16 @@ $(document).on('click', '#toolsTab', function () {
             sendtokenaction();      
         });
     
+    $(document).on("keyup", '#sendtoaddress', function (event)
+    { 
+        
+        $(".sendlabel").html("");
+    });
+    
+    
     $(document).on("keyup", '#sendtoamount', function (event)
     { 
+        
         var sendamount = parseFloat($("#sendtoamount").val());
         var currenttoken = $(".currenttoken").html();
         
@@ -689,6 +761,17 @@ $(document).on('click', '#toolsTab', function () {
         getExchangeRatesList();
         
    });
+    
+    
+    $('#FundDevApp').click(function(){
+        
+        loadFeatureRequests();
+
+        
+   });
+    
+    
+    
                 
     
     
@@ -728,6 +811,8 @@ $(document).on('click', '#toolsTab', function () {
             }
         });
     
-loadSwapbots();
+//loadSwapbots();
+    
+//loadFeatureRequests();
        
 });

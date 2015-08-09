@@ -133,7 +133,7 @@ function searchLTBuser(username){
                 $("#ltbDirectorySearchResults").append("<div class='ltbDirectoryAddress'><i>LTBCOIN Address:</i><br>No Address Listed</div>");
             } else {
                 var ltbaddress = data.users[i]["profile"]["ltbcoin-address"]["value"];
-                $("#ltbDirectorySearchResults").append("<div class='ltbDirectoryAddress'><i>LTBCOIN Address:</i><br><div class='movetosend' style='display: inline-block;'>"+ltbaddress+"</div></div>");  
+                $("#ltbDirectorySearchResults").append("<div class='ltbDirectoryAddress'><i>LTBCOIN Address:</i><br><div class='movetosend' style='display: inline-block;' data-user='"+username+"'>"+ltbaddress+"</div></div>");  
             }
             
             
@@ -452,7 +452,11 @@ function getPrimaryBalanceBTC(pubkey){
 
 function getPrimaryBalance(pubkey){
     
-    $("#btcsendbox").hide();
+    var addressbox = $("#sendtoaddress").val();
+    
+    if (addressbox.length == 0) {
+        $("#btcsendbox").hide();   
+    }
     
     var currenttoken = $(".currenttoken").html();
    
@@ -1509,4 +1513,106 @@ function loadSwapbots() {
 
 }
 
+function loadFeatureRequests() {
+
+        var issues_public_html = "https://api.github.com/repos/loon3/Tokenly-Pockets/issues";
+    
+        
+            
+        $.getJSON( issues_public_html, function( data ) {  
+            
+            $("#FundDevBody").html("");
+
+            if (data.length > 0) {
+                
+                $("#FundDevBody").append("<div class='h3' style='padding: 10px 0 10px 0;'>Proposed Features</div>");
+
+                var allfeatures = [];
+
+                $.each(data, function(i, item)  {
+
+                    var info = data[i].labels[1];
+
+                    if (info != undefined) {
+
+                         if (info['name'] == "new feature") {
+                             
+                             var address = data[i].labels[0]['name'];
+
+                             var title = data[i].title;
+                             var body = data[i].body;
+                             var url = data[i].html_url;
+                             
+                             var pcbalance = 0;
+
+                             $("#FundDevBody").append("<div style='margin: 20px; padding: 10px 10px 20px 10px; background-color: #f8f8f8;'><div style='padding: 5px; font-size: 12px; font-weight: bold;'>POCKETCHANGE received "+pcbalance+"</div><div style='padding: 5px 0 0 0; font-size: 24px;'>"+title+"</div><div class='small' style='padding: 10px 0 0 0; margin-top: -10px; font-weight: bold;'><a href='"+url+"'>View on Github</a></div><div style='padding: 20px 10px 20px 10px;'>"+body+"</div><div class='btn-group' role='group' aria-label='...'><button data-address='"+address+"' data-token='POCKETCHANGE' data-title='"+title+"' class='btn btn-primary btn-sm movetosendFundDev'>POCKETCHANGE</button><button data-address='"+address+"' data-token='BTC' data-title='"+title+"' class='btn btn-primary btn-sm movetosendFundDev'>BTC</button><button data-address='"+address+"' data-token='LTBCOIN' data-title='"+title+"' class='btn btn-primary btn-sm movetosendFundDev'>LTBCOIN</button></div></div>");
+
+                             allfeatures.push({title: title, body: body, url: url});
+
+                         }
+
+                    }
+
+                });
+
+
+                console.log(allfeatures);
+                
+                $("#FundDevBody").append("<div style='height: 20px;'></div>");
+
+//                   return allfeatures;
+
+            }
+        });
+
+}
+
+function FindAsset(asset) {
+
+//                    var string = $("#newpassphrase").html();
+//                    var array = string.split(" ");
+//                    m = new Mnemonic(array);
+//    
+//                    var HDPrivateKey = bitcore.HDPrivateKey.fromSeed(m.toHex(), bitcore.Networks.livenet);
+//
+//                        for (var i = 0; i < 5; i++) {
+//                            
+//                            
+//                            
+//                            var derived = HDPrivateKey.derive("m/0'/0/" + i);
+//                            var address1 = new bitcore.Address(derived.publicKey, bitcore.Networks.livenet);
+//                           
+//                            var pubkey = address1.toString();
+//                            
+//                            var source_html = "https://counterpartychain.io/api/balances/" + pubkey; //counterpartychain api
+//      
+//                            $.getJSON( source_html, function( data ) {
+//                                
+//                                console.log(data);
+//                                
+//                                if(data.success == 1){
+//                                
+//                                 $.each(data.data, function(i, item) {
+//
+//                                    var assetname = data.data[0]["asset"];  
+//                                     
+//                                    if (assetname == asset) { //asset from API
+//                                       
+//                                        return pubkey;
+//                                        
+//                                    }
+//                                     
+//                                 });
+//                            
+//                                }
+//                           
+//                            
+//                            
+//                                
+//                            });
+//                        }
+//    
+//    
+
+}
  

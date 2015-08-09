@@ -267,7 +267,7 @@
 
         
         <div id="btcsendbox">
-        <div class="inputtitle">Send to:</div>
+        <div class="inputtitle" style="display: inline-block;">Send to:</div><div style="display: inline-block;" class="sendlabel"></div>
         <div align="center" style="width: 100%; padding: 0 5px 0 5px; margin-bottom: 10px;"><input type="text" class="form-control" id="sendtoaddress" placeholder="LTB Username or Bitcoin Address"></div>
         <div class="inputtitle">Amount: <span id="sendUSD" style="font-weight: normal;"></span></div>
         
@@ -337,8 +337,8 @@
             </div>
                 </a>
                 
-                <a id="Fund Development" href="#FundDevPage" data-toggle="tab">
-             <div class="col-xs-4 toolicon comingsoon" align="center"> 
+                <a id="FundDevApp" href="#FundDevPage" data-toggle="tab">
+             <div class="col-xs-4 toolicon activetool" align="center"> 
                 <img src="funddev-icon.png" height="48" width="48">
                 <div class="small" style="padding: 5px;">Fund Development</div>
             </div>
@@ -403,16 +403,27 @@
         </div>
       </div>
         
-        <div class="tab-pane" id="ExchangeRatePage">
+      <div class="tab-pane" id="ExchangeRatePage">
             
            
-        <div id="ExchangeRate" align="center" class="applink">
+            <div id="ExchangeRate" align="center" class="applink">
             
             
             
             </div>
              
-          </div>
+      </div>
+        
+      <div class="tab-pane" id="FundDevPage">
+            
+           
+            <div id="FundDevBody" align="center" class="applink" style="padding-top: 20px;">
+            Loading...
+            
+            
+            </div>
+             
+      </div>
       
       
       
