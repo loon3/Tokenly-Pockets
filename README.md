@@ -22,6 +22,8 @@ v0.1.6 - Payment page updates
 
 v0.1.7 - Show unconfirmed tx amounts, show pending new features
 
+v0.1.8 - Fund Development App
+
 ## Features
 
 - Send Bitcoin and Counterparty assets

@@ -1525,29 +1525,55 @@ function loadFeatureRequests() {
 
             if (data.length > 0) {
                 
-                $("#FundDevBody").append("<div class='h3' style='padding: 10px 0 10px 0;'>Proposed Features</div>");
+                $("#FundDevBody").append("<div class='h3' style='padding: 10px 0 10px 0;'>Fund Development</div><div style='padding: 10px 10px 15px 10px;'>When a proposed feature reaches its funding goal, it is added to the <span style='font-weight: bold;'><a href='https://github.com/loon3/Tokenly-Pockets/labels/feature%20queue'>feature queue</a></span> and completed in the order in which it's added.</div><div>To fund the features below, you need <a href='http://swapbot.tokenly.com/public/loon3/f769ae27-43c7-4fc9-93ab-126a1737930a'>POCKETCHANGE <img src='pc-icon.png'></a></div><hr><div style='padding: 15px 0 0 0; font-size: 20px;'>Proposed Features:</div>");
 
                 var allfeatures = [];
 
                 $.each(data, function(i, item)  {
 
-                    var info = data[i].labels[1];
+                    var info = data[i].labels[2];
 
                     if (info != undefined) {
 
                          if (info['name'] == "new feature") {
                              
                              var address = data[i].labels[0]['name'];
+                             
+                             var budget = data[i].labels[1]['name'];
 
                              var title = data[i].title;
                              var body = data[i].body;
                              var url = data[i].html_url;
+                             var propnum = data[i].number;
                              
-                             var pcbalance = 0;
+                             //color: #fff; background-color: #2d3c93;
 
-                             $("#FundDevBody").append("<div style='margin: 20px; padding: 10px 10px 20px 10px; background-color: #f8f8f8;'><div style='padding: 5px; font-size: 12px; font-weight: bold;'>POCKETCHANGE received "+pcbalance+"</div><div style='padding: 5px 0 0 0; font-size: 24px;'>"+title+"</div><div class='small' style='padding: 10px 0 0 0; margin-top: -10px; font-weight: bold;'><a href='"+url+"'>View on Github</a></div><div style='padding: 20px 10px 20px 10px;'>"+body+"</div><div class='btn-group' role='group' aria-label='...'><button data-address='"+address+"' data-token='POCKETCHANGE' data-title='"+title+"' class='btn btn-primary btn-sm movetosendFundDev'>POCKETCHANGE</button><button data-address='"+address+"' data-token='BTC' data-title='"+title+"' class='btn btn-primary btn-sm movetosendFundDev'>BTC</button><button data-address='"+address+"' data-token='LTBCOIN' data-title='"+title+"' class='btn btn-primary btn-sm movetosendFundDev'>LTBCOIN</button></div></div>");
+                             $("#FundDevBody").append("<div style='margin: 20px; padding: 10px 10px 5px 10px; border: 2px solid #aaa; background-color: #f8f8f8;'><div style='padding: 5px; background-color: #fff; border: 2px solid #aaa;'><div style='padding: 5px 0 0 0; font-size: 24px;'>"+title+"</div><div class='small' style='padding: 10px 0 0 0; margin-top: -10px; font-weight: bold;'><a href='"+url+"'>View on Github</a></div><div style='padding: 20px 10px 10px 10px;'>"+body+"</div></div><div style='margin: 10px -4px 5px -4px;'><div style='padding: 5px; font-size: 14px; height: 28px;'>Goal: <span style='font-weight: bold; font-size: 16px;'>"+addCommas(budget.substr(1))+"</span> <div style='display: inline-block;'><img src='pc-icon.png'></div></div><div style='padding: 5px; font-size: 14px; height: 28px;'>Funded: <span style='font-style: italic;'><span style='font-weight: bold; font-size: 18px;' class='pct-"+address+"'></span></span> ( <span style='font-weight: bold; font-style: italic; font-size: 16px;' class='"+address+"'>0</span> <div style='display: inline-block;'><img src='pc-icon.png'> )</div></div></div><div style='padding: 10px 0 5px 0; font-size: 12px; font-style: italic;'>Contribute to Feature:</div><div class='btn-group' role='group' aria-label='...'><button data-address='"+address+"' data-token='POCKETCHANGE' data-title='"+title+"' class='btn btn-warning  movetosendFundDev'>POCKETCHANGE <img src='pc-icon-white.png'></button></div><div style='padding: 5px; font-size: 11px; font-weight: bold;'><a href='http://swapbot.tokenly.com/public/loon3/f769ae27-43c7-4fc9-93ab-126a1737930a'>Get POCKETCHANGE</a></div></div>");
+                             
+                             returnTokenBalance(address, "POCKETCHANGE", function(pcbalance){
+                             
+                                var issueclass = "."+address;
+                                 
+                                var issuepctclass = ".pct-"+address;
+                                 
+                                var pcbalnum = parseInt(pcbalance);
+                                var budgetnum = parseInt(budget.substr(1));
+                             
+                                var fundedpct = (pcbalnum / budgetnum) * 100;
+                                 
+                                console.log(fundedpct);
+                                 
+                                $(issueclass).html(addCommas(pcbalance));
+                                
+                                $(issuepctclass).html(fundedpct + "%"); 
+                                 
+                                allfeatures.push({title: title, body: body, url: url, pocketchange: pcbalance});
+                             
+                             });
+                             
+                             
 
-                             allfeatures.push({title: title, body: body, url: url});
+                             
 
                          }
 
@@ -1558,7 +1584,7 @@ function loadFeatureRequests() {
 
                 console.log(allfeatures);
                 
-                $("#FundDevBody").append("<div style='height: 20px;'></div>");
+                $("#FundDevBody").append("<div style='height: 20px; line-height: 20px; margin: 10px 0 50px 0;'>Have an idea for a new feature?<br><a href='https://github.com/loon3/Tokenly-Pockets/issues/new' style='font-weight: bold;'>Create an issue on Github!</a></div>");
 
 //                   return allfeatures;
 
@@ -1567,7 +1593,55 @@ function loadFeatureRequests() {
 
 }
 
-function FindAsset(asset) {
+function returnTokenBalance(address, currenttoken, callback) {
+
+    var source_html = "https://counterpartychain.io/api/balances/"+address;
+    
+    //var source_html = "http://xcp.blockscan.com/api2?module=address&action=balance&btc_address="+pubkey+"&asset="+currenttoken;
+    
+    
+    $.getJSON( source_html, function( data ) {     
+        
+        if (data.data != undefined) {
+        
+        $.each(data.data, function(i, item) {
+            var assetname = data.data[i].asset;
+            
+            if(assetname == currenttoken) {
+                
+                var assetbalance = data.data[i].amount; 
+                
+                assetbalance = parseFloat(assetbalance).toString(); 
+                
+                callback(assetbalance);
+                     
+            }
+        });
+            
+        } else {
+            
+            callback(0);
+                    
+        }
+    });
+     
+    
+}
+
+function addCommas(nStr) {
+    nStr += '';
+    x = nStr.split('.');
+    x1 = x[0];
+    x2 = x.length > 1 ? '.' + x[1] : '';
+    var rgx = /(\d+)(\d{3})/;
+    while (rgx.test(x1)) {
+        x1 = x1.replace(rgx, '$1' + ',' + '$2');
+    }
+    return x1 + x2;
+}
+
+
+//function FindAsset(asset) {
 
 //                    var string = $("#newpassphrase").html();
 //                    var array = string.split(" ");
@@ -1614,5 +1688,5 @@ function FindAsset(asset) {
 //    
 //    
 
-}
+//}
  

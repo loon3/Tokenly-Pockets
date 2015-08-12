@@ -448,6 +448,7 @@ $(document).on("click", '.tokenlisting', function (event)
       
       $("#sendtoaddress").val("");
       $("#sendtoamount").val("");
+      $(".sendlabel").html("");
       
       var assetbalance = $("#xcpbalance").html();
       var array = assetbalance.split(" ");
