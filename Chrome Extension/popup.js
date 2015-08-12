@@ -1561,9 +1561,9 @@ function loadFeatureRequests() {
                              
                                 var fundedpct = (pcbalnum / budgetnum) * 100;
                                  
-                                if (fundedpct < 1) {
-                                    fundedpct = fundedpct.toFixed(2);
-                                }
+                                //if (fundedpct < 1) {
+                                fundedpct = fundedpct.toFixed(1);
+                                //}
                                  
                                 console.log(fundedpct);
                                  
