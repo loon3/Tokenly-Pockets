@@ -1,4 +1,4 @@
-__[Help fund development with POCKETCHANGE](https://counterpartychain.io/asset/POCKETCHANGE)__
+__[Help fund development with POCKETCHANGE](http://swapbot.tokenly.com/public/loon3/f769ae27-43c7-4fc9-93ab-126a1737930a)__
 
 ---
 
