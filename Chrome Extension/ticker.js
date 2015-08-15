@@ -772,9 +772,46 @@ $(document).on('click', '#toolsTab', function () {
    });
     
     
+    $('#hideshowpass').click(function(){
+            
+        var status = $('#hideshowpass').html();
+        
+        if (status == "Hide Passphrase") {
+            
+            $('#hideshowpass').html("Show Passphrase");
+            
+            $('#inputSplashPassphrase').prop('type', 'password');
+            
+        } else {
+            
+            $('#hideshowpass').html("Hide Passphrase");
+            
+            $('#inputSplashPassphrase').prop('type', 'text');
+            
+        }
+        
+   });
     
+    
+   $('#hideshowpassSettings').click(function(){
+       
+        var status = $('#hideshowpassSettings').html();
+        
+        if (status == "Hide") {
+            
+            $('#hideshowpassSettings').html("Show");
+            
+            $('#manualMnemonic').prop('type', 'password');
+            
+        } else {
+            
+            $('#hideshowpassSettings').html("Hide");
+            
+            $('#manualMnemonic').prop('type', 'text');
+            
+        }
                 
-    
+   });    
     
        $('#chainsobutton').click( function ()
         {
