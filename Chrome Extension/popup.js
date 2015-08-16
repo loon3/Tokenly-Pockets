@@ -519,10 +519,39 @@ function getRate(assetbalance, pubkey, currenttoken){
                     
 
                                 }); 
+            
+            
+            $.getJSON( "http://www.coincap.io/front/", function( data ) {
+                
+                var j = 0;
+                
+                var assetrates = new Array();  
+                
+                $.each(data, function(i, item) {
+                        var assetname = data[i].short;
+                        var assetprice = data[i].price;  
+
+                        if (assetname == "LTBC"){ 
+                            assetname = "LTBCOIN";
+                            
+                            assetrates[j] = {assetname, assetprice};
+                            j++;
+                        }
+                    
+                        if (assetname == "XCP"){ 
+                            
+                            assetrates[j] = {assetname, assetprice};
+                            j++;
+                        }
+
+                        
+                 });
+                
+                
         
               $.getJSON( "http://www.coincap.io/front/xcp", function( data ) {
 
-                  var assetrates = new Array();     
+                     
 
                  $.each(data, function(i, item) {
                         var assetname = data[i].short;
@@ -532,7 +561,7 @@ function getRate(assetbalance, pubkey, currenttoken){
                             assetname = "LTBCOIN";
                         }
 
-                        assetrates[i] = {assetname, assetprice};
+                        assetrates[i+j] = {assetname, assetprice};
                  });
                   
                   var currentdate = new Date(); 
@@ -549,6 +578,8 @@ function getRate(assetbalance, pubkey, currenttoken){
                         });
 
                 });
+                
+             });
         });
     
     } else {
@@ -1655,16 +1686,20 @@ function loadSwaplist(currenttoken) {
           $.getJSON( source_html, function( data ) {
             
               $.each(data, function(i, item) {
+                  
+                  if(data[i].bot["state"] == "active") {
               
-                  var receive_token = data[i].swap["out"];
-                  
-                  var receive_token_rate = parseFloat(data[i].swap["rate"]).toFixed(8);
-                  
-                  var receive_token_cost = data[i].swap["cost"];
-                  
-                  var bot_url = data[i].bot["botUrl"];
+                      var receive_token = data[i].swap["out"];
 
-                  swaplist_body += "<tr class='swapbotselect' data-url='"+bot_url+"'><td>"+receive_token+"</td><td><div>"+receive_token_rate+"</div></td></tr>";
+                      var receive_token_rate = parseFloat(data[i].swap["rate"]).toFixed(8);
+
+                      var receive_token_cost = data[i].swap["cost"];
+
+                      var bot_url = data[i].bot["botUrl"];
+
+                      swaplist_body += "<tr class='swapbotselect' data-url='"+bot_url+"'><td>"+receive_token+"</td><td><div>"+receive_token_rate+"</div></td></tr>";
+                      
+                  }
             
           
               });
