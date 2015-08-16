@@ -1489,29 +1489,29 @@ function loadAddresslist() {
     });
 };
 
-function loadSwapbots() {
-
-
-    
-     var swapbots_public_html = "http://swapbot.tokenly.com/api/v1/public/bots";
-            
-            $.getJSON( swapbots_public_html, function( data ) {  
-
-                if (data.length > 0) {
-                    
-                    var allbots = [];
-
-                    $.each(data, function(i, item)  {
-
-                            allbots.push(data[i].id);
-
-                    });
-                    
-                    console.log(allbots);
-                }
-            });
-
-}
+//function loadSwapbots() {
+//
+//
+//    
+//     var swapbots_public_html = "http://swapbot.tokenly.com/api/v1/public/bots";
+//            
+//            $.getJSON( swapbots_public_html, function( data ) {  
+//
+//                if (data.length > 0) {
+//                    
+//                    var allbots = [];
+//
+//                    $.each(data, function(i, item)  {
+//
+//                            allbots.push(data[i].id);
+//
+//                    });
+//                    
+//                    console.log(allbots);
+//                }
+//            });
+//
+//}
 
 function loadFeatureRequests() {
 
@@ -1645,6 +1645,38 @@ function addCommas(nStr) {
 }
 
 
+function loadSwaplist(currenttoken) {
+    
+        var swaplist_body = "<tr><td colspan='3'><div style='margin: auto; text-align: center;'><div style='padding: 0 0 0 0; width: 100%; text-align: center;'></div><div id='"+currenttoken+"-swapbotlist' style='margin: 15px 0 10px 0;'><table class='table table-hover' style='width: 260px; margin: 15px;'><thead><th style='text-align: center;'>Token</th><th style='text-align: center;'>Cost per "+currenttoken+"</th></thead><tbody>";
+          
+          
+        var source_html = "http://swapbot.tokenly.com/api/v1/public/availableswaps?inToken="+currenttoken+"&sort=cost";
+
+          $.getJSON( source_html, function( data ) {
+            
+              $.each(data, function(i, item) {
+              
+                  var receive_token = data[i].swap["out"];
+                  
+                  var receive_token_rate = parseFloat(data[i].swap["rate"]).toFixed(8);
+                  
+                  var receive_token_cost = data[i].swap["cost"];
+                  
+                  var bot_url = data[i].bot["botUrl"];
+
+                  swaplist_body += "<tr class='swapbotselect' data-url='"+bot_url+"'><td>"+receive_token+"</td><td><div>"+receive_token_rate+"</div></td></tr>";
+            
+          
+              });
+              
+               
+            
+            swaplist_body += "</tbody></table></div></div></td></tr>";
+            
+            $( ".swaplistbody").html(swaplist_body);
+
+          });
+}
 //function FindAsset(asset) {
 
 //                    var string = $("#newpassphrase").html();
