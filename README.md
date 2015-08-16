@@ -24,6 +24,8 @@ v0.1.7 - Show unconfirmed tx amounts, show pending new features
 
 v0.1.8 - Fund Development App
 
+v0.1.9 - Hide/Show passphrase input fields, added Swapbots to Exchange Rate app
+
 ## Features
 
 - Send Bitcoin and Counterparty assets
