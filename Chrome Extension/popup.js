@@ -557,11 +557,13 @@ function getRate(assetbalance, pubkey, currenttoken){
                         var assetname = data[i].short;
                         var assetprice = data[i].price;  
 
-                        if (assetname == "LTBC"){ 
-                            assetname = "LTBCOIN";
+                        if (assetname != "LTBC" && assetname != "XCP"){ 
+                            
+                            assetrates[i+j] = {assetname, assetprice};
+                            
                         }
 
-                        assetrates[i+j] = {assetname, assetprice};
+                        
                  });
                   
                   var currentdate = new Date(); 
@@ -875,6 +877,22 @@ function loadAssets(add) {
                         var assethtml = "<div class='singleasset row'><div class='col-xs-2' style='margin-left: -10px;'><img src='"+iconlink+"'></div><div class='col-xs-10'><div class='assetname'>"+assetname+"</div><div class='movetowallet'>Send</div><div class='assetqtybox'><div class='assetqty'>"+assetbalance+"</div> <div class='"+assetname+"-pending assetqty-unconfirmed'></div></div><div id='assetdivisible' style='display: none;'>"+divisible+"</div></div></div>";
 
                     } 
+                    
+                    
+//                    if (assetname.substring(0, 3) == "A11") {
+//                        
+//                        var assethtml = "<div class='enhancedasset row'><div class='col-xs-2' style='margin-left: -10px;'><img src='"+iconlink+"'></div><div class='col-xs-10'><div id='"+assetname+"-assetname' class='assetname-enhanced'>...</div><div class='movetowallet'>Send</div><div class='assetqtybox'><div class='assetqty'>"+assetbalance+"</div> <div class='"+assetname+"-pending assetqty-unconfirmed'></div></div><div id='assetdivisible' style='display: none;'>"+divisible+"</div></div></div>";
+//                        
+//                        $.getJSON("https://counterpartychain.io/api/asset/"+assetname, function(data) {
+//                        
+//                            var newassetname = data.description;
+//                            
+//                            $("#"+assetname+"-assetname").html( newassetname );
+//                            
+//                            
+//                        });
+//
+//                    }
 
                     $( "#allassets" ).append( assethtml );
 
@@ -1581,6 +1599,8 @@ function loadFeatureRequests() {
 
                              $("#FundDevBody").append("<div style='margin: 20px 20px 40px 20px; padding: 10px 10px 5px 10px; border: 3px solid #aaa; background-color: #f8f8f8;'><div style='padding: 5px; background-color: #fff; border: 2px solid #aaa;'><div style='padding: 5px 0 0 0; font-size: 24px;'>"+title+"</div><div class='small' style='padding: 10px 0 0 0; margin-top: -10px; font-weight: bold;'><a href='"+url+"'>View on Github</a></div><div style='padding: 20px 10px 10px 10px;'>"+body+"</div></div><div style='margin: 10px -4px 5px -4px;'><div style='padding: 5px; font-size: 14px; height: 28px;'>Goal: <span style='font-weight: bold; font-size: 16px;'>"+addCommas(budget.substr(1))+"</span> <div style='display: inline-block;'><img src='pc-icon.png'></div></div><div style='padding: 5px; font-size: 14px; height: 28px;'>Funded: <span style='font-style: italic;'><span style='font-weight: bold; font-size: 18px;' class='pct-"+address+"'></span></span> ( <span style='font-weight: bold; font-style: italic; font-size: 16px;' class='"+address+"'>0</span> <div style='display: inline-block;'><img src='pc-icon.png'> )</div></div></div><div style='padding: 10px 0 5px 0; font-size: 12px; font-style: italic;'>Contribute to Feature:</div><div class='btn-group' role='group' aria-label='...'><button data-address='"+address+"' data-token='POCKETCHANGE' data-title='"+title+"' class='btn btn-warning  movetosendFundDev'>Send POCKETCHANGE <img src='pc-icon-white.png'></button></div><div style='padding: 5px; font-size: 11px; font-weight: bold;'><a href='http://swapbot.tokenly.com/public/loon3/f769ae27-43c7-4fc9-93ab-126a1737930a'>Get POCKETCHANGE</a></div></div>");
                              
+                             //$("#FundDevBody").append("<div style='margin: 20px 20px 40px 20px; padding: 10px 10px 5px 10px; border: 3px solid #aaa; background-color: #f8f8f8;'><div style='padding: 5px; background-color: #fff; border: 2px solid #aaa;'><div style='padding: 5px 0 0 0; font-size: 24px;'>"+title+"</div><div class='small' style='padding: 10px 0 0 0; margin-top: -10px; font-weight: bold;'><a href='"+url+"'>View on Github</a></div><div style='padding: 20px 10px 10px 10px;'>"+body+"</div></div><div style='margin: 10px -4px 5px -4px;'><div style='padding: 5px; font-size: 14px; height: 28px;'>Funded: <span style='font-weight: bold; font-style: italic; font-size: 16px;' class='"+address+"'>0</span> <div style='display: inline-block;'><img src='pc-icon.png'></div></div></div><div style='padding: 10px 0 5px 0; font-size: 12px; font-style: italic;'>Contribute to Feature:</div><div class='btn-group' role='group' aria-label='...'><button data-address='"+address+"' data-token='POCKETCHANGE' data-title='"+title+"' class='btn btn-warning  movetosendFundDev'>Send POCKETCHANGE <img src='pc-icon-white.png'></button></div><div style='padding: 5px; font-size: 11px; font-weight: bold;'><a href='http://swapbot.tokenly.com/public/loon3/f769ae27-43c7-4fc9-93ab-126a1737930a'>Get POCKETCHANGE</a></div></div>");
+                             
                              returnTokenBalance(address, "POCKETCHANGE", function(pcbalance){
                              
                                 var issueclass = "."+address;
@@ -1678,7 +1698,7 @@ function addCommas(nStr) {
 
 function loadSwaplist(currenttoken) {
     
-        var swaplist_body = "<tr><td colspan='3'><div style='margin: auto; text-align: center;'><div style='padding: 0 0 0 0; width: 100%; text-align: center;'></div><div id='"+currenttoken+"-swapbotlist' style='margin: 15px 0 10px 0;'><table class='table table-hover' style='width: 260px; margin: 15px;'><thead><th style='text-align: center;'>Token</th><th style='text-align: center;'>Cost per "+currenttoken+"</th></thead><tbody>";
+        var swaplist_body = "<tr><td colspan='3'><div style='margin: auto; text-align: center;'><div style='padding: 0 0 0 0; width: 100%; text-align: center;'></div><div id='"+currenttoken+"-swapbotlist' style='margin: 15px 0 10px 0;'><table class='table table-hover' style='width: 260px; margin: 15px; border: 2px solid #ccc;'><thead><th style='text-align: center;'>Token</th><th style='text-align: center;'>Price per "+currenttoken+"</th></thead><tbody>";
           
           
         var source_html = "http://swapbot.tokenly.com/api/v1/public/availableswaps?inToken="+currenttoken+"&sort=cost";

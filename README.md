@@ -26,6 +26,8 @@ v0.1.8 - Fund Development App
 
 v0.1.9 - Hide/Show passphrase input fields, added Swapbots to Exchange Rate app
 
+v0.1.10 - Add XCP and LTBCOIN to Exchange Rates app
+
 ## Features
 
 - Send Bitcoin and Counterparty assets
