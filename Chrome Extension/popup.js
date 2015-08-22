@@ -875,26 +875,56 @@ function loadAssets(add) {
 
                     if (assetname.charAt(0) != "A") {
                         var assethtml = "<div class='singleasset row'><div class='col-xs-2' style='margin-left: -10px;'><img src='"+iconlink+"'></div><div class='col-xs-10'><div class='assetname'>"+assetname+"</div><div class='movetowallet'>Send</div><div class='assetqtybox'><div class='assetqty'>"+assetbalance+"</div> <div class='"+assetname+"-pending assetqty-unconfirmed'></div></div><div id='assetdivisible' style='display: none;'>"+divisible+"</div></div></div>";
+                        
+                        $( "#allassets" ).append( assethtml );
 
                     } 
                     
                     
-//                    if (assetname.substring(0, 3) == "A11") {
-//                        
-//                        var assethtml = "<div class='enhancedasset row'><div class='col-xs-2' style='margin-left: -10px;'><img src='"+iconlink+"'></div><div class='col-xs-10'><div id='"+assetname+"-assetname' class='assetname-enhanced'>...</div><div class='movetowallet'>Send</div><div class='assetqtybox'><div class='assetqty'>"+assetbalance+"</div> <div class='"+assetname+"-pending assetqty-unconfirmed'></div></div><div id='assetdivisible' style='display: none;'>"+divisible+"</div></div></div>";
-//                        
-//                        $.getJSON("https://counterpartychain.io/api/asset/"+assetname, function(data) {
-//                        
-//                            var newassetname = data.description;
-//                            
-//                            $("#"+assetname+"-assetname").html( newassetname );
-//                            
-//                            
-//                        });
-//
-//                    }
+                    if (assetname.substring(0, 4) == "A111") {
+                        
+                        console.log(assetname);
+                        
+                        
+                        $.getJSON("https://counterpartychain.io/api/asset/"+assetname, function(data) {
+                        
+                            var checkprefix = (data.description).substr(0,6);
+                    
+                            var hash = (data.description).substr(7);
+                            
+                            console.log(hash);
+                            
+                            console.log(checkprefix);
+                            
+                            //$("#"+assetname+"-assetname").html( newassetname );
+                            
+                            if(checkprefix == "TOKNID") {
+                            
+                                $.getJSON("http://xcp.ninja/hash/"+hash+".json", function(data) {
+                                    
+                                    console.log(data);
+                                    
+                                    var isvaliddata = validateEnhancedAssetJSON(data);
+                                    
+                                    console.log("Calculated JSON Hash: "+isvaliddata);
+                                    
+                                    if(isvaliddata == hash && data.asset == assetname) {
 
-                    $( "#allassets" ).append( assethtml );
+                                        //var assethtml = "<div class='enhancedasset row'><div class='col-xs-2' style='margin-left: -10px;'><img src='"+iconlink+"'></div><div class='col-xs-10'><div class='assetname-enhanced' data-numeric='"+assetname+"'>"+data.assetname+"</div><div class='movetowallet'>Send</div><div class='assetqtybox'><div class='assetqty'>"+assetbalance+"</div> <div class='"+assetname+"-pending assetqty-unconfirmed'></div></div><div id='assetdivisible' style='display: none;'>"+divisible+"</div></div></div>";
+                                        
+                                        var assethtml = "<div class='enhancedasset row'><div class='col-xs-2' style='margin-left: -10px;'><img src='"+iconlink+"'></div><div class='col-xs-10'><div class='assetname-enhanced' data-numeric='"+assetname+"'>"+data.assetname+"</div><div class='assetqtybox'><div class='assetqty'>"+assetbalance+"</div> <div class='"+assetname+"-pending assetqty-unconfirmed'></div></div><div id='assetdivisible' style='display: none;'>"+divisible+"</div></div></div>";
+                                        
+                                        $( "#allassets" ).append( assethtml );
+                                        
+                                    }
+                                });
+                                
+                            }
+                        });
+
+                    }
+
+                    
 
                 });
             
@@ -975,7 +1005,7 @@ function loadAssets(add) {
             
             
             
-            $( "#allassets" ).append("<div style='height: 20px;'></div>");
+          //  $( "#allassets" ).append("<div style='height: 20px;'></div>");
         
             loadTransactions(add);
         
@@ -1732,6 +1762,33 @@ function loadSwaplist(currenttoken) {
 
           });
 }
+
+function validateEnhancedAssetJSON(jsondata) {
+
+    var jsonstring = JSON.stringify(jsondata);
+
+    console.log(jsonstring);
+    
+    var firstSHA = Crypto.SHA256(jsonstring)
+
+    $('#sha').html(firstSHA); 
+
+    var hash160 = Crypto.RIPEMD160(Crypto.util.hexToBytes(firstSHA))
+    var version = 0x41 // "T"
+    var hashAndBytes = Crypto.util.hexToBytes(hash160)
+    hashAndBytes.unshift(version)
+
+    var doubleSHA = Crypto.SHA256(Crypto.util.hexToBytes(Crypto.SHA256(hashAndBytes)))
+    var addressChecksum = doubleSHA.substr(0,8)
+
+    var unencodedAddress = "41" + hash160 + addressChecksum
+
+    var address = Bitcoin.Base58.encode(Crypto.util.hexToBytes(unencodedAddress))
+    
+    return address
+
+}
+
 //function FindAsset(asset) {
 
 //                    var string = $("#newpassphrase").html();
