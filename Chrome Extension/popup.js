@@ -634,22 +634,22 @@ function assetDropdown(m)
         
         for (var i = 0; i < totaladdress; i++) {
                             
-        var derived = HDPrivateKey.derive("m/0'/0/" + i);
-        var address1 = new bitcore.Address(derived.publicKey, bitcore.Networks.livenet);
-                           
-        var pubkey = address1.toString();
-  
-        $(".addressselect").append("<option label='"+addresslabels[i].label+"' title='"+pubkey+"'>"+pubkey+"</option>");
-        
-        if (i == 0) {
-            $(".addressselect").attr("title",pubkey);    
-        }
-            //.slice(0,12)
+            var derived = HDPrivateKey.derive("m/0'/0/" + i);
+            var address1 = new bitcore.Address(derived.publicKey, bitcore.Networks.livenet);
 
-        //$(".addressselect").append("<option label='"+pubkey+"'>"+pubkey+"</option>");
-    }
+            var pubkey = address1.toString();
+
+            $(".addressselect").append("<option label='"+addresslabels[i].label+"' title='"+pubkey+"'>"+pubkey+"</option>");
+
+            if (i == 0) {
+                $(".addressselect").attr("title",pubkey);    
+            }
+                //.slice(0,12)
+
+            //$(".addressselect").append("<option label='"+pubkey+"'>"+pubkey+"</option>");
+        }
     
-    $(".addressselect").append("<option label='--- Add New Address ---'>add</option>");
+        $(".addressselect").append("<option label='--- Add New Address ---'>add</option>");
         
     }); 
                  
@@ -753,9 +753,9 @@ function existingPassphrase(string) {
     
     $("#newpassphrase").html(string);
        
-    
-    convertPassphrase(m2);
-    assetDropdown(m2);
+    convertPassphrase(m2);    
+    checkImportedLabels(m2, assetDropdown);
+
     
     $('#allTabs a:first').tab('show')
 }
@@ -806,7 +806,7 @@ function loadAssets(add) {
       
     //var source_html = "http://xcp.blockscan.com/api2?module=address&action=balance&btc_address="+add;
     
-    var source_html = "https://counterpartychain.io/api/balances/"+add;
+    var source_html = "https://counterpartychain.io/api/balances/"+add+"?description=1";
     
     var xcp_source_html = "http://counterpartychain.io/api/address/"+add;
     
@@ -868,6 +868,7 @@ function loadAssets(add) {
                 $.each(data.data, function(i, item) {
                     var assetname = data.data[i].asset;
                     var assetbalance = data.data[i].amount; //.balance for blockscan
+                    var assetdescription = data.data[i].description;
                     if (assetbalance.indexOf(".")==-1) {var divisible = "no";} else {var divisible = "yes";}
 
                     var iconname = assetname.toLowerCase();
@@ -886,11 +887,11 @@ function loadAssets(add) {
                         console.log(assetname);
                         
                         
-                        $.getJSON("https://counterpartychain.io/api/asset/"+assetname, function(data) {
+                        //$.getJSON("https://counterpartychain.io/api/asset/"+assetname, function(data) {
                         
-                            var checkprefix = (data.description).substr(0,6);
+                            var checkprefix = (assetdescription).substr(0,6);
                     
-                            var hash = (data.description).substr(7);
+                            var hash = (assetdescription).substr(7);
                             
                             console.log(hash);
                             
@@ -920,7 +921,7 @@ function loadAssets(add) {
                                 });
                                 
                             }
-                        });
+                        //});
 
                     }
 
@@ -1278,6 +1279,7 @@ function resetFive() {
                     var array = string.split(" ");
                     m = new Mnemonic(array);
                         
+                    convertPassphrase(m);
                     assetDropdown(m);
                     $('#allTabs a:first').tab('show');
                     
@@ -1771,8 +1773,6 @@ function validateEnhancedAssetJSON(jsondata) {
     
     var firstSHA = Crypto.SHA256(jsonstring)
 
-    $('#sha').html(firstSHA); 
-
     var hash160 = Crypto.RIPEMD160(Crypto.util.hexToBytes(firstSHA))
     var version = 0x41 // "T"
     var hashAndBytes = Crypto.util.hexToBytes(hash160)
@@ -1788,6 +1788,123 @@ function validateEnhancedAssetJSON(jsondata) {
     return address
 
 }
+
+function exportAddresses()
+{
+      
+    chrome.storage.local.get(function(data) {
+    
+        var addresslabels = data.addressinfo;
+        var string = $("#newpassphrase").html();
+        var array = string.split(" ");
+        m = new Mnemonic(array);
+
+        var currentsize = $('#walletaddresses option').size();     
+        var exportfiledata = new Object();
+
+        currentsize -= 1;
+
+        var HDPrivateKey = bitcore.HDPrivateKey.fromSeed(m.toHex(), bitcore.Networks.livenet);
+
+        for (var i = 0; i < currentsize; i++) {
+
+            var derived = HDPrivateKey.derive("m/0'/0/" + i);
+            var address1 = new bitcore.Address(derived.publicKey, bitcore.Networks.livenet);
+
+            var pubkey = address1.toString();
+            
+            if (i == 0) {
+                var firstkey = pubkey;
+            }
+
+            var currentlabel = addresslabels[i].label;
+
+            addresslabels[i].address = pubkey;
+            
+        }
+
+        console.log(JSON.stringify(addresslabels));
+        
+        // Convert object to a string.
+        var result = JSON.stringify(addresslabels);
+
+        // Save as file
+        var url = 'data:application/json;base64,' + btoa(result);
+        var file = firstkey.substr(0,8);
+        
+        chrome.downloads.download({
+            url: url,
+            filename: file+'.json'
+        });
+        
+    });
+    
+}
+
+function checkImportedLabels(m, callback) {
+    
+    chrome.storage.local.get(function(data) {
+
+    
+     if(typeof(data["imported_labels"]) !== 'undefined' && data["imported_labels"] != false) { 
+         
+            var newlabels = data["imported_labels"];
+         
+            var newqty = newlabels.length;
+
+            var HDPrivateKey = bitcore.HDPrivateKey.fromSeed(m.toHex(), bitcore.Networks.livenet);
+
+            var derived = HDPrivateKey.derive("m/0'/0/0");
+            var address1 = new bitcore.Address(derived.publicKey, bitcore.Networks.livenet);
+
+            var pubkey = address1.toString();
+         
+//         console.log(newlabels[0].address);
+//         console.log(pubkey);
+         
+            if (newlabels[0].address == pubkey){
+                
+                var newinfo = [];
+                
+                $.each(newlabels, function(i, item) {
+                  
+                    newinfo.push({"label": newlabels[i].label});
+          
+                });
+                
+                chrome.storage.local.set(
+                    {
+                        
+                        'addressinfo': newinfo,
+                        'totaladdress': newqty,
+                        'imported_labels': false
+                        
+                    }, function () {
+                    
+                        callback(m);
+                                          
+                    });
+                
+            } else {
+                
+                callback(m);
+                
+            }
+                    
+                    
+            
+     } else {
+     
+      callback(m);
+     
+     }
+    });
+    
+    
+    
+    
+}
+                            
 
 //function FindAsset(asset) {
 

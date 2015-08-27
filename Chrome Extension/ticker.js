@@ -233,6 +233,37 @@ $( document ).ready(function() {
         
     });
     
+    $('#exportAddresses').click(function(){
+        exportAddresses();
+        
+    });
+    
+    $('#importAddresses').click(function(){
+        
+        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+            chrome.tabs.executeScript(tabs[0].id, {file: "js/import_addresses.js"}, function(){
+            
+            if (chrome.extension.lastError){
+                var errorMsg = chrome.extension.lastError.message;
+                if (errorMsg == "Cannot access a chrome:// URL"){
+                    $("#hiddenaddlab").show();
+                }
+            }
+                
+            });
+        });
+        
+        
+    });
+    
+    
+      
+    
+    $('#AddressesAndLabels').click(function(){
+        $('#AddressesAndLabelsOptions').toggle();
+        
+        $('#hiddenaddlab').hide();
+    });
    
     
     $('#setpassphraseatsplash').click(function (){
@@ -276,7 +307,23 @@ $( document ).ready(function() {
     
     $('.resetAddress').click(function ()
         {
-            newPassphrase();
+           
+                   
+                        newPassphrase();
+                        
+            
+                                          
+
+        });
+    
+    $('.addlabbuttons').click(function ()
+        {
+           
+                   
+                        $('#AddressesAndLabelsOptions').hide();
+                        
+                                          
+
         });
     
     $('.resetFive').click(function ()

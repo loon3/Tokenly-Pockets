@@ -28,6 +28,8 @@ v0.1.9 - Hide/Show passphrase input fields, added Swapbots to Exchange Rate app
 
 v0.1.10 - Add XCP and LTBCOIN to Exchange Rates app
 
+v0.1.11 - Import/Export Address Labels
+
 ## Features
 
 - Send Bitcoin and Counterparty assets
