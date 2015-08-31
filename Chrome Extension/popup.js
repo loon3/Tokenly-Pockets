@@ -363,10 +363,12 @@ if (currenttoken == "XCP") {
         
         $("#isdivisible").html("yes");
     
-        $("#xcpbalance").html("<div id='currentbalance'>" + assetbalance + "</div><div id='currenttoken-pending' class='unconfirmedbal'></div><br><div style='font-size: 22px; font-weight: bold;'><span id='currenttoken'>" + currenttoken + "</span>");
+        $("#xcpbalance").html("<div id='currentbalance'>" + assetbalance + "</div><div id='currenttoken-pending' class='unconfirmedbal'></div><br><div style='font-size: 22px; font-weight: bold;'>" + currenttoken + "</div>");
         $('#assetbalhide').html(assetbalance);
         
         getRate(assetbalance, pubkey, currenttoken);
+        
+        currenttokenpending(currenttoken);
         
     });
     
@@ -396,27 +398,53 @@ if (currenttoken == "XCP") {
                 
                 assetbalance = parseFloat(assetbalance).toString(); 
                 
-  
+                if(assetname.substr(0,1) == "A") {
+                    
+                    var enhancedassetname = $("#xcpbalance").data("enhanced");
+                    
                 //var assetbalance = parseFloat(data.data[0].balance) + parseFloat(data.data[0].unconfirmed_balance);   
-                $("#xcpbalance").html("<div id='currentbalance'>" + assetbalance + "</div><div id='currenttoken-pending' class='unconfirmedbal'></div><br><div style='font-size: 22px; font-weight: bold;'><span id='currenttoken'>" + currenttoken + "</span>");
+                    $("#xcpbalance").html("<div id='currentbalance'>" + assetbalance + "</div><div id='currenttoken-pending' class='unconfirmedbal'></div><br><div style='font-size: 16px; font-weight: bold;'>"+enhancedassetname+"</div><div style='margin-top: 5px; font-size: 11px; font-style: italic;'>"+currenttoken+"</div>");
+                    
+                } else {
+                    
+                    $("#xcpbalance").html("<div id='currentbalance'>" + assetbalance + "</div><div id='currenttoken-pending' class='unconfirmedbal'></div><br><div style='font-size: 22px; font-weight: bold;'>" + currenttoken + "</div>");
+                    
+                }
                 $('#assetbalhide').html(assetbalance);
                 
                 
                 
                 getRate(assetbalance, pubkey, currenttoken);
+                
+                currenttokenpending(currenttoken);
                      
             }
         });
-                    
-        currenttokenpending(currenttoken);
+       
+        
+        
     });
     
 }
     
     if (typeof assetbalance === 'undefined') {
+        
+        if(currenttoken.substr(0,1) == "A") {
+            
+            var enhancedassetname = $("#xcpbalance").data("enhanced");           
+            
+            $("#xcpbalance").html("<div id='currentbalance'>0</div><div id='currenttoken-pending' class='unconfirmedbal'></div><br><div style='font-size: 16px; font-weight: bold;'>"+enhancedassetname+"</div><div style='margin-top: 5px; font-size: 11px; font-style: italic;'>"+currenttoken+"</div>");
+            
+        } else {
+        
+        
             $("#xcpbalance").html("<div id='currentbalance'>0</div><div id='currenttoken-pending' class='unconfirmedbal'></div><br><div style='font-size: 22px; font-weight: bold;'>" + currenttoken + "</div>");
+            
+        }
             $('#assetbalhide').html(0);
             getRate(0, pubkey, currenttoken);
+        
+        currenttokenpending(currenttoken);
     }
 
 }
@@ -911,9 +939,9 @@ function loadAssets(add) {
                                     
                                     if(isvaliddata == hash && data.asset == assetname) {
 
-                                        //var assethtml = "<div class='enhancedasset row'><div class='col-xs-2' style='margin-left: -10px;'><img src='"+iconlink+"'></div><div class='col-xs-10'><div class='assetname-enhanced' data-numeric='"+assetname+"'>"+data.assetname+"</div><div class='movetowallet'>Send</div><div class='assetqtybox'><div class='assetqty'>"+assetbalance+"</div> <div class='"+assetname+"-pending assetqty-unconfirmed'></div></div><div id='assetdivisible' style='display: none;'>"+divisible+"</div></div></div>";
+                                        var assethtml = "<div class='enhancedasset row'><div class='col-xs-2' style='margin-left: -10px;'><img src='"+iconlink+"'></div><div class='col-xs-10'><div style='width: 200px;' class='assetname-enhanced' data-numeric='"+assetname+"'>"+data.assetname+"</div><div class='movetowallet'>Send</div><div style='margin: 5px 0 10px 9px; width: 200px; font-size: 11px; font-style: italic;'>"+assetname+"</div><div class='assetqtybox'><div class='assetqty'>"+assetbalance+"</div> <div class='"+assetname+"-pending assetqty-unconfirmed'></div></div><div id='assetdivisible' style='display: none;'>"+divisible+"</div></div></div>";
                                         
-                                        var assethtml = "<div class='enhancedasset row'><div class='col-xs-2' style='margin-left: -10px;'><img src='"+iconlink+"'></div><div class='col-xs-10'><div class='assetname-enhanced' data-numeric='"+assetname+"'>"+data.assetname+"</div><div class='assetqtybox'><div class='assetqty'>"+assetbalance+"</div> <div class='"+assetname+"-pending assetqty-unconfirmed'></div></div><div id='assetdivisible' style='display: none;'>"+divisible+"</div></div></div>";
+                                        //var assethtml = "<div class='enhancedasset row'><div class='col-xs-2' style='margin-left: -10px;'><img src='"+iconlink+"'></div><div class='col-xs-10'><div class='assetname-enhanced' data-numeric='"+assetname+"'>"+data.assetname+"</div><div class='assetqtybox'><div class='assetqty'>"+assetbalance+"</div> <div class='"+assetname+"-pending assetqty-unconfirmed'></div></div><div id='assetdivisible' style='display: none;'>"+divisible+"</div></div></div>";
                                         
                                         $( "#allassets" ).append( assethtml );
                                         
@@ -1166,9 +1194,12 @@ function sendtokenaction() {
     $("#sendtokenbutton").html("Sending...");
             $("#sendtokenbutton").prop('disabled', true);
              
-            var assetbalance = $("#xcpbalance").html();
-            var array = assetbalance.split(" ");
-            var currentbalance = parseFloat(array[0]);
+//            var assetbalance = $("#xcpbalance").html();
+//            var array = assetbalance.split(" ");
+//            var currentbalance = parseFloat(array[0]);
+    
+            var assetbalance = $("#assetbalhide").html();
+            var currentbalance = parseFloat(assetbalance);
       
             var pubkey = $("#xcpaddress").html();
             var currenttoken = $(".currenttoken").html();

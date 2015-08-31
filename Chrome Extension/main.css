@@ -309,11 +309,11 @@ a {
 
 .enhancedasset {
     
-    background-color: #86AD79;
+    background-color: #546E4C;
     color: #fff;
     padding: 4px 0 4px 0;
     margin: 4px 0 4px 0;
-    border: 3px solid #546E4C;
+    border: 3px solid #86AD79;
     
 }
 
@@ -411,11 +411,19 @@ a {
     display: inline-block;
 }
 
-.movetowallet {
+/*
     padding: 2px 0 2px 0;
     margin-right: -15px;
     float: right;
     display: inline-block;
+*/
+
+
+.movetowallet {
+    padding: 2px 0 2px 0;
+    margin-right: -15px;
+    float: right;
+    display: block;
     font-weight: bold;
     text-decoration: underline;
     cursor: pointer;

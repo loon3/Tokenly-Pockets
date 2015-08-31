@@ -561,7 +561,37 @@ $(document).on("click", '.tokenlisting', function (event)
       $("#currenttoken-pending").html("");
       
       var $assetdiv = $( this ).prev();
-      var currentasset = $assetdiv.html();
+      
+      var isnumeric = $assetdiv.data("numeric");
+      
+      if (isnumeric != undefined) {
+          
+          var currentasset = isnumeric;
+          
+          var enhancedassetfullname = $assetdiv.html();
+          
+//          if (enhancedassetfullname.length > 24) {
+//          
+//            var enhancedassetname = enhancedassetfullname.substr(0, 24) + "...";
+//              
+//          } else {
+              
+            var enhancedassetname = enhancedassetfullname;
+              
+//          }      
+          
+          $("#xcpbalance").data("enhanced", enhancedassetname);
+          
+          $("#sendtokenbutton").html("Send");
+
+      } else {
+      
+          var currentasset = $assetdiv.html();
+          
+          $("#sendtokenbutton").html("Send "+currentasset);
+          
+      }
+      
       $(".currenttoken").html(currentasset);
       
       var qtypending = $("."+currentasset+"-pending").html();
@@ -570,7 +600,7 @@ $(document).on("click", '.tokenlisting', function (event)
       
       //$(".currenttoken").html("WORKS");
       
-      $("#sendtokenbutton").html("Send "+currentasset);
+      
       
       var pubkey = $("#xcpaddress").html();
       

@@ -71,7 +71,20 @@ function assetid(asset_name) {
     
     //asset_name.toUpperCase();
 
-    if(asset_name != "XCP"){
+    if (asset_name == "XCP") {
+        
+        var asset_id = (1).toString(16);
+        
+    } else if (asset_name.substr(0, 1) == "A") {
+        
+        var pre_id = asset_name.substr(1);
+        
+        var pre_id_bigint = BigIntegerSM(pre_id);
+        
+        var asset_id = pre_id_bigint.toString(16);
+        
+        
+    } else {  
     
         var b26_digits = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'; 
         var name_array = asset_name.split("");
@@ -92,11 +105,7 @@ function assetid(asset_name) {
         //var asset_id = n;
         var asset_id = n_bigint.toString(16);
     
-    } else {
-        
-        var asset_id = (1).toString(16);
-        
-    }
+    } 
     
     //return asset_id;
     console.log(asset_id);
@@ -214,8 +223,13 @@ function addresses_from_datachunk(datachunk) {
 function isdatacorrect(data_chunk, asset, asset_total) {
             
             var asset_id = padprefix(assetid(asset),16);
+    
+    console.log(asset_id);
             
             var assethex = data_chunk.substring(42, 26);
+    
+    console.log(assethex);
+    
             var amount = data_chunk.substring(58, 42);
             //var asset_dec = parseInt(assethex, 16);
             var amount_dec = parseInt(amount, 16) / 100000000;
@@ -474,7 +488,7 @@ function sendXCP_opreturn(add_from, add_to, asset, asset_total, btc_total, trans
         
         
         if (correct == "yes") {   
-            sendBTCpush(final_trans);  //push raw tx to the bitcoin network via Blockchain.info
+            sendBTCpush(final_trans);  //push raw tx to the bitcoin network via chain.so
         } else {
             $("#sendtokenbutton").html("Error, refresh to continue...");
         }
