@@ -16,12 +16,22 @@
    "content_scripts": [
     {
       "matches": ["*://*/*"],
-      "js": ["js/jquery.min.js", "js/tipbutton.js", "js/biginteger.js", "js/hex2dec-cs.js"]
+      "js": ["js/jquery.min.js", "js/tipbutton.js"]
+    },
+    {
+      "matches": ["*://xcp.ninja/*"],
+      "js": ["js/biginteger.js", "js/issuancebutton.js"]
+    },
+    {
+      "matches": ["*://chain.so/*"],
+      "js": ["js/biginteger.js", "js/hex2dec-cs.js", "js/detect.js"]
     }
    ],
    "web_accessible_resources": [
         "*.png",
         "tipsplash.html",
+        "issue-tx.html",
+        "issueticker.js",
         "js/jquery.min.js",
         "js/bootstrap.min.js",
         "js/aes.js",

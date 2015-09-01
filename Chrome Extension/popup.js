@@ -842,6 +842,7 @@ function loadAssets(add) {
     
     $( "#alltransactions" ).html("");
     
+    $( "#allassets" ).html("<div align='center' style='margin: 40px 0 40px 0;' class='lead'>Loading...</div>");
     
     $.getJSON( xcp_source_html, function( data ) {  
         //var assetbalance = parseFloat(data.data[0].balance) + parseFloat(data.data[0].unconfirmed_balance); 
@@ -931,19 +932,25 @@ function loadAssets(add) {
                             
                                 $.getJSON("http://xcp.ninja/hash/"+hash+".json", function(data) {
                                     
-                                    console.log(data);
+                                    
+                                    
+                                    //console.log(data);
                                     
                                     var isvaliddata = validateEnhancedAssetJSON(data);
                                     
                                     console.log("Calculated JSON Hash: "+isvaliddata);
                                     
                                     if(isvaliddata == hash && data.asset == assetname) {
+                                        
+                                        //addBvam(hash, data, function(){
 
-                                        var assethtml = "<div class='enhancedasset row'><div class='col-xs-2' style='margin-left: -10px;'><img src='"+iconlink+"'></div><div class='col-xs-10'><div style='width: 200px;' class='assetname-enhanced' data-numeric='"+assetname+"'>"+data.assetname+"</div><div class='movetowallet'>Send</div><div style='margin: 5px 0 10px 9px; width: 200px; font-size: 11px; font-style: italic;'>"+assetname+"</div><div class='assetqtybox'><div class='assetqty'>"+assetbalance+"</div> <div class='"+assetname+"-pending assetqty-unconfirmed'></div></div><div id='assetdivisible' style='display: none;'>"+divisible+"</div></div></div>";
+                                            var assethtml = "<div class='enhancedasset row'><div class='col-xs-2' style='margin-left: -10px;'><img src='"+iconlink+"'></div><div class='col-xs-10'><div style='width: 200px;' class='assetname-enhanced' data-numeric='"+assetname+"'>"+data.assetname+"</div><div class='movetowallet'>Send</div><div style='margin: 5px 0 10px 9px; width: 200px; font-size: 11px; font-style: italic;'>"+assetname+"</div><div class='assetqtybox'><div class='assetqty'>"+assetbalance+"</div> <div class='"+assetname+"-pending assetqty-unconfirmed'></div></div><div id='assetdivisible' style='display: none;'>"+divisible+"</div></div></div>";
+
+                                            //var assethtml = "<div class='enhancedasset row'><div class='col-xs-2' style='margin-left: -10px;'><img src='"+iconlink+"'></div><div class='col-xs-10'><div class='assetname-enhanced' data-numeric='"+assetname+"'>"+data.assetname+"</div><div class='assetqtybox'><div class='assetqty'>"+assetbalance+"</div> <div class='"+assetname+"-pending assetqty-unconfirmed'></div></div><div id='assetdivisible' style='display: none;'>"+divisible+"</div></div></div>";
+
+                                            $( "#allassets" ).append( assethtml );
                                         
-                                        //var assethtml = "<div class='enhancedasset row'><div class='col-xs-2' style='margin-left: -10px;'><img src='"+iconlink+"'></div><div class='col-xs-10'><div class='assetname-enhanced' data-numeric='"+assetname+"'>"+data.assetname+"</div><div class='assetqtybox'><div class='assetqty'>"+assetbalance+"</div> <div class='"+assetname+"-pending assetqty-unconfirmed'></div></div><div id='assetdivisible' style='display: none;'>"+divisible+"</div></div></div>";
-                                        
-                                        $( "#allassets" ).append( assethtml );
+                                        //});
                                         
                                     }
                                 });
@@ -1935,6 +1942,49 @@ function checkImportedLabels(m, callback) {
     
     
 }
+
+//
+//function checkBvamStorage() {
+//    
+//    chrome.storage.local.get(function(data) {
+//        
+//        if(typeof(data["bvam"]) === 'undefined') { 
+//               //not set
+//            
+//            chrome.storage.local.set(
+//                    {
+//                        
+//                        'bvam': []
+//                        
+//                    });
+//            
+//        }
+//        
+//    });
+//}
+
+//function addBvam(hash, json, callback) {
+//    
+//    chrome.storage.local.get(function(data) {
+//        
+//        var allbvam = data["bvam"];
+//        
+//        allbvam.push({hash:hash, json:json});
+//            
+//            chrome.storage.local.set(
+//                    {
+//                        
+//                        'bvam': allbvam
+//                        
+//                    }, function (){
+//                    
+//                    callback();
+//                    
+//                    });
+//                   
+//    });
+//
+//}
                             
 
 //function FindAsset(asset) {
