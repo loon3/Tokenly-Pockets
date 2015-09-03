@@ -505,20 +505,22 @@ function getRate(assetbalance, pubkey, currenttoken){
     
     if ($("#ltbPriceFlipped").html() == "...") {
         
-                                   //$.getJSON( "http://joelooney.org/ltbcoin/ltb.php", function( data ) {
-        $.getJSON( "https://api.bitcoinaverage.com/ticker/USD/", function( data ) {
+                                
+        
+        //$.getJSON( "https://api.bitcoinaverage.com/ticker/USD/", function( data ) {
+            
+        $.getJSON( "http://btc.blockr.io/api/v1/exchangerate/current", function( data ) {
 
-                    //        var ltbprice = 1 / parseFloat(data.usd_ltb);     
-                    //        $("#ltbPrice").html(Number(ltbprice.toFixed(0)).toLocaleString('en'));
-
-                    //        $("#ltbPrice").data("ltbcoin", { price: ltbprice.toFixed(0) });
-
-
-                            var btcprice = 1 / parseFloat(data.last);
+                  
+                            //var btcprice = 1 / parseFloat(data.last);
+            
+                            var btcprice = parseFloat(data.data[0]["rates"]["BTC"]);
 
                             $("#ltbPrice").html(Number(btcprice.toFixed(4).toLocaleString('en')));
                             
-                            var btcpriceflipped = data.last;
+                            //var btcpriceflipped = data.last;
+            
+                            var btcpriceflipped = 1 / parseFloat(data.data[0]["rates"]["BTC"]);
                             
                             $("#ltbPriceFlipped").html("$"+parseFloat(Math.round(btcpriceflipped * 100) / 100).toFixed(2));
 
@@ -528,7 +530,9 @@ function getRate(assetbalance, pubkey, currenttoken){
 
 
                             if (currenttoken == "BTC") {
-                                var usdValue = parseFloat(data.last) * parseFloat(assetbalance);
+                                //var usdValue = parseFloat(data.last) * parseFloat(assetbalance);
+                                
+                                var usdValue = parseFloat(btcpriceflipped) * parseFloat(assetbalance);
 
                                 $("#xcpfiatValue").html(usdValue.toFixed(2)); 
                                 $("#switchtoxcp").hide();
@@ -910,6 +914,7 @@ function loadAssets(add) {
 
                     } 
                     
+                    // style='padding: 3px; background-color: #67B5E0; min-width: 30px; text-align: center;'
                     
                     if (assetname.substring(0, 4) == "A111") {
                         
@@ -944,8 +949,10 @@ function loadAssets(add) {
                                         
                                         //addBvam(hash, data, function(){
 
-                                            var assethtml = "<div class='enhancedasset row'><div class='col-xs-2' style='margin-left: -10px;'><img src='"+iconlink+"'></div><div class='col-xs-10'><div style='width: 200px;' class='assetname-enhanced' data-numeric='"+assetname+"'>"+data.assetname+"</div><div class='movetowallet'>Send</div><div style='margin: 5px 0 10px 9px; width: 200px; font-size: 11px; font-style: italic;'>"+assetname+"</div><div class='assetqtybox'><div class='assetqty'>"+assetbalance+"</div> <div class='"+assetname+"-pending assetqty-unconfirmed'></div></div><div id='assetdivisible' style='display: none;'>"+divisible+"</div></div></div>";
+                                            var assethtml = "<div class='enhancedasset row'><div class='col-xs-2' style='margin-left: -10px;'><img src='"+iconlink+"'></div><div class='col-xs-10'><div style='width: 200px;' class='assetname-enhanced' data-numeric='"+assetname+"'>"+data.assetname+"</div><div class='movetowallet'>Send</div><div style='margin: 5px 0 10px 9px; width: 200px; font-size: 11px; font-style: italic;'>"+assetname+"</div><div class='assetqtybox'><div class='assetqty' style='background-color: #86AD79; padding: 6px; min-width: 30px; margin-bottom: 6px; text-align: center;'>"+assetbalance+"</div> <div class='"+assetname+"-pending assetqty-unconfirmed'></div></div><div id='assetdivisible' style='display: none;'>"+divisible+"</div></div></div>";
 
+                                        //<div style='margin: -8px 0 0 -50px; width: 270px; font-size: 11px;'><div style='font-weight: bold; font-size: 12px;'>Owner:</div><div>"+data.owneraddress+"</div></div>
+                                        
                                             //var assethtml = "<div class='enhancedasset row'><div class='col-xs-2' style='margin-left: -10px;'><img src='"+iconlink+"'></div><div class='col-xs-10'><div class='assetname-enhanced' data-numeric='"+assetname+"'>"+data.assetname+"</div><div class='assetqtybox'><div class='assetqty'>"+assetbalance+"</div> <div class='"+assetname+"-pending assetqty-unconfirmed'></div></div><div id='assetdivisible' style='display: none;'>"+divisible+"</div></div></div>";
 
                                             $( "#allassets" ).append( assethtml );

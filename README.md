@@ -30,12 +30,14 @@ v0.1.10 - Add XCP and LTBCOIN to Exchange Rates app
 
 v0.1.11 - Import/Export Address Labels
 
+v0.1.12 - Blockr.io now used for BTC/USD rate
+
 ## Features
 
 - Send Bitcoin and Counterparty assets
 - Passphrase interoperability with Counterwallet
 - Client-side passphrase encryption
 - Message signing
-- Bitcoinaverage BTC/USD rate
+- BTC/USD rate
 
 Please report all issues at https://github.com/Tokenly/Tokenly-Pockets/issues

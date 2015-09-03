@@ -56,5 +56,5 @@
    "name": "Tokenly Pockets",
    "permissions": [ "storage", "clipboardWrite", "downloads", "activeTab" ],
    "short_name": "Tokenly Pockets",
-   "version": "0.1.11"
+   "version": "0.1.12"
 }
