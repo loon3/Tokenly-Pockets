@@ -307,6 +307,34 @@ a {
     border: 3px solid #67B5E0;
 }
 
+#tutorial_splash {
+  width:      100%;
+  height:     100%; 
+  z-index:    10;
+  top:        0; 
+  left:       0; 
+  position:   fixed; 
+}
+
+#tutorial_splash_bg {
+  opacity:    0.4; 
+  background: #000; 
+  width:      100%;
+  height:     100%; 
+  top:        0; 
+  left:       0; 
+  position:   fixed; 
+}
+
+#tutorial_splash_img {
+  width:      100%;
+  height:     100%; 
+  z-index:    20;
+  top:        0; 
+  left:       0; 
+  position:   fixed; 
+}
+
 .enhancedasset {
     
     background-color: #546E4C;

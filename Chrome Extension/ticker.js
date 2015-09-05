@@ -30,7 +30,9 @@ $( document ).ready(function() {
    });
     
 
-    
+    $( "#close_tutorial_splash" ).click(function() {
+  		$("#tutorial_splash").hide();
+  	});
 
   
     
@@ -184,6 +186,7 @@ $( document ).ready(function() {
                 }, function () {
                 
                     $("#welcomesplash").hide();
+                    //$("#tutorial_splash").show();
                     $(".hideEncrypted").hide();
                     $(".bg").css("min-height", "200px");
                 
@@ -286,6 +289,7 @@ $( document ).ready(function() {
                     
                         getStorage();
                         $("#welcomesplash").hide();
+                        //$("#tutorial_splash").show();
                                           
                     });
         

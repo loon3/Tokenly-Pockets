@@ -1234,7 +1234,13 @@ function sendtokenaction() {
     
             if (currenttoken == "BTC") {
             
-                var totalsend = parseFloat(sendtoamount) + minersfee;
+                var totalsend = sendtoamount + minersfee;
+                var btcbalance = $("#btcbalhide").html();
+                currentbalance = parseFloat(btcbalance);
+                
+//                console.log("totalsend: "+totalsend);             
+//                console.log("sendtoamount: "+sendtoamount);
+//                console.log("currentbalance: "+currentbalance);
                 
             } else {
                 
@@ -1272,11 +1278,14 @@ function sendtokenaction() {
                             
                             $("#sendtokenbutton").html("Sending...");
                             
-                            //sendXCP(pubkey, sendtoaddress, currenttoken, sendtoamount, btc_total, msig_total, minersfee, mnemonic); 
                                          
                             sendXCP_opreturn(pubkey, sendtoaddress, currenttoken, sendtoamount, btc_total, minersfee, mnemonic); 
                                                  
+                            
+                            
                             //setUnconfirmed(pubkey, currenttoken, sendtoamount);
+                            //sendXCP(pubkey, sendtoaddress, currenttoken, sendtoamount, btc_total, msig_total, minersfee, mnemonic); 
+                            
                             
                         }
                         

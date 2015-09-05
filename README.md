@@ -34,6 +34,8 @@ v0.1.12 - Blockr.io now used for BTC/USD rate
 
 v0.1.13 - Fixes mining fee bug when sending tokens
 
+v0.1.14 - Fixes BTC send Insufficient Funds bug
+
 ## Features
 
 - Send Bitcoin and Counterparty assets
