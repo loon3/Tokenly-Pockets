@@ -1231,8 +1231,16 @@ function sendtokenaction() {
             console.log(sendtoamount);
             
             var minersfee = 0.0001;
+    
+            if (currenttoken == "BTC") {
             
-            var totalsend = parseFloat(sendtoamount) + minersfee;
+                var totalsend = parseFloat(sendtoamount) + minersfee;
+                
+            } else {
+                
+                var totalsend = parseFloat(sendtoamount);
+                
+            }
      
             if (bitcore.Address.isValid(sendtoaddress)){
                 

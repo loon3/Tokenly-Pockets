@@ -32,6 +32,8 @@ v0.1.11 - Import/Export Address Labels
 
 v0.1.12 - Blockr.io now used for BTC/USD rate
 
+v0.1.13 - Fixes mining fee bug when sending tokens
+
 ## Features
 
 - Send Bitcoin and Counterparty assets
