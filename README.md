@@ -36,6 +36,8 @@ v0.1.13 - Fixes mining fee bug when sending tokens
 
 v0.1.14 - Fixes BTC send Insufficient Funds bug
 
+v0.1.15 - Help button and overlay
+
 ## Features
 
 - Send Bitcoin and Counterparty assets

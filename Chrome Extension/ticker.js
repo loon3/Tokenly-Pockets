@@ -53,7 +53,7 @@ $( document ).ready(function() {
     //on open
     var manifest = chrome.runtime.getManifest();
     
-    var infobutton = "<div style='display: inline-block; padding-left: 5px;'><a id='infoButton' href='#infoPage' data-toggle='tab'><img src='info-icon.png' height='16' width='16'></a></div>";
+    var infobutton = "<div style='display: inline-block; padding-left: 5px;'><a id='infoButton' href='#infoPage' data-toggle='tab'><img src='info-icon.png' height='16' width='16'></a><div id='helpButton' style='display: inline-block; cursor: pointer; margin-left: 3px;'><img src='images/help-icon.png' height='16' width='16'></div></div>";
     
     $("#nameversion").html("Tokenly Pockets v" + manifest.version + infobutton);
   
@@ -186,7 +186,7 @@ $( document ).ready(function() {
                 }, function () {
                 
                     $("#welcomesplash").hide();
-                    //$("#tutorial_splash").show();
+                    $("#tutorial_splash").show();
                     $(".hideEncrypted").hide();
                     $(".bg").css("min-height", "200px");
                 
@@ -289,7 +289,7 @@ $( document ).ready(function() {
                     
                         getStorage();
                         $("#welcomesplash").hide();
-                        //$("#tutorial_splash").show();
+                        $("#tutorial_splash").show();
                                           
                     });
         
@@ -443,7 +443,11 @@ $( document ).ready(function() {
       });
     
 
-    
+    $(document).on("click", '#helpButton', function (event)
+  {
+      
+            $( "#tutorial_splash" ).show(); 
+  });
     
     
     
