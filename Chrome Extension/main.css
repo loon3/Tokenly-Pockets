@@ -553,25 +553,39 @@ cursor: pointer;
     
 
 .receivedtrans {
-    background-color: #2D882D;
-    color: #fff;
+    color: #2D882D;
+    background-color: #DBFFE4;
     padding: 4px 6px 4px 6px;
-    margin: 4px 0 4px 0;
-    border: 3px solid #78B494;
+    margin: 5px 0 5px 0;
+    border: 2px solid #2D882D;
 }
 
 .senttrans {
-    background-color: #AA3939;
-    color: #fff;
+    color: #AA3939;
+    background-color: #FFF2ED;
     padding: 4px 6px 4px 6px;
-    margin: 4px 0 4px 0;
-    border: 3px solid #FDA8AA;
+    margin: 5px 0 5px 0;
+    border: 2px solid #AA3939;
+}
+
+.btctrans {
+    color: #CF6B00;
+    background-color: #FFF8DB;
+    padding: 4px 6px 4px 6px;
+    margin: 5px 0 5px 0;
+    border: 2px solid #CF6B00;
 }
 
 .assetnametrans {
     font-weight: bold;
     font-size: 16px;   
     padding-top: 1px;
+}
+
+.assetnumerictrans {
+    font-weight: bold;
+    font-size: 12px;   
+    padding: 1px 0 5px 0;
 }
 
 .addresstrans {

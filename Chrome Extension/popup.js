@@ -1153,53 +1153,149 @@ function timeConverter(UNIX_timestamp){
 }
 
 
-
-function loadTransactions(add) {
-
-    //{"address":"1CWpnJVCQ2hHtehW9jhVjT2Ccj9eo5dc2E","asset":"LTBCOIN","block":348621,"quantity":"-50000.00000000","status":"valid","time":1426978699,"tx_hash":"dc34bbbf3fa02619b2e086a3cde14f096b53dc91f49f43b697aaee3fdec22e86"}
-
-    var source_html = "https://counterpartychain.io/api/transactions/"+add;
+function loadTransactionsBTC(add, callback) {
+    
+    var source_html = "http://btc.blockr.io/api/v1/address/txs/"+add;
     
     $.getJSON( source_html, function( data ) {
         
+        var btctxs = new Array();
         
         
-        $.each(data.data, function(i, item) {
+//        for (var i = 0; i < 100; i++) {
+        $.each(data.data.txs, function(i, item) {
             
-            var assetname = data.data[i].asset;
+            var tx = data.data.txs[i]["tx"];          
+            var time_utc = data.data.txs[i]["time_utc"];
+            var confirmations = data.data.txs[i]["confirmations"];
+            var amount = data.data.txs[i]["amount"];
             
-            if (assetname.charAt(0) != "A") {
-            
-            var address = data.data[i].address;
-            
-            var quantity = data.data[i].quantity;
-            var time = data.data[i].time;
-            
-            var translink = "https://counterpartychain.io/transaction/"+data.data[i].tx_hash;
-            var addlink = "https://counterpartychain.io/address/"+address;
-            
-            if (parseFloat(quantity) < 0) {
-                var background = "senttrans";
-                var transtype = "<span class='small'>Sent to </span>";
-            } else {
-                var background = "receivedtrans";
-                var transtype = "<span class='small'>Received from </span>";
+            if (amount > 0) {
+                amount = "+"+amount;
             }
-             
-  
-            var assethtml = "<div class='"+background+"'><div class='row'><div class='col-xs-6'><div class='assetnametrans'>"+assetname+"</div><div class='assetqtytrans'><span class='small'>Amount:</span><br>"+quantity+"</div></div><div class='col-xs-6'><div class='addresstrans'>"+transtype+"<br><a href='"+addlink+"' style='color: #fff;'>"+address.substring(0, 12)+"...</a></div><div class='small' style='bottom: 0;'><a href='"+translink+"' style='color: #fff;'>"+timeConverter(time)+"</a></div></div></div></div>";
-             
-    
-            $( "#alltransactions" ).append( assethtml );
-                
-            }
-
+            
+            var time_date = new Date(time_utc);
+            var time_unix = time_date.getTime();
+            
+            time_unix = parseFloat(time_unix) / 1000;
+            
+            btctxs.push({assetname: "BTC", address: "", tx: tx, time_utc: time_unix, amount: amount});
+            
         });
+//        }
         
-        $( "#alltransactions" ).append("<div style='height: 20px;'></div>");
-             
+        callback(add, btctxs);
+        
     });
     
+}
+
+function loadTransactions(add, btctxs) {
+
+    loadTransactionsBTC(add, function(add, btctxs) { //{"address":"1CWpnJVCQ2hHtehW9jhVjT2Ccj9eo5dc2E","asset":"LTBCOIN","block":348621,"quantity":"-50000.00000000","status":"valid","time":1426978699,"tx_hash":"dc34bbbf3fa02619b2e086a3cde14f096b53dc91f49f43b697aaee3fdec22e86"}
+
+        var source_html = "https://counterpartychain.io/api/transactions/"+add;
+
+        $.getJSON( source_html, function( data ) {
+            
+            var alltxs = new Array();
+            
+            var xcptxs = new Array();            
+
+            $.each(data.data, function(i, item) {
+                
+                var assetname = data.data[i].asset;
+                var address = data.data[i].address;
+                var quantity = data.data[i].quantity;
+                var time = data.data[i].time;
+                var tx = data.data[i].tx_hash;
+                    
+                xcptxs.push({assetname: assetname, address: address, tx: tx, time_utc: time, amount: quantity});
+              
+            });
+            
+            var alltxs = xcptxs.concat(btctxs);
+
+            console.log(alltxs);
+            
+            alltxs.sort(function(a, b) {
+                return b.time_utc - a.time_utc;
+            });
+            
+            var j;
+            
+            for (var i = 0; i < alltxs.length; i++) {
+                
+//                j = i - 1;
+                
+                for (var j = 0; j < alltxs.length; j++) {
+                
+                    if (alltxs[i]["tx"] == alltxs[j]["tx"]) {
+
+                        if(alltxs[i].assetname == "BTC") {
+                            alltxs.splice(i, 1);
+                        } else if(alltxs[j].assetname == "BTC") {
+                            alltxs.splice(j, 1);
+                        }   
+
+                    }
+                    
+                }
+                
+            }
+            
+            
+            for (var i = 0; i < 100; i++) {
+            //$.each(alltxs, function(i, item) {
+
+                var assetname = alltxs[i].assetname;
+
+                //if (assetname.charAt(0) != "A") {
+
+                    var address = alltxs[i].address;
+
+                    var quantity = alltxs[i].amount;
+                    var time = alltxs[i].time_utc;
+
+                    var translink = "https://counterpartychain.io/transaction/"+alltxs[i].tx;
+                    var addlink = "https://counterpartychain.io/address/"+address;
+
+                    if (parseFloat(quantity) < 0) {
+                        var background = "senttrans";
+                        var transtype = "<span class='small'>Sent to </span>";
+                    } else {
+                        var background = "receivedtrans";
+                        var transtype = "<span class='small'>Received from </span>";
+                    }
+
+                    if (assetname != "BTC") {
+                        
+                        if (assetname.charAt(0) == "A") {
+                            var assethtml = "<div class='"+background+"'><div class='row'><div class='col-xs-6'><div class='assetnumerictrans'>"+assetname+"</div><div class='assetqtytrans'><span class='small'>Amount:</span><br>"+quantity+"</div></div><div class='col-xs-6'><div class='addresstrans'>"+transtype+"<br><a href='"+addlink+"'>"+address.substring(0, 12)+"...</a></div><div class='small' style='bottom: 0;'><a href='"+translink+"'>"+timeConverter(time)+"</a></div></div></div></div>";
+                        } else {
+                            var assethtml = "<div class='"+background+"'><div class='row'><div class='col-xs-6'><div class='assetnametrans'>"+assetname+"</div><div class='assetqtytrans'><span class='small'>Amount:</span><br>"+quantity+"</div></div><div class='col-xs-6'><div class='addresstrans'>"+transtype+"<br><a href='"+addlink+"'>"+address.substring(0, 12)+"...</a></div><div class='small' style='bottom: 0;'><a href='"+translink+"'>"+timeConverter(time)+"</a></div></div></div></div>";
+                        }
+                            
+                    } else {
+                                                                  
+                        translink = "https://chain.so/tx/BTC/"+alltxs[i].tx;
+                        
+                        var assethtml = "<div class='btctrans'><div class='row'><div class='col-xs-6'><div class='assetnametrans'>"+assetname+"</div><div class='assetqtytrans'><span class='small'>Amount:</span><br>"+quantity+"</div></div><div class='col-xs-6'><div class='small' style='margin-top: 54px;'><a href='"+translink+"''>"+timeConverter(time)+"</a></div></div></div></div>";
+                    }
+
+
+                    $( "#alltransactions" ).append( assethtml );
+
+                //}
+
+            //});
+            }
+
+            $( "#alltransactions" ).append("<div style='height: 20px;'></div>");
+
+        });
+    
+    });
     
 }
 

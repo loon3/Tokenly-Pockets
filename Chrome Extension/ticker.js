@@ -30,7 +30,7 @@ $( document ).ready(function() {
    });
     
 
-    $( "#close_tutorial_splash" ).click(function() {
+    $( "#tutorial_splash" ).click(function() {
   		$("#tutorial_splash").hide();
   	});
 
@@ -445,8 +445,15 @@ $( document ).ready(function() {
 
     $(document).on("click", '#helpButton', function (event)
   {
+      var ontab = $("ul#allTabs li.active a#walletLink").html();
       
+      if(ontab !== undefined) {
+          
+            $("#btcsendbox").hide();
+            $("#moreBTCinfo").hide();
             $( "#tutorial_splash" ).show(); 
+          
+      }
   });
     
     
