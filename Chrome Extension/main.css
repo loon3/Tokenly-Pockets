@@ -457,6 +457,19 @@ a {
     cursor: pointer;
 }
 
+.archiveasset {
+    padding: 2px 0 2px 0;
+    bottom: 0px;
+    right: 0px;   
+    position: absolute;
+    display: block;
+    font-size: 12px;
+    text-decoration: underline;
+    cursor: pointer;
+    
+    display: none;
+}
+
 .tokenlink {
     padding: 2px 0 2px 0;
     display: inline-block;
@@ -574,6 +587,19 @@ cursor: pointer;
     padding: 4px 6px 4px 6px;
     margin: 5px 0 5px 0;
     border: 2px solid #CF6B00;
+}
+
+
+.receivedtrans a {
+    color: #2D882D;
+}
+
+.senttrans a {
+    color: #AA3939;
+}
+
+.btctrans a {
+    color: #CF6B00;
 }
 
 .assetnametrans {

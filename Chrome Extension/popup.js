@@ -844,7 +844,7 @@ function loadAssets(add) {
     
     var btc_source_html = "https://insight.bitpay.com/api/addr/"+add+"/balance";
     
-    $( "#alltransactions" ).html("");
+    $( "#alltransactions" ).html("<div align='center' style='margin: 40px 0 40px 0;' class='lead'>Loading...</div>");
     
     $( "#allassets" ).html("<div align='center' style='margin: 40px 0 40px 0;' class='lead'>Loading...</div>");
     
@@ -859,9 +859,9 @@ function loadAssets(add) {
     
         $.getJSON( source_html, function( data ) {
         
-            $( "#allassets" ).html("<div class='btcasset row'><div class='col-xs-2' style='margin-left: -10px;'><img src='bitcoin_48x48.png'></div><div class='col-xs-10'><div class='assetname'>BTC</div><div class='movetowallet'>Send</div><div class='assetqtybox'><div class='assetqty' id='btcassetbal'></div></div></div></div>");
+            $( "#allassets" ).html("<div class='btcasset row'><div class='col-xs-2' style='margin-left: -10px;'><div style='padding: 5px 0 0 2px;'><img src='bitcoin_48x48.png'></div></div><div class='col-xs-10'><div class='assetname'>BTC</div><div class='movetowallet'>Send</div><div class='assetqtybox'><div class='assetqty' id='btcassetbal' style='background-color: #EDB047; border-radius: 5px; padding: 3px 6px 3px 6px; min-width: 30px; margin-bottom: 3px; text-align: center;'></div></div></div></div>");
             
-            
+            //EDB047
             var isbtcloading = $("#isbtcloading").html();
             
             if (isbtcloading == "true") {
@@ -892,11 +892,40 @@ function loadAssets(add) {
             
             if (xcpbalance != 0) {
             
-                $( "#allassets" ).append("<div class='xcpasset row'><div class='col-xs-2' style='margin-left: -10px;'><img src='"+xcpicon+"'></div><div class='col-xs-10'><div class='assetname'>XCP</div><div class='movetowallet'>Send</div><div class='assetqtybox'><div class='assetqty'>"+xcpbalance+"</div>  <div class='XCP-pending assetqty-unconfirmed'></div></div></div></div>");
-        
+                $( "#allassets" ).append("<div class='xcpasset row'><div class='col-xs-2' style='margin-left: -10px;'><div style='padding: 5px 0 0 2px;'><img src='"+xcpicon+"'></div></div><div class='col-xs-10'><div class='assetname'>XCP</div><div class='movetowallet'>Send</div><div class='assetqtybox'><div class='assetqty' style='background-color: #CF5151; border-radius: 5px; padding: 3px 6px 3px 6px; min-width: 30px; margin-bottom: 3px; text-align: center;'>"+xcpbalance+"</div>  <div class='XCP-pending assetqty-unconfirmed'></div></div></div></div>");
+                //CF5151
             }
         
+            var totalassets = data.data;
+            var countnumeric = 0;
+            
+            var addressbvam = new Array();
+            
+            for (var i = 0; i < totalassets.length; i++) {
+                
+                var assetdescription = data.data[i].description;
+                var assetname = data.data[i].asset;
+                var assetbalance = data.data[i].amount;
+                
+                if (assetdescription.substr(0,6) == "TOKNID" && assetname.substring(0, 4) == "A111") {
+                    countnumeric++;
+                    var bvamhash = assetdescription.substr(7);
+                    addressbvam = addressbvam.concat({asset: assetname, amount: assetbalance, hash: bvamhash, data: ""});
+                }
+                                 
+            }
+            
+            console.log("Total BVAM: "+countnumeric);
+            
+            checkBvam(addressbvam, countnumeric, function(matchingdata, missing){
+            
+                console.log(matchingdata);
+                
+                console.log("missing: "+missing);
+            
 
+            
+                var allbvamdata = new Array();
         
                 $.each(data.data, function(i, item) {
                     var assetname = data.data[i].asset;
@@ -908,68 +937,110 @@ function loadAssets(add) {
                     var iconlink = "http://counterpartychain.io/content/images/icons/"+iconname+".png";
 
                     if (assetname.charAt(0) != "A") {
-                        var assethtml = "<div class='singleasset row'><div class='col-xs-2' style='margin-left: -10px;'><img src='"+iconlink+"'></div><div class='col-xs-10'><div class='assetname'>"+assetname+"</div><div class='movetowallet'>Send</div><div class='assetqtybox'><div class='assetqty'>"+assetbalance+"</div> <div class='"+assetname+"-pending assetqty-unconfirmed'></div></div><div id='assetdivisible' style='display: none;'>"+divisible+"</div></div></div>";
-                        
+                        var assethtml = "<div class='singleasset row'><div class='col-xs-2' style='margin-left: -10px;'><div style='padding: 5px 0 0 2px;'><img src='"+iconlink+"'></div></div><div class='col-xs-10'><div class='archiveasset'>Archive</div><div class='assetname'>"+assetname+"</div><div class='movetowallet'>Send</div><div class='assetqtybox'><div class='assetqty' style='background-color: #3082B0; border-radius: 5px; padding: 3px 6px 3px 6px; min-width: 30px; margin-bottom: 3px; text-align: center;'>"+assetbalance+"</div> <div class='"+assetname+"-pending assetqty-unconfirmed'></div></div><div id='assetdivisible' style='display: none;'>"+divisible+"</div></div></div>";
+                        //3082B0
                         $( "#allassets" ).append( assethtml );
 
                     } 
                     
-                    // style='padding: 3px; background-color: #67B5E0; min-width: 30px; text-align: center;'
-                    
-                    if (assetname.substring(0, 4) == "A111") {
-                        
-                        console.log(assetname);
-                        
-                        
-                        //$.getJSON("https://counterpartychain.io/api/asset/"+assetname, function(data) {
-                        
-                            var checkprefix = (assetdescription).substr(0,6);
-                    
-                            var hash = (assetdescription).substr(7);
-                            
-                            console.log(hash);
-                            
-                            console.log(checkprefix);
-                            
-                            //$("#"+assetname+"-assetname").html( newassetname );
-                            
-                            if(checkprefix == "TOKNID") {
-                            
-                                $.getJSON("http://xcp.ninja/hash/"+hash+".json", function(data) {
-                                    
-                                    
-                                    
-                                    //console.log(data);
-                                    
-                                    var isvaliddata = validateEnhancedAssetJSON(data);
-                                    
-                                    console.log("Calculated JSON Hash: "+isvaliddata);
-                                    
-                                    if(isvaliddata == hash && data.asset == assetname) {
-                                        
-                                        //addBvam(hash, data, function(){
-
-                                            var assethtml = "<div class='enhancedasset row'><div class='col-xs-2' style='margin-left: -10px;'><img src='"+iconlink+"'></div><div class='col-xs-10'><div style='width: 200px;' class='assetname-enhanced' data-numeric='"+assetname+"'>"+data.assetname+"</div><div class='movetowallet'>Send</div><div style='margin: 5px 0 10px 9px; width: 200px; font-size: 11px; font-style: italic;'>"+assetname+"</div><div class='assetqtybox'><div class='assetqty' style='background-color: #86AD79; padding: 6px; min-width: 30px; margin-bottom: 6px; text-align: center;'>"+assetbalance+"</div> <div class='"+assetname+"-pending assetqty-unconfirmed'></div></div><div id='assetdivisible' style='display: none;'>"+divisible+"</div></div></div>";
-
-                                        //<div style='margin: -8px 0 0 -50px; width: 270px; font-size: 11px;'><div style='font-weight: bold; font-size: 12px;'>Owner:</div><div>"+data.owneraddress+"</div></div>
-                                        
-                                            //var assethtml = "<div class='enhancedasset row'><div class='col-xs-2' style='margin-left: -10px;'><img src='"+iconlink+"'></div><div class='col-xs-10'><div class='assetname-enhanced' data-numeric='"+assetname+"'>"+data.assetname+"</div><div class='assetqtybox'><div class='assetqty'>"+assetbalance+"</div> <div class='"+assetname+"-pending assetqty-unconfirmed'></div></div><div id='assetdivisible' style='display: none;'>"+divisible+"</div></div></div>";
-
-                                            $( "#allassets" ).append( assethtml );
-                                        
-                                        //});
-                                        
-                                    }
-                                });
-                                
-                            }
-                        //});
-
-                    }
-
-                    
-
                 });
+                
+                $.each(matchingdata, function(i, item) {
+//                    
+//                    
+//                    if (assetname.substring(0, 4) == "A111") {
+//                        
+//                        console.log(assetname);
+//                        
+//                                               
+//                            var checkprefix = (assetdescription).substr(0,6);
+//                    
+//                            var hash = (assetdescription).substr(7);
+//                            
+//                            console.log(hash);
+//                            
+//                            console.log(checkprefix);
+//                                                      
+//                            if(checkprefix == "TOKNID") {
+                    var hash = matchingdata[i]["hash"];
+                    var assetname = matchingdata[i]["asset"];                    
+                    var assetbalance = matchingdata[i]["amount"];
+                    var iconlink = "http://counterpartychain.io/content/images/icons/xcp.png";
+                    if (assetbalance.indexOf(".")==-1) {var divisible = "no";} else {var divisible = "yes";}
+                    
+                    
+                    
+                    if(matchingdata[i]["data"] != "") {
+                        //local bvam
+                        
+                        var jsondata = new Array();  
+                        var jsondata = {ownername: matchingdata[i]["data"]["ownername"], ownertwitter: matchingdata[i]["data"]["ownertwitter"], owneraddress: matchingdata[i]["data"]["owneraddress"], asset: matchingdata[i]["data"]["asset"], assetname: matchingdata[i]["data"]["assetname"], assetdescription: matchingdata[i]["data"]["assetdescription"], assetwebsite: matchingdata[i]["data"]["assetwebsite"]};
+ 
+                        var isvaliddata = validateEnhancedAssetJSON(jsondata);
+
+                        console.log("Calculated Local JSON Hash: "+isvaliddata);
+                        console.log("Stored Local JSON Hash: "+hash);   
+                        
+
+                        if(isvaliddata == hash && matchingdata[i]["data"]["asset"] == assetname) {
+
+                            var enhancedname = matchingdata[i]["data"]["assetname"];
+
+                            var assethtml = "<div class='enhancedasset row'><div class='col-xs-2' style='margin-left: -10px;'><div style='padding: 5px 0 0 2px;'><img src='"+iconlink+"'></div></div><div class='col-xs-10'><div class='archiveasset'>Archive</div><div style='width: 200px;' class='assetname-enhanced' data-numeric='"+assetname+"'>"+enhancedname+"</div><div class='movetowallet'>Send</div><div style='margin: 5px 0 8px 9px; width: 200px; font-size: 11px; font-style: italic;'>"+assetname+"</div><div class='assetqtybox'><div class='assetqty' style='background-color: #6B8A62; border-radius: 5px; padding: 3px 6px 3px 6px; min-width: 30px; margin-bottom: 3px; text-align: center;'>"+assetbalance+"</div> <div class='"+assetname+"-pending assetqty-unconfirmed'></div></div><div id='assetdivisible' style='display: none;'>"+divisible+"</div></div></div>";
+
+                             $( "#allassets" ).append( assethtml );
+                            
+                        }
+                        
+                    } else {
+                        //get bvam
+                    
+                        $.getJSON("http://xcp.ninja/hash/"+hash+".json", function(data) {
+
+                            var isvaliddata = validateEnhancedAssetJSON(data);
+
+                            console.log("Calculated Remote JSON Hash: "+isvaliddata);
+                            console.log("Stored Remote JSON Hash: "+hash);   
+
+                            if(isvaliddata == hash && data.asset == assetname) {
+
+                                    var assethtml = "<div class='enhancedasset row'><div class='col-xs-2' style='margin-left: -10px;'><div style='padding: 5px 0 0 2px;'><img src='"+iconlink+"'></div></div><div class='col-xs-10'><div class='archiveasset'>Archive</div><div style='width: 200px;' class='assetname-enhanced' data-numeric='"+assetname+"'>"+data.assetname+"</div><div class='movetowallet'>Send</div><div style='margin: 5px 0 8px 9px; width: 200px; font-size: 11px; font-style: italic;'>"+assetname+"</div><div class='assetqtybox'><div class='assetqty' style='background-color: #6B8A62; border-radius: 5px; padding: 3px 6px 3px 6px; min-width: 30px; margin-bottom: 3px; text-align: center;'>"+assetbalance+"</div> <div class='"+assetname+"-pending assetqty-unconfirmed'></div></div><div id='assetdivisible' style='display: none;'>"+divisible+"</div></div></div>";
+
+                                    allbvamdata = allbvamdata.concat({hash: hash, data: data});
+
+                                    if(missing == 1) { 
+                                        addBvam(allbvamdata);
+                                        console.log(allbvamdata);
+                                    } else {
+                                        missing--;
+                                    }
+
+
+                                    $( "#allassets" ).append( assethtml );
+
+                            }
+                        }).fail(function(){
+                        
+                                    if(missing == 1) { 
+                                        addBvam(allbvamdata);
+                                        console.log(allbvamdata);
+                                    } else {
+                                        missing--;
+                                    }
+                        
+                        });
+                                
+                    }
+//                            }
+
+
+//                    }
+
+                    
+                });
+ 
+            
+            });
             
             
             var xcp_mempool_html = "https://counterpartychain.io/api/mempool";
@@ -1244,11 +1315,14 @@ function loadTransactions(add, btctxs) {
                 
             }
             
+            $( "#alltransactions" ).html( "" );
             
             for (var i = 0; i < 100; i++) {
             //$.each(alltxs, function(i, item) {
 
-                var assetname = alltxs[i].assetname;
+                if (alltxs[i] !== undefined) {
+                
+                    var assetname = alltxs[i]["assetname"];
 
                 //if (assetname.charAt(0) != "A") {
 
@@ -1287,11 +1361,11 @@ function loadTransactions(add, btctxs) {
                     $( "#alltransactions" ).append( assethtml );
 
                 //}
-
+                }
             //});
             }
 
-            $( "#alltransactions" ).append("<div style='height: 20px;'></div>");
+//            $( "#alltransactions" ).append("<div style='height: 20px;'></div>");
 
         });
     
@@ -2083,28 +2157,73 @@ function checkImportedLabels(m, callback) {
 //    });
 //}
 
-//function addBvam(hash, json, callback) {
-//    
-//    chrome.storage.local.get(function(data) {
-//        
-//        var allbvam = data["bvam"];
-//        
-//        allbvam.push({hash:hash, json:json});
-//            
-//            chrome.storage.local.set(
-//                    {
-//                        
-//                        'bvam': allbvam
-//                        
-//                    }, function (){
-//                    
-//                    callback();
-//                    
-//                    });
-//                   
-//    });
-//
-//}
+function addBvam(newbvamdata) {
+    
+    chrome.storage.local.get(function(data) {
+        
+        if(typeof(data["bvam"]) === 'undefined') { 
+            
+            var allbvam = new Array();
+            
+        } else {
+        
+            var allbvam = data["bvam"];
+            
+        }
+        
+        allbvam = allbvam.concat(newbvamdata);
+            
+            chrome.storage.local.set(
+                    {
+                        
+                        'bvam': allbvam
+                        
+                    }, function (){});
+                   
+    });
+
+}
+
+function checkBvam(assetlist, countnumeric, callback) {
+    
+    chrome.storage.local.get(function(data) {
+        
+        if(typeof(data["bvam"]) === 'undefined') { 
+            
+            var allbvam = new Array();
+            
+        } else {
+        
+            var allbvam = data["bvam"];
+            
+        }
+        
+        console.log(allbvam);
+        
+        var storedbvam = new Array();
+        
+        for (var i = 0; i < assetlist.length; i++) {
+            
+            for (var j = 0; j < allbvam.length; j++) {
+                
+                if (assetlist[i]["hash"] == allbvam[j]["hash"]) {
+
+                    assetlist[i]["data"] = allbvam[j]["data"];
+                    
+                    countnumeric--;
+
+                }
+                       
+            }
+            
+        }
+        
+        callback(assetlist, countnumeric);
+                        
+                   
+    });
+
+}
                             
 
 //function FindAsset(asset) {
