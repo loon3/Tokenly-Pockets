@@ -7,6 +7,7 @@ var iconpathgreen = chrome.extension.getURL('images/paywithpockets-green.png');
 var tipsplash = chrome.extension.getURL('tipsplash.html');
 
 $('.pockets-url').html(tipsplash);
+$('.pockets-image').html(iconpathblue);
 $('.pockets-image-blue').html(iconpathblue);
 $('.pockets-image-yellow').html(iconpathyellow);
 $('.pockets-image-green').html(iconpathgreen);

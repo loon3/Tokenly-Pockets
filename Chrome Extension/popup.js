@@ -972,14 +972,22 @@ function loadAssets(add) {
                     
                     if(matchingdata[i]["data"] != "") {
                         //local bvam
-                        
-                        var jsondata = new Array();  
-                        var jsondata = {ownername: matchingdata[i]["data"]["ownername"], ownertwitter: matchingdata[i]["data"]["ownertwitter"], owneraddress: matchingdata[i]["data"]["owneraddress"], asset: matchingdata[i]["data"]["asset"], assetname: matchingdata[i]["data"]["assetname"], assetdescription: matchingdata[i]["data"]["assetdescription"], assetwebsite: matchingdata[i]["data"]["assetwebsite"]};
- 
-                        var isvaliddata = validateEnhancedAssetJSON(jsondata);
+                        var isvaliddata = validateEnhancedAssetJSON(matchingdata[i]["data"]);
 
                         console.log("Calculated Local JSON Hash: "+isvaliddata);
-                        console.log("Stored Local JSON Hash: "+hash);   
+                        console.log("Stored Local JSON Hash: "+hash);
+                        
+                        if(isvaliddata != hash) {
+                        
+                            var jsondata = new Array();  
+                            var jsondata = {ownername: matchingdata[i]["data"]["ownername"], ownertwitter: matchingdata[i]["data"]["ownertwitter"], owneraddress: matchingdata[i]["data"]["owneraddress"], asset: matchingdata[i]["data"]["asset"], assetname: matchingdata[i]["data"]["assetname"], assetdescription: matchingdata[i]["data"]["assetdescription"], assetwebsite: matchingdata[i]["data"]["assetwebsite"]};
+
+                            var isvaliddata = validateEnhancedAssetJSON(jsondata);
+
+                            console.log("Calculated Local JSON Hash: "+isvaliddata);
+                            console.log("Re-ordered Local JSON Hash: "+hash);   
+                            
+                        }
                         
 
                         if(isvaliddata == hash && matchingdata[i]["data"]["asset"] == assetname) {
