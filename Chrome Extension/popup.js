@@ -984,8 +984,8 @@ function loadAssets(add) {
 
                             var isvaliddata = validateEnhancedAssetJSON(jsondata);
 
-                            console.log("Calculated Local JSON Hash: "+isvaliddata);
-                            console.log("Re-ordered Local JSON Hash: "+hash);   
+                            console.log("Re-ordered Calculated Local JSON Hash: "+isvaliddata);
+                            console.log("Stored Local JSON Hash: "+hash);   
                             
                         }
                         
@@ -2191,6 +2191,31 @@ function addBvam(newbvamdata) {
     });
 
 }
+
+function getBvam(asset, callback) {
+    
+    chrome.storage.local.get(function(data) {
+        
+        if(typeof(data["bvam"]) !== 'undefined') { 
+            
+            var allbvam = data["bvam"];
+            
+            for (var j = 0; j < allbvam.length; j++) {
+             
+                if(allbvam[j]["data"]["asset"] == asset) {
+                  
+                    callback(allbvam[j]["data"]["assetname"]);
+                    
+                }
+                
+            }
+            
+        }
+        
+    });
+    
+}
+    
 
 function checkBvam(assetlist, countnumeric, callback) {
     
