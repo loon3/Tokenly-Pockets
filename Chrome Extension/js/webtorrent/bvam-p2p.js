@@ -116,36 +116,44 @@ function getBvamWT(bvamhasharray, callback) {
               torrent.files.forEach(function (file) {
                   
                     console.log(file.length);
+                  
+                    if (file.length < 1500) {
                            
-                    file.getBuffer(function (err, buffer) {
-                        if (!err) {
+                        file.getBuffer(function (err, buffer) {
+                            if (!err) {
 
-                              var jsonstring = decodeUtf8(buffer);
-                              var jsondata = JSON.parse(jsonstring)
+                                  var jsonstring = decodeUtf8(buffer);
+                                  var jsondata = JSON.parse(jsonstring)
 
-                              console.log(jsondata);
-                            
-                              var assetname = bvamhasharray[m]["asset"]
-                              var assetbalance = bvamhasharray[m]["amount"]
-                              var hash = bvamhasharray[m]["hash"];
+                                  console.log(jsondata);
 
-                              if(assetname == jsondata["asset"]) {
+                                  var assetname = bvamhasharray[m]["asset"]
+                                  var assetbalance = bvamhasharray[m]["amount"]
+                                  var hash = bvamhasharray[m]["hash"];
 
-                                    displayBvamWTasset(assetname, assetbalance, jsondata["assetname"]);
+                                  if(assetname == jsondata["asset"]) {
 
-                                    var time_date = new Date();
-                                    var time_unix = time_date.getTime();
+                                        displayBvamWTasset(assetname, assetbalance, jsondata["assetname"]);
 
-                                    var bvamdataforstorage = {hash: hash, type: "BVAMWT", data: jsondata, added: time_unix};
+                                        var time_date = new Date();
+                                        var time_unix = time_date.getTime();
 
-                                    addBvam(bvamdataforstorage);
+                                        var bvamdataforstorage = {hash: hash, type: "BVAMWT", data: jsondata, added: time_unix};
 
-                              }
-                        }
+                                        addBvam(bvamdataforstorage);
+
+                                  }
+                            }
+
+                            datacount--;
+
+                        })
+                    
+                    } else {
                         
                         datacount--;
-
-                    })
+                        
+                    }
 
              
                 

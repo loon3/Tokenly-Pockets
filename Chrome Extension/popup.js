@@ -2320,3 +2320,12 @@ function displayBvamWTasset(asset, assetbalance, assetname) {
     
 }
 
+function displayUnconfirmedBTC(address) {
+ 
+//http://btc.blockr.io/api/v1/address/unconfirmed/1C2dWhQHj8Wx319CdJcXi55zbshFkVUFXX    
+    
+//    {"status":"success","data":{"address":"1C2dWhQHj8Wx319CdJcXi55zbshFkVUFXX","unconfirmed":[{"tx":"6ae4a39063fdc3547b5883b5882a6821c8bbe688a30b710bacb8863db4a75afa","time_utc":"2015-09-21T03:10:01Z","amount":0.21517648,"n":1},{"tx":"6ae4a39063fdc3547b5883b5882a6821c8bbe688a30b710bacb8863db4a75afa","time_utc":"2015-09-21T03:10:01Z","amount":-0.41289248,"n":1}]},"code":200,"message":""}
+    
+    
+}
+
