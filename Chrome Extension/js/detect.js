@@ -48,50 +48,104 @@ chrome.storage.local.get(function(data) {
                     console.log(assetnamed);
 
                     var source_html = "https://counterpartychain.io/api/asset/"+assetnamed;
+                    
+                    loadBvam(function(bvamdata, hashname, hashhash){
 
-                    $.getJSON( source_html, function( data ) {
+                        $.getJSON( source_html, function( data ) {
 
-                        if (data.divisible == 0) { amount_dec = Math.round(amount_dec * 100000000); }
+                            if (data.divisible == 0) { amount_dec = Math.round(amount_dec * 100000000); }
 
-                        if (assetnamed.substr(0,1) == "A") {
-                            
-//                            if(assetnamed.substr(0,4) == "A111") {
-//                                
-//                                var checkprefix = (data.description).substr(0,6);
-//                    
-//                                var hash = (data.description).substr(7);
-//                                
-//                                console.log(hash);
-//
-//                                if(checkprefix == "TOKNID") {
-//
-//                                    $.getJSON("http://xcp.ninja/hash/"+hash+".json", function(bvam) {
-//
-//
-//                                        var isvaliddata = validateEnhancedAssetJSONcs(bvam);
-//
-//                                        console.log("Calculated JSON Hash: "+isvaliddata);
-//
-//                                        if(isvaliddata == hash && bvam.asset == assetnamed) {
-//
-//                                            $( "<div align='center' style='padding: 10px; background-color: #1C265E;  border: solid 10px #1C265E; border-radius: 15px; box-shadow: 10px 10px 10px -2px rgba(0,0,0,0.25); color: #fff; margin: 20px auto 40px auto; width: 480px;'><div class='row'><div class='col-xs-12'><div class='lead' style='font-weight: bold;'>Token Transaction Detected!</div><div style='margin-bottom: 15px;'>"+confirmation_text+"</div></div></div><div class='row' style='background-color: #fff; color: #000; padding-top: 10px; border: solid 3px #7EB06A;'><div class='col-xs-12'><p align='center'>Token:</p><p style='font-size: 24px; font-weight: bold; color: #7EB06A;'>"+bvam.assetname+"</p><p style='font-size: 14px; font-weight: bold; color: #7EB06A;'>"+assetnamed+"</p></div><div class='col-xs-12'><p align='center'>Amount Sent:</p><p style='font-size: 24px; font-weight: bold; color: #7EB06A;' >"+amount_dec+"</p></div><p style='font-size: 16px; padding-top: 30px;' >Sent to: <a href='https://counterpartychain.io/transaction/"+txid+"'>"+sendaddress+"</a></p></div><div align='center' class='small' style='margin: 10px 0 -10px 0;'>Counterparty Data parsed by Tokenly Pockets</div></div>" ).insertAfter( ".row:first" );
-//
-//                                        }
-//                                    });
-//
-//                                }
-//                                
-//                            } else {
+                            if (assetnamed.substr(0,1) == "A") {
 
-                            $( "<div align='center' style='padding: 10px; background-color: #1C265E;  border: solid 10px #1C265E; border-radius: 15px; box-shadow: 10px 10px 10px -2px rgba(0,0,0,0.25); color: #fff; margin: 20px auto 40px auto; width: 480px;'><div class='row'><div class='col-xs-12'><div class='lead' style='font-weight: bold;'>Token Transaction Detected!</div><div style='margin-bottom: 15px;'>"+confirmation_text+"</div></div></div><div class='row' style='background-color: #fff; color: #000; padding-top: 10px; border: solid 3px #7EB06A;'><div class='col-xs-12'><p align='center'>Token:</p><p style='font-size: 24px; font-weight: bold; color: #7EB06A;'>"+assetnamed+"</p></div><div class='col-xs-12'><p align='center'>Amount Sent:</p><p style='font-size: 24px; font-weight: bold; color: #7EB06A;' >"+amount_dec+"</p></div><p style='font-size: 16px; padding-top: 30px;' >Sent to: <a href='https://counterpartychain.io/transaction/"+txid+"'>"+sendaddress+"</a></p></div><div align='center' class='small' style='margin: 10px 0 -10px 0;'>Counterparty Data parsed by Tokenly Pockets</div></div>" ).insertAfter( ".row:first" );
+                                var checkprefix = (data.description).substr(0,6);
+
+                                var hash = (data.description).substr(7);
                                 
-//                            }
+                                console.log(hash);
+                                
+                                var assetnamedisplay = assetnamed;
+                                
+                                console.log(bvamdata);
 
-                        } else {
+                                if(checkprefix == "TOKNID" || checkprefix == "BVAMWT") {
+                                    
+                                    console.log(hashhash);
+                                    
+                                    if (typeof(hashname[assetnamed]) !== 'undefined') {
+                                        
+                                        if(hashhash[assetnamed] == hash) {
+                                        
+//                                        for (var i = 0; i < bvamdata.length; i++) {
+//                                            
+//                                            if (bvamdata[i]["hash"] == hash) {
+//                                                
+//                                                var storeddata = bvamdata[i]["data"];
+//                                                
+//                                                console.log(storeddata);
 
-                            $( "<div align='center' style='padding: 10px; background-color: #1C265E;  border: solid 10px #1C265E; border-radius: 15px; box-shadow: 10px 10px 10px -2px rgba(0,0,0,0.25); color: #fff; margin: 20px auto 40px auto; width: 480px;'><div class='row'><div class='col-xs-12'><div class='lead' style='font-weight: bold;'>Token Transaction Detected!</div><div style='margin-bottom: 15px;'>"+confirmation_text+"</div></div></div><div class='row' style='background-color: #fff; color: #000; padding-top: 10px; border: solid 3px #7EB06A;'><div class='col-xs-6'><p align='center'>Token:</p><p style='font-size: 24px; font-weight: bold; color: #7EB06A;'>"+assetnamed+"</p></div><div class='col-xs-6'><p align='center'>Amount Sent:</p><p style='font-size: 24px; font-weight: bold; color: #7EB06A;' >"+amount_dec+"</p></div><p style='font-size: 16px; padding-top: 30px;' >Sent to: <a href='https://counterpartychain.io/transaction/"+txid+"'>"+sendaddress+"</a></p></div><div align='center' class='small' style='margin: 10px 0 -10px 0;'>Counterparty Data parsed by Tokenly Pockets</div></div>" ).insertAfter( ".row:first" );
+//                                                if(storeddata["asset"] == assetnamed) {
 
-                        }
+//                                                    assetnamedisplay = storeddata["assetname"] + "<div style='margin-top: -10px; padding-bottom: 10px; font-size: 12px; font-style: italic; color: #7EB06A;'>" + assetnamed + "</div>";
+
+//                                                } else {
+//
+//                                                    assetnamedisplay = assetnamed;
+//
+//                                                }      
+                                                
+//                                            }
+//                                                
+//                                        }
+                                        
+                                            assetnamedisplay = hashname[assetnamed] + "<div style='margin-top: -10px; padding-bottom: 10px; font-size: 12px; font-style: italic; color: #7EB06A;'>" + assetnamed + "</div>";
+
+                                            $( "<div align='center' style='padding: 10px; background-color: #1C265E;  border: solid 10px #1C265E; border-radius: 15px; box-shadow: 10px 10px 10px -2px rgba(0,0,0,0.25); color: #fff; margin: 20px auto 40px auto; width: 480px;'><div class='row'><div class='col-xs-12'><div class='lead' style='font-weight: bold;'>Token Transaction Detected!</div><div style='margin-bottom: 15px;'>"+confirmation_text+"</div></div></div><div class='row' style='background-color: #fff; color: #000; padding-top: 10px; border: solid 3px #7EB06A;'><div class='col-xs-12'><p align='center'>Token:</p><p style='font-size: 24px; font-weight: bold; color: #7EB06A;'>"+assetnamedisplay+"</p></div><div class='col-xs-12' style='padding-bottom: 10px;'><p align='center'>Amount Sent:</p><p style='font-size: 24px; font-weight: bold; color: #7EB06A;' >"+amount_dec+"</p></div><p style='font-size: 16px;' >Sent to: <a href='https://counterpartychain.io/transaction/"+txid+"'>"+sendaddress+"</a></p></div><div align='center' class='small' style='margin: 10px 0 -10px 0;'>Counterparty Data parsed by Tokenly Pockets</div></div>" ).insertAfter( ".row:first" );
+                                    
+                                        }
+                                        
+                                    } else {
+                                        
+                                        assetnamedisplay = assetnamed;
+                                        
+//                                        $.getJSON("http://xcp.ninja/hash/"+hash+".json", function(data) {
+//
+//                                            var isvaliddata = validateEnhancedAssetJSON(data);
+//
+//                                            console.log("Calculated Remote JSON Hash: "+isvaliddata);
+//                                            console.log("Stored Remote JSON Hash: "+hash);   
+//
+//                                            if(isvaliddata == hash && data.asset == assetnamed) {
+//
+//                                                var time_date = new Date();
+//                                                var time_unix = time_date.getTime();
+//
+//                                                var newbvam = {hash: hash, data: data, added: time_unix};
+//
+//                                                addBvam(allbvamdata);
+//                                                console.log(allbvamdata);
+//                                                
+//                                                assetnamedisplay = data.assetname + "<div style='margin-top: -10px; padding-bottom: 10px; font-size: 12px; font-style: italic; color: #7EB06A;'>" + assetnamed + "</div>";
+                                                
+                                                $( "<div align='center' style='padding: 10px; background-color: #1C265E;  border: solid 10px #1C265E; border-radius: 15px; box-shadow: 10px 10px 10px -2px rgba(0,0,0,0.25); color: #fff; margin: 20px auto 40px auto; width: 480px;'><div class='row'><div class='col-xs-12'><div class='lead' style='font-weight: bold;'>Token Transaction Detected!</div><div style='margin-bottom: 15px;'>"+confirmation_text+"</div></div></div><div class='row' style='background-color: #fff; color: #000; padding-top: 10px; border: solid 3px #7EB06A;'><div class='col-xs-12'><p align='center'>Token:</p><p style='font-size: 24px; font-weight: bold; color: #7EB06A;'>"+assetnamedisplay+"</p></div><div class='col-xs-12' style='padding-bottom: 10px;'><p align='center'>Amount Sent:</p><p style='font-size: 24px; font-weight: bold; color: #7EB06A;' >"+amount_dec+"</p></div><p style='font-size: 16px;' >Sent to: <a href='https://counterpartychain.io/transaction/"+txid+"'>"+sendaddress+"</a></p></div><div align='center' class='small' style='margin: 10px 0 -10px 0;'>Counterparty Data parsed by Tokenly Pockets</div></div>" ).insertAfter( ".row:first" );
+
+//                                            }
+//                                        })
+                                        
+                                    }
+                                    
+                                } else {
+                                    
+                                    $( "<div align='center' style='padding: 10px; background-color: #1C265E;  border: solid 10px #1C265E; border-radius: 15px; box-shadow: 10px 10px 10px -2px rgba(0,0,0,0.25); color: #fff; margin: 20px auto 40px auto; width: 480px;'><div class='row'><div class='col-xs-12'><div class='lead' style='font-weight: bold;'>Token Transaction Detected!</div><div style='margin-bottom: 15px;'>"+confirmation_text+"</div></div></div><div class='row' style='background-color: #fff; color: #000; padding-top: 10px; border: solid 3px #7EB06A;'><div class='col-xs-12'><p align='center'>Token:</p><p style='font-size: 24px; font-weight: bold; color: #7EB06A;'>"+assetnamedisplay+"</p></div><div class='col-xs-12' style='padding-bottom: 10px;'><p align='center'>Amount Sent:</p><p style='font-size: 24px; font-weight: bold; color: #7EB06A;' >"+amount_dec+"</p></div><p style='font-size: 16px;' >Sent to: <a href='https://counterpartychain.io/transaction/"+txid+"'>"+sendaddress+"</a></p></div><div align='center' class='small' style='margin: 10px 0 -10px 0;'>Counterparty Data parsed by Tokenly Pockets</div></div>" ).insertAfter( ".row:first" );
+                                
+                                }
+                                
+
+                            } else {
+
+                                $( "<div align='center' style='padding: 10px; background-color: #1C265E;  border: solid 10px #1C265E; border-radius: 15px; box-shadow: 10px 10px 10px -2px rgba(0,0,0,0.25); color: #fff; margin: 20px auto 40px auto; width: 480px;'><div class='row'><div class='col-xs-12'><div class='lead' style='font-weight: bold;'>Token Transaction Detected!</div><div style='margin-bottom: 15px;'>"+confirmation_text+"</div></div></div><div class='row' style='background-color: #fff; color: #000; padding-top: 10px; border: solid 3px #7EB06A;'><div class='col-xs-6'><p align='center'>Token:</p><p style='font-size: 24px; font-weight: bold; color: #7EB06A;'>"+assetnamed+"</p></div><div class='col-xs-6'><p align='center'>Amount Sent:</p><p style='font-size: 24px; font-weight: bold; color: #7EB06A;' >"+amount_dec+"</p></div><p style='font-size: 16px; padding-top: 30px;' >Sent to: <a href='https://counterpartychain.io/transaction/"+txid+"'>"+sendaddress+"</a></p></div><div align='center' class='small' style='margin: 10px 0 -10px 0;'>Counterparty Data parsed by Tokenly Pockets</div></div>" ).insertAfter( ".row:first" );
+
+                            }
+                        });
                     });
                 });
 
@@ -250,13 +304,6 @@ function assetname(assetid) {
         var div_bigint_parsed;
         var rem_bigint_parsed;
         
-         console.log("Asset ID: " + assetid);
-                
-                console.log("96" + BigIntegerSM.toJSValue(BigIntegerSM.divide(57044491945578596, 26)));
-                console.log("96" + BigIntegerSM.toJSValue(BigIntegerSM.remainder(57044491945578596, 26)));
-            
-                console.log("90" + BigIntegerSM.toJSValue(BigIntegerSM.divide(57044491945578590, 26)));
-                console.log("90" + BigIntegerSM.toJSValue(BigIntegerSM.remainder(57044491945578590, 26)));
         
         while (assetid > 0) { 
 
@@ -332,52 +379,102 @@ function validateEnhancedAssetJSON(jsondata) {
 
 }
 
-//function assetname(assetid) {
-//
-//    if(assetid != 1){
+//function loadBvam(callback) {
 //    
-//        var b26_digits = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'; 
-//        var letter_array = b26_digits.split("");
-//        var asset_name = "";
-//        var div;
-//        var rem;
+//    chrome.storage.local.get(function(data) {
 //        
-//        while (assetid > 0) { 
+//        if(typeof(data["bvam"]) !== 'undefined') { 
 //            
-//            div = Math.floor(assetid/26);
-//            rem = assetid % 26;
+//            var hashname = new Array();
 //            
-//            assetid = div;
+//            var allbvam = data["bvam"];
 //            
-//            asset_name = asset_name + letter_array[rem];
+//            for (var i = 0; i < allbvam.length; i++) {
+//                
+//                var asset = allbvam[i]["data"]["asset"];
+//                var name = allbvam[i]["data"]["assetname"];
 //            
-//        }    
+//                hashname[asset] = name;
+//                 
+//            }
+//            
+//        } else {
+//            
+//            var allbvam = "";
+//            
+//        }
 //        
-//        var final_name = asset_name.split("").reverse().join("");
-//    
-//    } else {
+//        console.log(hashname);
 //        
-//        var final_name = "XCP";
+//        callback(allbvam, hashname);
 //        
-//    }
-//    
-//    return final_name;
+//    });
 //    
 //}
 
-//var address = $("companion-tip-button").attr("data-address");
-//var label = $("#companion-tip-button").attr("data-label");
-//
-//var labelurl = encodeURIComponent(label);
-//
-//var iconpath = chrome.extension.getURL('ltb-icon-orange-48.png');
-//
-//var tipsplash = chrome.extension.getURL('tipsplash.html');
-//
-//var tipbutton = "<div style='display: inline-block; padding: 5px;'><a href='"+tipsplash+"?address="+address+"&label="+labelurl+"'><img src='"+iconpath+"' height='24px' width='24px'></a></div>";
-//
-//
-//
-//$("#companion-tip-button").html(tipbutton);
+function loadBvam(callback) {
+    
+    chrome.storage.local.get(function(data) {
+        
+        if(typeof(data["bvam"]) !== 'undefined') { 
+            
+            var hashname = new Array();
+            var hashhash = new Array();
+            
+            var allbvam = data["bvam"];
+            
+            for (var i = 0; i < allbvam.length; i++) {
+                
+                var asset = allbvam[i]["data"]["asset"];
+                var name = allbvam[i]["data"]["assetname"];
+                var hash = allbvam[i]["hash"];
+            
+                hashname[asset] = name;
+                
+                hashhash[asset] = hash;
+                 
+            }
+            
+        } else {
+            
+            var allbvam = "";
+            var hashname = "";
+            var hashhash = "";
+            
+        }
+        
+        console.log(hashname);
+        console.log(hashhash);
+        
+        callback(allbvam, hashname, hashhash);
+        
+    });
+    
+}
 
+function addBvam(newbvamdata) {
+    
+    chrome.storage.local.get(function(data) {
+        
+        if(typeof(data["bvam"]) === 'undefined') { 
+            
+            var allbvam = new Array();
+            
+        } else {
+        
+            var allbvam = data["bvam"];
+            
+        }
+        
+        allbvam = allbvam.concat(newbvamdata);
+            
+            chrome.storage.local.set(
+                    {
+                        
+                        'bvam': allbvam
+                        
+                    }, function (){});
+                   
+    });
 
+}

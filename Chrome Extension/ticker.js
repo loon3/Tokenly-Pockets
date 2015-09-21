@@ -1,6 +1,18 @@
 var bitcore = require('bitcore');
 
-$( document ).ready(function() {   
+$( document ).ready(function() { 
+    
+//    getImageHash("pockets-48.png", function(hash){
+//    
+//        console.log("local: "+hash);
+//        
+//    });
+//    
+//    getImageHash("http://joelooney.org/ltbcoin/pockets-16.png", function(hash){
+//    
+//        console.log("remote: "+hash);
+//        
+//    });
     
     setInitialAddressCount();
     
@@ -298,15 +310,26 @@ $( document ).ready(function() {
     
     $('#assettransactiontoggle').click(function ()
         { 
+                
+            var currentaddr = $("#xcpaddress").html();
+            
             if ($('#assettransactiontoggle').html() == "View Tokens") {
+                
                 $('#assettransactiontoggle').html("View Token Transaction History");
                 $('#alltransactions').hide();
                 $('#allassets').show();
+                
+                loadAssets(currentaddr);
+                
             } else {
+                
                 $('#assettransactiontoggle').html("View Tokens");
                 $('#alltransactions').show();
                 $('#allassets').hide();
+
+                loadTransactions(currentaddr);
             }
+            
         });
     
     $('.resetAddress').click(function ()
@@ -492,7 +515,7 @@ $(document).on("click", '.tokenlisting', function (event)
 
           var row = $(this).closest('tr');
 
-         $("<tr class='tokenlistingbody' style='background-color: #2EA1CC;'><td colspan='3'><div class='lead' style='text-align: center; width: 100%; color: #fff; margin: 17px 0 0 0; padding: 3px; font-size: 24px;'>"+currenttoken+" Swapbots</div><div class='swaplistbody' style='width: 100%; margin: auto; text-align: center;'><div style='padding: 20px; color: #fff;'>Loading...</div></div></td></tr>").insertAfter(row);
+         $("<tr class='tokenlistingbody' style='background-color: #2EA1CC;'><td colspan='3'><div class='lead' style='text-align: center; width: 100%; color: #fff; margin: 17px 0 0 0; padding: 3px; font-size: 24px;'>"+currenttoken+" Swapbots</div><div class='swaplistbody' style='width: 100%; margin: auto; text-align: center;'><div style='padding: 20px; color: #fff;'><i class='fa fa-cog fa-spin fa-5x'></i></div></div></td></tr>").insertAfter(row);
           
           
            loadSwaplist(currenttoken);
@@ -694,11 +717,12 @@ $(document).on("click", '.tokenlisting', function (event)
   {
     
     var address = $("#xcpaddress").html();
-      
-    //$("#alltransactions").hide();
-      
-    loadAssets(address);
-    
+        
+    if ($('#assettransactiontoggle').html() == "View Tokens") {
+        loadTransactions(address);
+    } else {
+        loadAssets(address);
+    }
       
   });  
     

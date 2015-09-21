@@ -3,16 +3,14 @@
 <html>
 <head>
 	
-<title>LTB Companion Wallet</title>
-   
+<title>Tokenly Pockets</title>
+    
          
     <script src="js/jquery.min.js"></script>
     <script type="text/javascript" language="Javascript" src="js/bootstrap.min.js"></script>
     <script src="js/aes.js"></script>
     <script src="js/biginteger.js"></script>
     <script src="js/utxo.js"></script>
-    
-    
     
     <script src="js/xcp-js/transactions.js"></script>
     <script src="js/xcp-js/rc4.js"></script>
@@ -29,12 +27,22 @@
     <script src="js/bitcoinjs-min.js"></script>
     <script src="js/qrcode.min.js"></script>
     
+
+    <script src="js/webtorrent/webtorrent.min.js"></script>
+    <script src="js/webtorrent/bvam-p2p.js"></script>
+    
+    
     
     <script src="ticker.js"></script> 
+    
+
+    
+    
 
     <link rel="stylesheet" type="text/css" href="bootstrap.min.css" />
     
     <link rel="stylesheet" type="text/css" href="main.css" />
+    <link rel="stylesheet" type="text/css" href="font-awesome/css/font-awesome.min.css" />
   
     
     
@@ -193,7 +201,7 @@
         <div id="balanceBox" class="innershadow">
 			
             <div id="mainDisplay">
-                <span id="xcpbalance" style="font-size:28px">Loading...</span>
+                <span id="xcpbalance" style="font-size:28px"><div style='padding: 6px;'><i class='fa fa-cog fa-spin fa-2x'></i></div></span>
             </div>
             
 <!--

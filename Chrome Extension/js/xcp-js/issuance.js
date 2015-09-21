@@ -129,79 +129,80 @@ function create_issuance_data(assetid, quantity, divisible, description) {
     
     if (quantity_int <= 18446744073709551615) {
     
-    if (description.length <= 22) {
+        if (description.length <= 22) {
+
+            var cntrprty_prefix = "434e545250525459"; 
+            var trans_id = "00000014";
+
+            var descriptionlength = description.length;
+            var descriptionlength_hex = pad(descriptionlength.toString(16),2);
+
+            var initiallength = parseFloat(descriptionlength) + 39;
+            var initiallength_hex = pad(initiallength.toString(16),2);
+
+            var assetid_prehex = decToHex(assetid);
+
+            console.log(assetid_prehex);
+            console.log(assetid_prehex.substr(2));
+
+            var assetid_hex = pad(assetid_prehex.substr(2),16);
+
+            var quantity_hex = pad(quantity_int.toString(16),16);
+
+            var description_hex_short = bin2hex(description);
+            var description_hex = padtrail(description_hex_short, 44);
+
+            var issuance_tx_data = initiallength_hex + cntrprty_prefix + trans_id + assetid_hex + quantity_hex + divisible_hex + descriptionlength_hex + description_hex;
+
+            return issuance_tx_data;
+
+        } else if (description.length <= 41) {
+
+            var cntrprty_prefix = "434e545250525459"; 
+            var trans_id = "00000014";
+
+            //var descriptionlength = 41;
+            var descriptionlength = description.length;
+            var descriptionlength_hex = pad(descriptionlength.toString(16),2);
+
+            var initiallength = 61;
+            var initiallength_hex = pad(initiallength.toString(16),2);
+
+            //var secondlength = 27;
+            var secondlength = descriptionlength - 14;
             
-        var cntrprty_prefix = "434e545250525459"; 
-        var trans_id = "00000014";
-          
-        var descriptionlength = description.length;
-        var descriptionlength_hex = pad(descriptionlength.toString(16),2);
-        
-        var initiallength = parseFloat(descriptionlength) + 39;
-        var initiallength_hex = pad(initiallength.toString(16),2);
-        
-        var assetid_prehex = decToHex(assetid);
-        
-        console.log(assetid_prehex);
-        console.log(assetid_prehex.substr(2));
-        
-        var assetid_hex = pad(assetid_prehex.substr(2),16);
-        
-        var quantity_hex = pad(quantity_int.toString(16),16);
-       
-        var description_hex_short = bin2hex(description);
-        var description_hex = padtrail(description_hex_short, 44);
+            var secondlength_hex = pad(secondlength.toString(16),2);
 
-        var issuance_tx_data = initiallength_hex + cntrprty_prefix + trans_id + assetid_hex + quantity_hex + divisible_hex + descriptionlength_hex + description_hex;
-        
-        return issuance_tx_data;
-    
-    } 
-        
-    if (description.length == 41) {
-        
-        var cntrprty_prefix = "434e545250525459"; 
-        var trans_id = "00000014";
-          
-        var descriptionlength = 41;
-        var descriptionlength_hex = pad(descriptionlength.toString(16),2);
-        
-        var initiallength = 61;
-        var initiallength_hex = pad(initiallength.toString(16),2);
-        
-        var secondlength = 27;
-        var secondlength_hex = pad(secondlength.toString(16),2);
-        
-        
-        var assetid_prehex = decToHex(assetid);
-        
-        console.log(assetid_prehex);
-        console.log(assetid_prehex.substr(2));
-        
-        var assetid_hex = pad(assetid_prehex.substr(2),16);
-        
-        var quantity_hex = pad(quantity_int.toString(16),16);
-       
-        var description_hex_short_a = bin2hex(description.substr(0,22));
-        var description_hex_a = padtrail(description_hex_short_a, 44);
-        
-        var description_hex_short_b = bin2hex(description.substr(22));
-        var description_hex_b = padtrail(description_hex_short_b, 106);
 
-        var issuance_tx_data_a = initiallength_hex + cntrprty_prefix + trans_id + assetid_hex + quantity_hex + divisible_hex + descriptionlength_hex + description_hex_a;
-        
-        //var issuance_tx_data_a = initiallength_hex + cntrprty_prefix + trans_id + assetid_hex + quantity_hex + divisible_hex + description_hex_a;
-        
-        var issuance_tx_data_b = secondlength_hex + cntrprty_prefix + description_hex_b;
-        
-        console.log("msig output 1 length: "+issuance_tx_data_a.length);
-        console.log("msig output 2 length: "+issuance_tx_data_b.length);
-        
-        var issuance_tx_data = [issuance_tx_data_a, issuance_tx_data_b];
-        
-        return issuance_tx_data;
-        
-    }
+            var assetid_prehex = decToHex(assetid);
+
+            console.log(assetid_prehex);
+            console.log(assetid_prehex.substr(2));
+
+            var assetid_hex = pad(assetid_prehex.substr(2),16);
+
+            var quantity_hex = pad(quantity_int.toString(16),16);
+
+            var description_hex_short_a = bin2hex(description.substr(0,22));
+            var description_hex_a = padtrail(description_hex_short_a, 44);
+
+            var description_hex_short_b = bin2hex(description.substr(22));
+            var description_hex_b = padtrail(description_hex_short_b, 106);
+
+            var issuance_tx_data_a = initiallength_hex + cntrprty_prefix + trans_id + assetid_hex + quantity_hex + divisible_hex + descriptionlength_hex + description_hex_a;
+
+            //var issuance_tx_data_a = initiallength_hex + cntrprty_prefix + trans_id + assetid_hex + quantity_hex + divisible_hex + description_hex_a;
+
+            var issuance_tx_data_b = secondlength_hex + cntrprty_prefix + description_hex_b;
+
+            console.log("msig output 1 length: "+issuance_tx_data_a.length);
+            console.log("msig output 2 length: "+issuance_tx_data_b.length);
+
+            var issuance_tx_data = [issuance_tx_data_a, issuance_tx_data_b];
+
+            return issuance_tx_data;
+
+        }
         
     if (description.length > 22 && description.length != 41) {
         

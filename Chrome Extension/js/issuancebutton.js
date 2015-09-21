@@ -2,8 +2,12 @@
 
 var iconpath = chrome.extension.getURL('pockets-48.png');
 var tipsplash = chrome.extension.getURL('issue-tx.html');
+var tipsplashwt = chrome.extension.getURL('issue-tx-wt.html');
 
 $('.issue-button').html(tipsplash);
+
+$('.issue-webtorrent-button').html(tipsplashwt);
+
 $('.issue-image').html(iconpath);
 
 

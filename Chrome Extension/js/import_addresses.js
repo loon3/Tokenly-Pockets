@@ -1,5 +1,6 @@
 var fileChooser = document.createElement("input");
 fileChooser.type = 'file';
+fileChooser.style.margin = "0 0 0 -3000px";
 
 fileChooser.addEventListener('change', function (evt) {
   var f = evt.target.files[0];
@@ -37,4 +38,5 @@ fileChooser.addEventListener('change', function (evt) {
 });
 
 document.body.appendChild(fileChooser);
+
 fileChooser.click();

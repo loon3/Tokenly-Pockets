@@ -83,7 +83,7 @@ a {
 	top: 0px;
 	left: 0px;
 	text-align: center;
-    padding: 85px 50px 70px 50px;
+    padding: 100px 50px 70px 50px;
 	/*opacity: 0.99;
     filter: alpha(opacity=99); */
 }
@@ -342,6 +342,16 @@ a {
     padding: 4px 0 4px 0;
     margin: 4px 0 4px 0;
     border: 3px solid #86AD79;
+    
+}
+
+.enhancedassetwt {
+
+    background-color: #532061;
+    color: #fff;
+    padding: 4px 0 4px 0;
+    margin: 4px 0 4px 0;
+    border: 3px solid #9A7AA3;
     
 }
 
@@ -610,7 +620,7 @@ cursor: pointer;
 
 .assetnumerictrans {
     font-weight: bold;
-    font-size: 12px;   
+    font-size: 14px;   
     padding: 1px 0 5px 0;
 }
 
