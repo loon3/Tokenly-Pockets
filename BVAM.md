@@ -45,12 +45,12 @@ Referenced Counterparty Asset, https://counterpartychain.io/asset/A1116111162418
 
 ### p2p Method  
 
-1.  Token issuers seed via Webtorrent a JSON file with Enhanced Asset info (this is inline with the current protocol).  
+1.  Token issuers seed via Webtorrent a JSON file with Enhanced Asset info.  
 
 2.  When issuing a new asset in Counterparty, the asset description references the Webtorrent infohash of the enhanced asset JSON file named BVAMWT.json which contains BVAM unique to that asset.  To save space, the Webtorrent infohash is Base58 encoded.
 
-3. The hash is prefixed in the asset description with "BVAMWT-" for wallet software to identify that an asset has an associated BVAM Webtorrent.  
+3.  The hash is prefixed in the asset description with "BVAMWT-" for wallet software to identify that an asset has an associated BVAM Webtorrent.  
 
     *Example Asset Description:  BVAMWT-4SL14zw8RoTco96bTwtdKwnXGXcZ*
 
-4.  Wallet software can Base58 decode the infohash and query Webtorrent peers to download BVAM. 
+4.  Wallet software can Base58 decode the infohash and query Webtorrent peers to download BVAM.  Tokenly Pockets caches BVAM locally for future reference.

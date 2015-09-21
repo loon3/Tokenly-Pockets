@@ -857,7 +857,7 @@ function loadAssets(add) {
     
         $.getJSON( source_html, function( data ) {
         
-            $( "#allassets" ).html("<div class='btcasset row'><div class='col-xs-2' style='margin-left: -10px;'><div style='padding: 5px 0 0 2px;'><img src='bitcoin_48x48.png'></div></div><div class='col-xs-10'><div class='assetname'>BTC</div><div class='movetowallet'>Send</div><div class='assetqtybox'><div class='assetqty' id='btcassetbal' style='background-color: #EDB047; border-radius: 5px; padding: 3px 6px 3px 6px; min-width: 30px; margin-bottom: 3px; text-align: center;'></div></div></div></div>");
+            $( "#allassets" ).html("<div class='btcasset row'><div class='col-xs-2' style='margin-left: -10px;'><div style='padding: 6px 0 0 2px;'><img src='bitcoin_48x48.png'></div></div><div class='col-xs-10'><div class='assetname'>BTC</div><div class='movetowallet'>Send</div><div class='assetqtybox'><div class='assetqty' id='btcassetbal' style='background-color: #EDB047; border-radius: 5px; padding: 3px 6px 3px 6px; min-width: 30px; margin-bottom: 3px; text-align: center;'></div></div></div></div>");
             
             //EDB047
             var isbtcloading = $("#isbtcloading").html();
@@ -890,7 +890,7 @@ function loadAssets(add) {
             
             if (xcpbalance != 0) {
             
-                $( "#allassets" ).append("<div class='xcpasset row'><div class='col-xs-2' style='margin-left: -10px;'><div style='padding: 5px 0 0 2px;'><img src='"+xcpicon+"'></div></div><div class='col-xs-10'><div class='assetname'>XCP</div><div class='movetowallet'>Send</div><div class='assetqtybox'><div class='assetqty' style='background-color: #CF5151; border-radius: 5px; padding: 3px 6px 3px 6px; min-width: 30px; margin-bottom: 3px; text-align: center;'>"+xcpbalance+"</div>  <div class='XCP-pending assetqty-unconfirmed'></div></div></div></div>");
+                $( "#allassets" ).append("<div class='xcpasset row'><div class='col-xs-2' style='margin-left: -10px;'><div style='padding: 6px 0 0 2px;'><img src='"+xcpicon+"'></div></div><div class='col-xs-10'><div class='assetname'>XCP</div><div class='movetowallet'>Send</div><div class='assetqtybox'><div class='assetqty' style='background-color: #CF5151; border-radius: 5px; padding: 3px 6px 3px 6px; min-width: 30px; margin-bottom: 3px; text-align: center;'>"+xcpbalance+"</div>  <div class='XCP-pending assetqty-unconfirmed'></div></div></div></div>");
                 //CF5151
             }
         
@@ -948,7 +948,7 @@ function loadAssets(add) {
                         var iconlink = "http://counterpartychain.io/content/images/icons/"+iconname+".png";
 
                         if (assetname.charAt(0) != "A") {
-                            var assethtml = "<div class='singleasset row'><div class='col-xs-2' style='margin-left: -10px;'><div style='padding: 5px 0 0 2px;'><img src='"+iconlink+"'></div></div><div class='col-xs-10'><div class='archiveasset'>Archive</div><div class='assetname'>"+assetname+"</div><div class='movetowallet'>Send</div><div class='assetqtybox'><div class='assetqty' style='background-color: #3082B0; border-radius: 5px; padding: 3px 6px 3px 6px; min-width: 30px; margin-bottom: 3px; text-align: center;'>"+assetbalance+"</div> <div class='"+assetname+"-pending assetqty-unconfirmed'></div></div><div id='assetdivisible' style='display: none;'>"+divisible+"</div></div></div>";
+                            var assethtml = "<div class='singleasset row'><div class='col-xs-2' style='margin-left: -10px;'><div style='padding: 6px 0 0 2px;'><img src='"+iconlink+"'></div></div><div class='col-xs-10'><div class='archiveasset'>Archive</div><div class='assetname'>"+assetname+"</div><div class='movetowallet'>Send</div><div class='assetqtybox'><div class='assetqty' style='background-color: #3082B0; border-radius: 5px; padding: 3px 6px 3px 6px; min-width: 30px; margin-bottom: 3px; text-align: center;'>"+assetbalance+"</div> <div class='"+assetname+"-pending assetqty-unconfirmed'></div></div><div id='assetdivisible' style='display: none;'>"+divisible+"</div></div></div>";
                             //3082B0
                             $( "#allassets" ).append( assethtml );
 

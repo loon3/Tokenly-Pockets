@@ -286,7 +286,7 @@ a {
 .btcasset {
     background-color: #D49D3F;
     color: #fff;
-    padding: 4px 0 4px 0;
+    padding: 4px 0 5px 0;
     margin: 4px 0 4px 0;
     border: 3px solid #EBC481;
 }
@@ -294,7 +294,7 @@ a {
 .xcpasset {
     background-color: #AA3939;
     color: #fff;
-    padding: 4px 0 4px 0;
+    padding: 4px 0 5px 0;
     margin: 4px 0 4px 0;
     border: 3px solid #FDA8AA;
 }
@@ -302,9 +302,29 @@ a {
 .singleasset {
     background-color: #23688F;
     color: #fff;
-    padding: 4px 0 4px 0;
+    padding: 4px 0 5px 0;
     margin: 4px 0 4px 0;
     border: 3px solid #67B5E0;
+}
+
+.enhancedasset {
+    
+    background-color: #546E4C;
+    color: #fff;
+    padding: 4px 0 5px 0;
+    margin: 4px 0 4px 0;
+    border: 3px solid #86AD79;
+    
+}
+
+.enhancedassetwt {
+
+    background-color: #532061;
+    color: #fff;
+    padding: 4px 0 5px 0;
+    margin: 4px 0 4px 0;
+    border: 3px solid #9A7AA3;
+    
 }
 
 #tutorial_splash {
@@ -334,27 +354,6 @@ a {
   left:       0; 
   position:   fixed; 
 }
-
-.enhancedasset {
-    
-    background-color: #546E4C;
-    color: #fff;
-    padding: 4px 0 4px 0;
-    margin: 4px 0 4px 0;
-    border: 3px solid #86AD79;
-    
-}
-
-.enhancedassetwt {
-
-    background-color: #532061;
-    color: #fff;
-    padding: 4px 0 4px 0;
-    margin: 4px 0 4px 0;
-    border: 3px solid #9A7AA3;
-    
-}
-
 
 
 .singleaddress {
