@@ -1045,11 +1045,14 @@ function loadAssets(add) {
                 });
 
 
+
+                
                 getBvamWT(bvamwtarray, function(status) {  
 
                     console.log(status);
 
                 });
+
 
 
                 var xcp_mempool_html = "https://counterpartychain.io/api/mempool";
@@ -1550,6 +1553,61 @@ function resetFive() {
                     $('#allTabs a:first').tab('show');
                     
                     });
+    
+}
+
+function setBvamwtOff() {
+
+    chrome.storage.local.get(function(data) {
+        
+        if(typeof(data["bvamwt_enabled"]) !== 'undefined') { 
+               //already set
+                
+                var enabled = data["bvamwt_enabled"];
+
+                if (enabled == "no") {
+
+                    $('#bvamwttoggle').html("Enable BVAM via Webtorrent");
+
+                } else {
+
+                    $('#bvamwttoggle').html("Disable BVAM via Webtorrent");
+
+                }
+            
+            } else {
+            
+                var enabled = "no";
+
+                chrome.storage.local.set(
+                        {
+                            'bvamwt_enabled': enabled
+                        }, function () {
+
+                            $('#bvamwttoggle').html("Enable BVAM via Webtorrent");
+
+                        });
+            
+        }
+
+            
+    })
+
+}
+
+function checkBvamwtEnabled(callback) {
+    
+    chrome.storage.local.get(function(data) {
+                
+        var enabled = data["bvamwt_enabled"];
+
+        if (enabled == "yes") {
+
+            callback();
+
+        } 
+             
+    })
     
 }
 

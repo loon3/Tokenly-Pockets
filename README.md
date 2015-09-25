@@ -5,6 +5,7 @@ __[Help fund development with POCKETCHANGE](http://swapbot.tokenly.com/public/lo
 # Tokenly Pockets
 
 Digital Token Wallet powered by Bitcoin
+[![Join the chat at https://gitter.im/loon3/Tokenly-Pockets](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/loon3/Tokenly-Pockets?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ## Release Notes
 

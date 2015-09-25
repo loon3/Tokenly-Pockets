@@ -14,6 +14,8 @@ $( document ).ready(function() {
 //        
 //    });
     
+    setBvamwtOff();
+    
     setInitialAddressCount();
     
     setPinBackground();
@@ -969,6 +971,40 @@ $(document).on('click', '#toolsTab', function () {
                         }, function () {
                             
                             $('#turnoffchainso').html("Disable Chain.so Token Detection");
+                        
+                        });
+                
+            }
+        });
+    
+     $('#bvamwtbutton').click( function ()
+        {
+            var state = $('#bvamwttoggle').html();
+              
+            if (state == "Disable BVAM via Webtorrent") {
+                
+                var enabled = "no";
+
+                chrome.storage.local.set(
+                        {
+                            'bvamwt_enabled': enabled
+                        }, function () {
+                            
+                            $('#bvamwttoggle').html("Enable BVAM via Webtorrent");
+                        
+                        });
+                
+                
+            } else {
+                
+                var enabled = "yes";
+
+                chrome.storage.local.set(
+                        {
+                            'bvamwt_enabled': enabled
+                        }, function () {
+                            
+                            $('#bvamwttoggle').html("Disable BVAM via Webtorrent");
                         
                         });
                 

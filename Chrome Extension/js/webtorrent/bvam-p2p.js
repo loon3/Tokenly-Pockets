@@ -91,86 +91,93 @@ function getBvamWT(bvamhasharray, callback) {
 //	},
             
         console.log(bvamhasharray);
-        
-        var bvamdataarray = new Array();
-          
-   
- 
-        var datacount = bvamhasharray.length;
-        
-        if(bvamhasharray.length != 0) {
-            var client = new WebTorrent()
-        }
 
-        $.each(bvamhasharray, function(m, item) {
+        checkBvamwtEnabled(function() {
 
-            var filename_base58_decode = Bitcoin.Base58.decode(bvamhasharray[m]["hash"])
-            var infohash = Crypto.util.bytesToHex(filename_base58_decode)
+            console.log("BVAM via webtorrent is on!");
+             
+            var datacount = bvamhasharray.length;
 
-            var magnetUri = 'magnet:?xt=urn:btih:'+infohash;
+            if(bvamhasharray.length != 0) {
+                
+                console.log("looking for BVAM webtorrents...");
+                
+                var client = new WebTorrent()
+            
+                $.each(bvamhasharray, function(m, item) {
 
-            console.log(magnetUri);
+                    var filename_base58_decode = Bitcoin.Base58.decode(bvamhasharray[m]["hash"])
+                    var infohash = Crypto.util.bytesToHex(filename_base58_decode)
 
-            client.add(magnetUri, function (torrent) {
+                    var magnetUri = 'magnet:?xt=urn:btih:'+infohash;
 
-              torrent.files.forEach(function (file) {
-                  
-                    console.log(file.length);
-                  
-                    if (file.length < 1500) {
-                           
-                        file.getBuffer(function (err, buffer) {
-                            if (!err) {
+                    console.log(magnetUri);
 
-                                  var jsonstring = decodeUtf8(buffer);
-                                  var jsondata = JSON.parse(jsonstring)
+                    client.add(magnetUri, function (torrent) {
 
-                                  console.log(jsondata);
+                      torrent.files.forEach(function (file) {
 
-                                  var assetname = bvamhasharray[m]["asset"]
-                                  var assetbalance = bvamhasharray[m]["amount"]
-                                  var hash = bvamhasharray[m]["hash"];
+                            console.log(file.length);
 
-                                  if(assetname == jsondata["asset"]) {
+                            if (file.length < 1500) {
 
-                                        displayBvamWTasset(assetname, assetbalance, jsondata["assetname"]);
+                                file.getBuffer(function (err, buffer) {
+                                    if (!err) {
 
-                                        var time_date = new Date();
-                                        var time_unix = time_date.getTime();
+                                          var jsonstring = decodeUtf8(buffer);
+                                          var jsondata = JSON.parse(jsonstring)
 
-                                        var bvamdataforstorage = {hash: hash, type: "BVAMWT", data: jsondata, added: time_unix};
+                                          console.log(jsondata);
 
-                                        addBvam(bvamdataforstorage);
+                                          var assetname = bvamhasharray[m]["asset"]
+                                          var assetbalance = bvamhasharray[m]["amount"]
+                                          var hash = bvamhasharray[m]["hash"];
 
-                                  }
+                                          if(assetname == jsondata["asset"]) {
+
+                                                displayBvamWTasset(assetname, assetbalance, jsondata["assetname"]);
+
+                                                var time_date = new Date();
+                                                var time_unix = time_date.getTime();
+
+                                                var bvamdataforstorage = {hash: hash, type: "BVAMWT", data: jsondata, added: time_unix};
+
+                                                addBvam(bvamdataforstorage);
+
+                                          }
+                                    }
+
+                                    datacount--;
+
+                                })
+
+                            } else {
+
+                                datacount--;
+
                             }
 
-                            datacount--;
 
-                        })
-                    
-                    } else {
-                        
-                        datacount--;
-                        
-                    }
 
-             
-                
-                    if (datacount == 0) {
+                            if (datacount == 0) {
 
-                        client.destroy(function(){
+                                client.destroy(function(){
 
-                            callback(status);
+                                    callback(status);
 
-                        })
+                                })
 
-                    }
-                  
-              })
-                  
-            })
-            
+                            }
+
+                      })
+
+                    })
+
+                })
+
+            }
+        
+        
         })
 
 
