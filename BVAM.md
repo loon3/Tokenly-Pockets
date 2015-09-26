@@ -1,10 +1,12 @@
 ## Blockchain Validated Asset Metadata
 
-Blockchain Validated Asset Metadata (BVAM) is a method which allows Counterparty Token metadata to be stored off-blockchain yet still be verifiable and inalterable.
+_Note: The terms 'asset' and 'token' can be used interchangeably_
+
+Blockchain Validated Asset Metadata (BVAM) is a method which allows [Counterparty](http://counterparty.io) Asset metadata to be stored off-blockchain as JSON data, yet still be verifiable and inalterable by storing the hash of the JSON data in the Counterparty Asset description.
 
 BVAM must define, at a minimum, the 'asset' element within the JSON data.  This conforms to the current Counterparty Enhanced Asset Info [documentation](http://counterparty.io/docs/enhanced_asset_info/).  Additional elements can also be customized to meet the needs of each wallet provider.  Elements should be listed in alphabetical order to ensure repeatability of the JSON data hash.
 
-http://xcp.ninja is a proof of concept server for creating and storing BVAM json files.  
+There are two methods for storing BVAM JSON data which are recognized by the Pockets wallet, server method (via [xcp.ninja](http://xcp.ninja)) and p2p method (via [Webtorrent](http://webtorrent.io) protocol) 
 
 Example BVAM json, http://xcp.ninja/hash/TB2rTB5FdLtqYu31wTmKgy54TYeZSqJgr3.json
 
@@ -12,7 +14,7 @@ Referenced Counterparty Asset, https://counterpartychain.io/asset/A1116111162418
 
 ### Server Method
 
-1.  A third party service(s) hosts a JSON file with Enhanced Asset info (this is inline with the current protocol).  
+1.  A third party service(s) hosts a JSON file with Enhanced Asset info (this is inline with the current protocol).  For Tokenly Pockets, this is currently limited to [xcp.ninja](http://xcp.ninja) only.
 
 2.  When issuing a new asset in Counterparty, the asset description references the hash of the stringify'd enhanced asset JSON data (instead of referencing the URL of the JSON file in the asset description).  To save space, the SHA256 hash is encoded, similar to a bitcoin public key but with the version numbered altered to display a "T" as the first character instead of a "1".
 
@@ -45,7 +47,9 @@ Referenced Counterparty Asset, https://counterpartychain.io/asset/A1116111162418
 
 ### p2p Method  
 
-1.  Token issuers seed via Webtorrent a JSON file with Enhanced Asset info.  
+BVAM via Webtorrent can be enabled in the Wallet Settings tab of Tokenly Pockets. Once downloaded, Pockets caches BVAM locally for future reference.
+
+1.  Token issuers seed BVAM JSON files with Enhanced Asset info via Webtorrent.  BVAM creation and seeding is currently available at [xcp.ninja](http://xcp.ninja).
 
 2.  When issuing a new asset in Counterparty, the asset description references the Webtorrent infohash of the enhanced asset JSON file named BVAMWT.json which contains BVAM unique to that asset.  To save space, the Webtorrent infohash is Base58 encoded.
 
@@ -53,4 +57,4 @@ Referenced Counterparty Asset, https://counterpartychain.io/asset/A1116111162418
 
     *Example Asset Description:  BVAMWT-4SL14zw8RoTco96bTwtdKwnXGXcZ*
 
-4.  Wallet software can Base58 decode the infohash and query Webtorrent peers to download BVAM.  Tokenly Pockets caches BVAM locally for future reference.
+4.  Wallet software can Base58 decode the infohash and query Webtorrent peers to download BVAM.  
