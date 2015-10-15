@@ -21,8 +21,16 @@ chrome.storage.local.get(function(data) {
                     console.log(utxo_hash);
 
                     //$("#arc").html(data_chunk);
-                    var asset = data_chunk.substring(42, 26);
-                    var amount = data_chunk.substring(58, 42);
+                    // check for 'CNTRPRTY'
+                    var counterparty_prefix = data_chunk.substring(2, 18);
+                    if (counterparty_prefix != '434e545250525459') { return; }
+
+                    // check for a send (action type 00000000)
+                    var action_type = data_chunk.substring(18, 26);
+                    if (action_type != '00000000') { return; }
+
+                    var asset = data_chunk.substring(26, 42);
+                    var amount = data_chunk.substring(42, 58);
 
                     //var asset_dec = parseInt(asset, 16);
                     var asset_dec = hexToDec(asset);
