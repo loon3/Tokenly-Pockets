@@ -1,3 +1,8 @@
+function getNetwork() {
+	return bitcore.Networks.livenet;
+	//return bitcore.Networks.testnet;
+}
+
 function getExchangeRatesList() { 
     
    
@@ -842,7 +847,7 @@ function loadAssets(add) {
     
     var xcp_source_html = "http://counterpartychain.io/api/address/"+add;
     
-    var btc_source_html = "https://insight.bitpay.com/api/addr/"+add+"/balance";
+    var btc_source_html = "https://"+INSIGHT_SERVER+"/api/addr/"+add+"/balance";
     
     $( "#allassets" ).html("<div align='center' style='margin: 40px 0 40px 0;' class='lead'><i class='fa fa-cog fa-spin fa-5x'></i></div>");
     

@@ -223,7 +223,7 @@ function createIssuance(add_from, assetid, quantity, divisible, description, msi
     
     var privkey = getprivkey(add_from, mnemonic);
      
-    var source_html = "https://insight.bitpay.com/api/addr/"+add_from+"/utxo";
+    var source_html = "https://"+INSIGHT_SERVER+"/api/addr/"+add_from+"/utxo";
     var total_utxo = new Array();   
        
     $.getJSON( source_html, function( data ) {

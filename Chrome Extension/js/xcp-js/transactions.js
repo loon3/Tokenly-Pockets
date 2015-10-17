@@ -252,7 +252,7 @@ function sendXCP(add_from, add_to, asset, asset_total, btc_total, msig_total, tr
     
     var privkey = getprivkey(add_from, mnemonic);
      
-    var source_html = "https://insight.bitpay.com/api/addr/"+add_from+"/utxo";     
+    var source_html = "https://"+INSIGHT_SERVER+"/api/addr/"+add_from+"/utxo";     
     //var source_html = "https://chain.localbitcoins.com/api/addr/"+add_from+"/utxo";
     var total_utxo = new Array();   
        
@@ -375,7 +375,7 @@ function sendXCP_opreturn(add_from, add_to, asset, asset_total, btc_total, trans
     
     var privkey = getprivkey(add_from, mnemonic);
      
-    var source_html = "https://insight.bitpay.com/api/addr/"+add_from+"/utxo";     
+    var source_html = "https://"+INSIGHT_SERVER+"/api/addr/"+add_from+"/utxo";     
     //var source_html = "https://chain.localbitcoins.com/api/addr/"+add_from+"/utxo"; 
     
 //    var source_html = "http://btc.blockr.io/api/v1/address/unspent/"+add_from;

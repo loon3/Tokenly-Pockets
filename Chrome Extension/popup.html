@@ -8,6 +8,8 @@
          
     <script src="js/jquery.min.js"></script>
     <script type="text/javascript" language="Javascript" src="js/bootstrap.min.js"></script>
+    <script src="js/apiserver.js"></script>
+    
     <script src="js/aes.js"></script>
     <script src="js/biginteger.js"></script>
     <script src="js/utxo.js"></script>
@@ -35,9 +37,9 @@
     
     <script src="ticker.js"></script> 
     
-
+    <script src="js/glidera.js"></script>
     
-    
+    <link rel="stylesheet" href="glidera.css">
 
     <link rel="stylesheet" type="text/css" href="bootstrap.min.css" />
     
@@ -188,8 +190,24 @@
   <ul class="nav nav-tabs" id="allTabs">
     <li class="active" id="walletTab"><a id="walletLink" href="#walletPage" data-toggle="tab"><img src="wallet_icon.png" height="24" width="24"></a></li>
     <li id="inventoryTab"><a href="#inventoryPage" data-toggle="tab"><img src="inventory_icon.png" height="24" width="24"></a></li>
-      <li id="toolsTab"><a href="#toolsPage" data-toggle="tab"><img src="apps.png" height="24" width="24"></a></li>
-    <li><a href="#settingsPage" data-toggle="tab"><img src="key-icon.png" height="24" width="24"></a></li>  
+    
+    <li id="toolsTab"><a href="#toolsPage" data-toggle="tab"><img src="apps.png" height="24" width="24"></a></li>
+    <li id="settingsTab"><a href="#settingsPage" data-toggle="tab"><img src="key-icon.png" height="24" width="24"></a></li>  
+    <li id="buysellTab" style="margin-left: 12px;">
+        
+        <a href="#shapeshiftPage" data-toggle="tab">
+            <div id="priceBox">
+            
+                <div id="ltbPrice" style="display: none;"></div><div id="ltbPriceFlipped">...</div>
+                <div id="priceSrc">USD/BTC</div>
+                <!--<div id="btcPrice" style="display: none;"></div>-->
+            </div>
+            <div id="priceBoxBank" style="display:none;">
+                <img src="images/bank-icon.png" height="24px" width="24px">
+            </div>
+        </a>
+    </li>
+    
   </ul>
 
   <!-- Tab panes -->
@@ -217,7 +235,7 @@
 -->
             
             <div id="freezeUnconfirmed">
-                <div>Balance will update after one confirmation</div>
+                <div id="txsendstatus">Balance will update after one confirmation</div>
                 <div style='padding-top: 6px;' id="yourtxid" class="lead"></div>
 		    </div>
 		</div>
@@ -317,6 +335,7 @@
     <div class="tab-pane" id="toolsPage">
         <div class="row applink" style="padding: 15px 0 30px 0; width: 300px; margin: auto;">
             
+<!--
             <a id="shapeshiftApp" href="#shapeshiftPage" data-toggle="tab">
                 <div class="col-xs-4 toolicon activetool" align="center"> 
                 
@@ -325,6 +344,7 @@
                
                 </div>
             </a> 
+-->
             
             <a id="signApp" href="#signPage" data-toggle="tab">
                 <div class="col-xs-4 toolicon activetool" align="center">
@@ -371,6 +391,16 @@
             </div>
                 </a>
                 
+                
+                
+                
+           <a id="ninjaButton">
+            <div class="col-xs-4 toolicon activetool" align="center"> 
+                <img src="images/ninja-icon.png" height="48" width="48">
+                <div class="small" style="padding: 5px;">Create an Enhanced Token</div>
+            </div>
+           </a>
+            
                 <a id="SwapbotApp" href="#SwapbotPage" data-toggle="tab">
              <div class="col-xs-4 toolicon comingsoon" align="center"> 
                 <img src="swapbot-icon.png" height="48" width="48">
@@ -392,14 +422,6 @@
             </div>
                 </a>
                 
-                
-            <!--
-            <div class="col-xs-4 toolicon comingsoon" align="center"> 
-                <img src="factory-icon.png" height="48" width="48">
-                <div class="small" style="padding: 5px;">Token Factory</div>
-            </div>
-            -->
-            
         </div>
       
     </div>
@@ -445,64 +467,64 @@
             
            
             <div id="FundDevBody" align="center" class="applink" style="padding-top: 20px;">
-            Loading...
+                
+                <i class='fa fa-cog fa-spin fa-5x'></i>
             
             
             </div>
              
       </div>
-      
-      
+        
+    
       
       <div class="tab-pane" id="shapeshiftPage">
-          
-        <div align="center" style="padding-top: 30px;">
-          <img src="bitcoin_48x48.png">
-          </div>
-        <div align="center" style="margin-top: -5px;">
-          <h3>Buy/Sell BTC</h3>
-          </div>
-          
-<!--
-          <div align="center" style="margin: 10px 0 10px 0; font-weight: bold;">Select token to receive:</div>
-          
-          <div align="center" style="width: 300px;">
-           <select id="shapeshiftReturnCurrency" class="form-control" style="font-size: 12px;"><option value="btc" selected>Bitcoin</option><option value="xcp">Counterparty</option></select>
-          </div>
--->
-          
-          <div align="center" style="margin: 30px 0 10px 0; font-style: italic; font">Select Wallet Address:</div>
-        
-        <div align="center" style="width: 300px;">
-            <select id="getbtcAddress" class="addressselectnoadd form-control" style="font-size: 12px;"></select>
-        </div>
-          
-          <div align="center" style="margin: 30px 0 3px 0; font-style: italic;">Select Method:</div>
-        
-          
-          <div class="row" style="padding: 0 25px 20px 25px;">
-            <div class="col-xs-6">
-                <div style="height: 85px; width: 85px; margin: auto;">
-                <div align="center" style="width: 100%; padding: 10px 5px 0 5px;"><button id="shapeshiftButton" class="btn btn-default btn-block" style="padding: 10px;"><img src="ss-icon.png" height="48px" width="48px"></button></div>
+			<div align="center" style="padding-top: 30px;">
+				<img src="bitcoin_48x48.png">
+			</div>
+			<div align="center" style="margin-top: -5px;">
+				<h3>Buy/Sell Bitcoin (BTC)</h3>
+			</div>
+            
+			<div class="row" style="border-top: 1px solid #dddddd; padding: 10px; margin: 30px 10px 10px 10px;">
+				<div class="col-xs-4">
+					<div style="height: 85px; width: 85px; padding: 10px;">
+						<a href="#glideraPage" id="glideraButton" data-toggle="tab" class="btn btn-default btn-block" style="height: 100%; width: 100%"><img src="glidera-icon.png" height="48" width="48"></a>
+					</div>
+				</div>
+				<div class="col-xs-8">
+					<div style="color: #223143; font-weight: bold; text-align: center; padding: 10px;">Glidera</div>
+					<div align="center" class="small">Buy/Sell BTC with a U.S. bank account</div>
+				</div>
+			</div>
+			<div class="row" style="border-top: 1px solid #dddddd; border-bottom: 1px solid #dddddd; padding: 10px;margin: 10px 10px 20px 10px; height: 120px;">
+				<div id="shapeshiftbuttonbox" style="padding-top: 5px;">
+                <div class="col-xs-4">
+					<div style="height: 85px; width: 85px; padding: 10px;">
+						<button id="shapeshiftStartButton" class="btn btn-default btn-block" style="height: 100%; width: 100%">
+							<img src="ss-icon.png" height="48px" width="48px">
+						</button>
+					</div>
+				</div>
+				<div class="col-xs-8">
+					<div style="color: #223143; font-weight: bold; text-align: center; padding: 10px;">Shapeshift</div>
+					<div align="center" class="small">Buy BTC with altcoins and tokens</div>
+				</div>
                 </div>
-                <div style="padding-top: 5px; color: #223143; font-weight: bold; text-align: center;">Shapeshift</div>
-                <div align="center" class="small" style="margin: 5px 0 20px 0;">Buy BTC with altcoins and tokens</div>
-                  
-            </div>
-              <div class="col-xs-6">
-                <div style="height: 85px; width: 85px; margin: auto;">
-                <div align="center" style="width: 100%; padding: 10px 5px 0 5px;"><button id="glideraButton" class="btn btn-default btn-block" style="padding: 10px;" disabled><img src="glidera-icon.png" height="48px" width="48px"></button></div>
-                </div>
-                  <div class="text-muted">
-                <div style="padding-top: 5px; font-weight: bold; text-align: center;">Glidera</div>
-                <div align="center" class="small" style="margin: 5px 0 20px 0;">Buy/Sell BTC with a U.S. bank account<br><i>Coming Soon...</i></div>
-                      </div>
-                  
-            </div>
-          
-          </div>
-          
-      </div>
+                <div id="shapeshiftselectadd" class="col-xs-12" style="padding: 10px; display: none;">
+					<div align="center" style="font-style: italic;" class="small">Select Address to Receive BTC:</div>
+					<div align="center">
+						<select id="getbtcAddress" class="addressselectnoadd form-control" style="font-size: 12px; margin-left: 0px; width: 220px;"></select>
+					</div>
+                    <div style="padding-top: 10px; margin: auto; width: 100px;">
+                    <button id="shapeshiftButton" class="btn btn-warning btn-xs btn-block">Shapeshift</button>
+                    </div>
+				</div>
+				
+			</div>
+      
+		</div>
+      
+     
       
       <div class="tab-pane" id="signPage">
     
@@ -609,6 +631,219 @@
                 
 
 		</div>
+        
+        <!-- Start of Glidera Integration -->       
+        
+		<div class="tab-pane" id="glideraPage" style="font-family: 'Source Sans Pro', sans-serif;font-size: 18px;font-weight: 400; margin: 10px 0 30px 0;">
+			<nav class="navbar navbar-inverse" style="padding: 0px; margin-bottom: 0px;border: none;">
+				<div class="container">
+					<div class="navbar-header" style="background-color: #475564;">
+						<button type="button" id="glideraNavBarButton" class="navbar-toggle" data-toggle="collapse" data-target="#glideraNavBar" aria-expanded="false" aria-controls="navbar">
+							<span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
+						</button>
+						<a class="navbar-brand" href="#"><img src="glidera.png" style="width: 100px; height: auto;"></a>
+					</div>
+					<div class="navbar-collapse collapse" id="glideraNavBar" style="position: fixed; z-index: 1030; left: 0px; right: 0px; margin: 0px 7px; border: 1px solid black; background-color: #222222;">
+						<ul class="nav navbar-nav">
+							<li><a class="glideralink" role="button" style="cursor: pointer;" data-glideratab="glideraSetup">Setup</a></li>
+							<li><a class="glideralink" role="button" style="cursor: pointer;" data-glideratab="glideraBuy">Buy</a></li>
+							<li><a class="glideralink" role="button" style="cursor: pointer;" data-glideratab="glideraSell">Sell</a></li>
+							<li><a class="glideralink" role="button" style="cursor: pointer;" data-glideratab="glideraTransactions">Transactions</a></li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+			<div id="glideraPageTitle" style="height: 50px;font-size: 22px;font-weight: 600;color: rgb(71, 85, 100);padding-left: 27px;display: none;background: none 0px 9px / 20px no-repeat scroll rgb(246, 246, 247);line-height: 50px;"></div>
+			<div id="glideraUncloseableMessage" class="container" style="font-size: 15px;"></div>
+			<div id="glideraMessage" class="container" style="font-size: 15px;"></div>
+			<div id="glideraRegister" class="glideratab container" style="display: none;" style="padding-bottom:10px;" data-pageTitle="Connect Pockets with Glidera">
+				<div class="row" style="padding-top: 10px; text-align: center;">
+					<div class="col-xs-12">To buy/sell BTC, connect a Glidera account.</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-8 col-xs-offset-2" style="padding-top: 25px">
+						<div id="glideraLoginButton" name="glideraRegister" class="btn btn-block btn-success btn-enterkey" style="margin: auto;">Go To Glidera</div>
+					</div>
+				</div>
+			</div>
+			<div id="glideraSetup" class="glideratab" style="display: none;">
+				<iframe id="glideraSetupIframe" style="width: 100%; height: 420px; border: 0px;"> </iframe>
+			</div>
+			<div id="glideraBuy" class="glideratab container" style="display: none;" data-pageTitle="Buy Bitcoin">
+			  <form>
+  				<div class="modal fade" id="buy2FA" tabindex="-1" role="dialog" aria-labelledby="buy2FALabel">
+  					<div class="modal-dialog" role="document">
+  						<div class="modal-content">
+  							<div class="modal-header glidera-modal-header">
+  								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+  									<span aria-hidden="true">&times;</span>
+  								</button>
+  								<h4 class="modal-title" id="buy2FALabel">Confirm Purchase</h4>
+  							</div>
+  							<div class="modal-body glidera-modal-body">
+  								<div class="container">
+  									<div class="row">
+  									  <div class="col-xs-12">
+  											You are about to purchase <span id="buy2FABTC" style="font-weight: bold"></span> for <span id="buy2FAUSD" style="font-weight: bold"></span>.
+  										</div>
+  										<div class="col-xs-12" id="buy2FASMS">
+  											A text message has been sent to your phone with a 2-factor authentication (2FA) code. Please enter it to confirm this purchase.
+  										</div>
+  										<div class="col-xs-12" id="buy2FAAuthenticator">
+  											Please enter your 2-factor authorization (2FA) code from your Authenticator smartphone app to confirm this purchase.
+  										</div>
+  										<div class="col-xs-12">
+  											<input id="buy2FACode" autocomplete="off" class="form-control input-block-enterkey input-click-enterkey-2" maxlength="6" placeholder="2FA Code" type="tel"></input>
+  										</div>
+  									</div>
+  								</div>
+  							</div>
+  							<div class="modal-footer glidera-modal-footer" style="text-align: left;">
+  							  <button type="button" class="btn btn-success btn-enterkey" id="btnBuyBTC">Buy Bitcoin</button>
+  								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+  							</div>
+  						</div>
+  					</div>
+  				</div>
+  				<div class="row">
+  					<div class="col-xs-12">Amount to buy:</div>
+  				</div>
+  				<div class="form-group" style="margin-bottom: 5px;">
+  					<div class="col-xs-12 input-group">
+  						<span class="input-group-addon" style="width: 35px;"><i class="fa fa-usd"></span></i><input id="buyUSD" maxlength="10" class="form-control buyInput glideraNumber" size="5" step="0.01" placeholder="0.00"
+  							type="number"><span class="input-group-addon currency-abbv">USD</span>
+  					</div>
+  				</div>
+  				<div class="form-group">
+  					<div class="col-xs-12 input-group">
+  						<span class="input-group-addon" style="width: 35px;"><i class="fa fa-btc"></span></i><input id="buyBTC" maxlength="10" class="form-control buyInput glideraNumber" size="5" step="0.00000001"
+  							placeholder="0.00" type="number"><span class="input-group-addon currency-abbv">BTC</span>
+  					</div>
+  				</div>
+  				<div class="row">
+  					<div class="col-xs-12">Send Bitcoin to:</div>
+  				</div>
+  				<div class="form-group">
+  					<div class="col-xs-12 input-group">
+  						<select id="glideraBuyAddress" class="addressselectnoadd form-control" style="font-size: 12px; margin-left: 0px;"></select>
+  					</div>
+  				</div>
+  				<div class="row">
+  					<div class="col-xs-3">Summary:</div>
+  					<div class="col-xs-3" for="buySummaryBitcoin">Bitcoin</div>
+  					<div class="col-xs-6" id="buySummaryBitcoin"></div>
+  				</div>
+  				<div class="row">
+  					<div class="col-xs-offset-3 col-xs-3" for="glideraBuyAddress">Subtotal</div>
+  					<div class="col-xs-6" id="buySummarySubtotal"></div>
+  				</div>
+  				<div class="row">
+  					<div class="col-xs-offset-3 col-xs-3" for="buySummaryFee">Fee</div>
+  					<div class="col-xs-6" id="buySummaryFee"></div>
+  				</div>
+  				<div class="row">
+  					<div class="col-xs-offset-3 col-xs-3" for="buySummaryTotal" style="font-weight: bold">Total</div>
+  					<div class="col-xs-6" id="buySummaryTotal" style="font-weight: bold"></div>
+  				</div>
+  				<div class="row">
+  					<div class="col-xs-12">
+  						<button type="button" id="btnBuy2FA" class="btn btn-success">Buy Bitcoin</button>
+  					</div>
+  				</div>
+				</form>
+			</div>
+			<div id="glideraSell" class="glideratab container" style="display: none;" data-pageTitle="Sell Bitcoin">
+				<div class="modal fade" id="sell2FA" tabindex="-1" role="dialog" aria-labelledby="sell2FALabel">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header glidera-modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+								<h4 class="modal-title" id="sell2FALabel">Confirm Sell</h4>
+							</div>
+							<div class="modal-body glidera-modal-body">
+								<div class="container">
+									<div class="row">
+										<div class="col-xs-12">
+											You are about to sell <span id="sell2FABTC" style="font-weight: bold"></span> for <span id="sell2FAUSD" style="font-weight: bold"></span>.
+										</div>
+										<div class="col-xs-12" id="sell2FASMS">
+											A text message has been sent to your phone with a 2-factor authentication (2FA) code. Please enter it to confirm this sell.
+										</div>
+										<div class="col-xs-12" id="sell2FAAuthenticator">
+											Please enter your 2-factor authorization (2FA) code from your Authenticator smartphone app to confirm this sell.
+										</div>
+										<div class="col-xs-12">
+											<input id="sell2FACode" autocomplete="off" class="form-control input-block-enterkey input-click-enterkey-2" maxlength="6" placeholder="2FA Code" type="tel"></input>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer glidera-modal-footer" style="text-align: left;">
+							  <button type="button" class="btn btn-success btn-enterkey" id="btnSellBTC">Sell Bitcoin</button>
+								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<form>
+  				<div class="row">
+  					<div class="col-xs-12">Amount to sell:</div>
+  				</div>
+  				<div class="form-group" style="margin-bottom: 5px;">
+  					<div class="col-xs-12 input-group">
+  						<span class="input-group-addon" style="width: 35px;"><i class="fa fa-usd"></span></i><input id="sellUSD" maxlength="10" class="form-control sellInput glideraNumber" size="5" step="0.01" placeholder="0.00"
+  							type="number"><span class="input-group-addon currency-abbv">USD</span>
+  					</div>
+  				</div>
+  				<div class="form-group">
+  					<div class="col-xs-12 input-group">
+  						<span class="input-group-addon" style="width: 35px;"><i class="fa fa-btc"></span></i><input id="sellBTC" maxlength="10" class="form-control sellInput glideraNumber" size="5" step="0.00000001"
+  							placeholder="0.00" type="number"><span class="input-group-addon currency-abbv">BTC</span>
+  					</div>
+  				</div>
+  				<div class="row">
+  					<div class="col-xs-12">Sell Bitcoin from:</div>
+  				</div>
+  				<div class="form-group">
+  					<div class="col-xs-12 input-group">
+  						<select id="glideraSellAddress" class="addressselectnoadd form-control glideraAddressList" style="font-size: 12px; margin-left: 0px;"></select>
+  					</div>
+  				</div>
+  				<div class="row">
+  					<div class="col-xs-3">Summary:</div>
+  					<div class="col-xs-3" for="sellSummaryBitcoin">Bitcoin</div>
+  					<div class="col-xs-6" id="sellSummaryBitcoin"></div>
+  				</div>
+  				<div class="row">
+  					<div class="col-xs-offset-3 col-xs-3" for="glideraSellAddress">Subtotal</div>
+  					<div class="col-xs-6" id="sellSummarySubtotal"></div>
+  				</div>
+  				<div class="row">
+  					<div class="col-xs-offset-3 col-xs-3" for="sellSummaryFee">Fee</div>
+  					<div class="col-xs-6" id="sellSummaryFee"></div>
+  				</div>
+  				<div class="row">
+  					<div class="col-xs-offset-3 col-xs-3" for="sellSummaryTotal" style="font-weight: bold">Total</div>
+  					<div class="col-xs-6" id="sellSummaryTotal" style="font-weight: bold"></div>
+  				</div>
+  				<div class="row">
+  					<div class="col-xs-12">
+  						<button type="button" id="btnSell2FA" class="btn btn-success">Sell Bitcoin</button>
+  					</div>
+  				</div>
+				</form>
+			</div>
+			<div id="glideraTransactions" class="glideratab" style="display: none;">
+				<iframe id="glideraTransactionsIframe" style="width: 100%; height:420px; border: 0px;"></iframe>
+			</div>
+			<div id="loadingGif" style="margin: 50px; display: none;">
+				<img src="loader.gif" style="display: block; margin-left: auto; margin-right: auto;" />
+			</div>
+		</div>
+<!-- End of Glidera Integration -->    
+           
 		
         <div class="tab-pane" id="infoPage">
             <div style="padding: 20px; text-align: center;">
@@ -632,12 +867,7 @@
       
 	</div>  
       
-    <div id="priceBox" title="blockr.io">
-            
-			<div id="ltbPrice" style="display: none;"></div><div id="ltbPriceFlipped">...</div>
-            <div id="priceSrc">USD/BTC</div>
-            <!--<div id="btcPrice" style="display: none;"></div>-->
-		</div>
+    
     
   </div>
 

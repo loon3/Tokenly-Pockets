@@ -1,0 +1,37 @@
+input.glideraNumber[type=number]::-webkit-inner-spin-button, 
+input.glideraNumber[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+.glideraloadinggif 
+{
+    background: url('loader.gif') no-repeat left center !important;
+    background-size: 20px 20px !important;
+    background-position-x: 7px !important;
+}
+
+.glidera-modal-header {
+    min-height: 33px;
+    border-bottom: 1px solid #E5E5E5;
+    background: no-repeat scroll 0px 0px #475564;
+    color: #FFF;
+    font-size: 18px;
+    padding: 6px 12px 4px 39px;
+    background-size: 20px auto;
+    background-position: 10px 7px;
+}
+ 
+.glidera-modal-body {   
+    position: relative;
+    padding: 7px;
+    background: #ebebeb;
+    font-family: 'Source Sans Pro', sans-serif;
+}
+ 
+.glidera-modal-footer {   
+    background: no-repeat scroll 0px 0px #ebebeb;
+    border-top: 1px solid #E5E5E5;
+    border-radius: 10px;
+    margin-top: 0px !important;
+}

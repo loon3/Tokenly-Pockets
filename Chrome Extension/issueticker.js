@@ -4,6 +4,8 @@ function ajaxissue(url, data, rawtx) {
         if (xhr.readyState == 4) {
             console.log(xhr.responseText);
             
+            var checksuccess = jQuery.parseJSON(xhr.responseText);
+            
             $("#content").hide();
             //$("#sendtokenbutton").prop('disabled', true);
             
@@ -12,9 +14,16 @@ function ajaxissue(url, data, rawtx) {
             console.log(newTxid);
           
        
+            if (checksuccess.status != "success") {
+                
+                $("#issuefromwallet").html("<div class='h2' style='padding: 60px 0 30px 0;'>Token Issuance Failed!</div><div class='h4'>Something is wrong, please try again later.</div>");
+            
+            } else {
+                
             //$("#yourtxid").html("<a href='https://blockchain.info/tx/"+newTxid+"'>View Transaction</a>");
             //$("#issuefromwallet").html("<a href='https://chain.so/tx/BTC/"+newTxid+"'>View Transaction</a>");
-            $("#issuefromwallet").html("<div class='h2' style='padding: 60px 0 30px 0;'>Token Issued!</div><div class='h4'>Token will appear in wallet after one confirmation</div><hr><div class='h3'><a href='https://chain.so/tx/BTC/"+newTxid+"'>View Transaction</a></div>");
+                $("#issuefromwallet").html("<div class='h2' style='padding: 60px 0 30px 0;'>Token Issued!</div><div class='h4'>Token will appear in wallet after one confirmation</div><hr><div class='h3'><a href='https://chain.so/tx/BTC/"+newTxid+"'>View Transaction</a></div>");
+            }
             
             xhr.close;
         }
@@ -90,6 +99,9 @@ function pad(str, max) {
   
 
 var bitcore = require('bitcore');
+var INSIGHT_SERVER = "insight.bitpay.com";
+console.log("Default Insight Server: "+INSIGHT_SERVER);
+//INSIGHT_SERVER = getInsightServer();
 
 $( document ).ready(function() {   
 

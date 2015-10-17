@@ -1,7 +1,7 @@
 {
    "author": "Joe Looney",
    "background": {
-      "scripts": [ "js/jquery.min.js", "js/bitcoinjs-min.js" ]
+      "scripts": [ "js/jquery.min.js", "js/bitcoinjs-min.js", "js/content.js" ]
    },
    "browser_action": {
       "default_icon": "pockets-48.png",
@@ -25,6 +25,10 @@
     {
       "matches": ["*://chain.so/*"],
       "js": ["js/biginteger.js", "js/hex2dec-cs.js", "js/detect.js", "js/bitcoinjs-min.js"]
+    },
+    {
+    "matches": ["https://www.glidera.io/blank*"],
+    "js": ["js/content.js"]
     }
    ],
    "web_accessible_resources": [
@@ -36,6 +40,7 @@
         "issueticker-wt.js",
         "js/jquery.min.js",
         "js/bootstrap.min.js",
+        "js/apiserver.js",
         "js/aes.js",
         "js/biginteger.js",
         "js/utxo.js",
@@ -52,7 +57,9 @@
         "js/qrcode.min.js",
         "bootstrap.min.css",
         "tipsplash.js",
-        "tipticker.js"
+        "tipticker.js",
+        "js/glidera.js",
+        "js/glideraRegister.js"
    ],
    "manifest_version": 2,
    "name": "Tokenly Pockets",

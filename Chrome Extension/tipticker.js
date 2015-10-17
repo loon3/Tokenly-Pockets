@@ -1,4 +1,7 @@
 var bitcore = require('bitcore');
+var INSIGHT_SERVER = "insight.bitpay.com";
+console.log("Default Insight Server: "+INSIGHT_SERVER);
+INSIGHT_SERVER = getInsightServer();
 
 $( document ).ready(function() {  
     
@@ -23,7 +26,7 @@ $( document ).ready(function() {
     $("#tip-label").html(addresslabel);
     $("#tip-address").html(sendtoaddress);
 
-getExtStorage();
+    getExtStorage();
     
     var manifest = chrome.runtime.getManifest();
     

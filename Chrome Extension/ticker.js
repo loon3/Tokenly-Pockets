@@ -1,5 +1,9 @@
 var bitcore = require('bitcore');
 
+var INSIGHT_SERVER = "insight.bitpay.com";
+console.log("Default Insight Server: "+INSIGHT_SERVER);
+INSIGHT_SERVER = getInsightServer();
+
 $( document ).ready(function() { 
     
 //    getImageHash("pockets-48.png", function(hash){
@@ -48,7 +52,22 @@ $( document ).ready(function() {
   		$("#tutorial_splash").hide();
   	});
 
+    
+    $('#ninjaButton').click(function(){
+         
+        chrome.tabs.create({url: "http://xcp.ninja"});
+        
+   });
+    
+
   
+    
+    $('#shapeshiftStartButton').click(function(){
+         
+        $("#shapeshiftbuttonbox").hide();
+        $("#shapeshiftselectadd").show();
+        
+   });
     
     $('#shapeshiftButton').click(function(){
         
@@ -529,6 +548,10 @@ $(document).on("click", '.tokenlisting', function (event)
     
   $(document).on("click", '#refreshWallet', function (event)
   {
+      
+      $("#shapeshiftbuttonbox").show();
+      $("#shapeshiftselectadd").hide();
+      
       $("#currenttoken-pending").html("");
 
       $("#ltbDirectorySearchResults").html("");
@@ -718,6 +741,17 @@ $(document).on("click", '.tokenlisting', function (event)
   $('#inventoryTab').click(function ()
   {
     
+    //$('.bg').css({"width":"320px"});  
+      
+      $('#buysellTab').css({"margin-left":"12px"});
+      $("#priceBox").show();
+      $("#priceBoxBank").hide();
+      
+      
+      $('.bg').animate({
+            width: "320px"
+        }, 100 );
+      
     var address = $("#xcpaddress").html();
         
     if ($('#assettransactiontoggle').html() == "View Tokens") {
@@ -751,9 +785,68 @@ $(document).on("click", '.tokenlisting', function (event)
         
     });
     
+
     
+    $(document).on('click', '#buysellTab', function () {
+        
+       // $('.bg').css({"width":"320px"});
+//        $('.bg').animate({
+//            width: "320px"
+//        }, 100 );
+        
+        //$('#buysellTab').css({"margin-left":"12px"});
+        
+        $("#priceBox").hide();
+        $("#priceBoxBank").show();
+             
+    });
+    
+    $(document).on('click', '#glideraButton', function () {        
+        $('.bg').animate({
+            width: "378px"
+        }, 100 );
+        
+        $('#buysellTab').css({"margin-left":"70px"});
+        
+        //$('.bg').css({"width":"378px"});
+        
+    });
+    
+    
+    $(document).on('click', '#walletTab', function () {
+        
+        //$('.bg').css({"width":"320px"});
+        $('.bg').animate({
+            width: "320px"
+        }, 100 );
+        $('#buysellTab').css({"margin-left":"12px"});
+        $("#priceBox").show();
+        $("#priceBoxBank").hide();
+        
+    });
+    
+        $(document).on('click', '#settingsTab', function () {
+        
+        //$('.bg').css({"width":"320px"});
+        $('.bg').animate({
+            width: "320px"
+        }, 100 );
+        $('#buysellTab').css({"margin-left":"12px"});
+        $("#priceBox").show();
+        $("#priceBoxBank").hide();
+    });
     
 $(document).on('click', '#toolsTab', function () {
+    
+            //$('.bg').css({"width":"320px"});
+        
+        $('.bg').animate({
+            width: "320px"
+        }, 100 );
+    $('#buysellTab').css({"margin-left":"12px"});
+        $("#priceBox").show();
+        $("#priceBoxBank").hide();
+    
     var $link = $('li.active a[data-toggle="tab"]');
     $link.parent().removeClass('active');
     var tabLink = $link.attr('href');
@@ -762,6 +855,7 @@ $(document).on('click', '#toolsTab', function () {
     loadAddresslist();
 });
     
+   
     
    $(document).on("click", '#encryptPasswordButton', function (event) 
     {

@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+<head>
+<title>Glidera Registration</title>
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="popup.js"></script>
+<script src="js/glidera.js"></script>
+<script src="js/glideraRegister.js"></script>
+<link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="main.css" />
+</head>
+<body>
+	<nav class="navbar navbar-inverse" style="padding: 0px;">
+		<div class="container-fluid">
+			<div class="navbar-header" style="background-color: #475564;">
+				<a class="navbar-brand" href="#"><img src="glidera.png" style="width: 100px; height: auto;"></a>
+			</div>
+		</div>
+	</nav>
+	<div class="container" style="text-align: center;">
+		<div id="success" class="row" style="display: none;">
+			<div class="col-xs-12 alert alert-info">
+				<b>Success!</b>
+				<div>Tokenly Pockets is now connected to your Glidera account. Please re-open Tokenly Pockets to continue.</div>
+			</div>
+		</div>
+		<div id="denied" class="row" style="display: none;">
+			<div class="col-xs-12 alert alert-warning">
+				<b>Connect another time.</b>
+				<div>Tokenly Pockets is not connected to Glidera. Connect later to enable bitcoin buy/sell.</div>
+			</div>
+		</div>
+		<div id="error" class="row" style="display: none;">
+			<div class="col-xs-12 alert alert-danger">
+				<b>Something went wrong.</b>
+				<div>Tokenly Pockets was unable to connect to Glidera. Please try again.</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="btn btn-success">Close</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

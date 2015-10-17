@@ -5,17 +5,37 @@ function ajax(url, data, rawtx) {
         if (xhr.readyState == 4) {
             console.log(xhr.responseText);
             
-            $("#sendtokenbutton").html("Sent! Refresh to continue...");
-            //$("#sendtokenbutton").prop('disabled', true);
+            var checksuccess = jQuery.parseJSON(xhr.responseText);
             
-            var newTxid = rawtotxid(rawtx);
+            console.log(checksuccess.status);
             
-            console.log(newTxid);
-            $("#freezeUnconfirmed").css("display", "block");
-            $("#mainDisplay").css("display", "none");
-            //$("#yourtxid").html("<a href='https://blockchain.info/tx/"+newTxid+"'>View Transaction</a>");
-            $("#yourtxid").html("<a href='https://chain.so/tx/BTC/"+newTxid+"'>View Transaction</a>");
-            $(".tipsendcomplete").html("<div class='h1' style='padding: 60px 0 30px 0;'>Send Complete!</div><div class='h4'>Token balances update in wallet after one confirmation</div><hr><div class='h2'><a href='https://chain.so/tx/BTC/"+newTxid+"'>View Transaction</a></div>");
+            if (checksuccess.status != "success") {
+                
+                $("#sendtokenbutton").html("Refresh to continue...");
+                
+                $("#freezeUnconfirmed").css("display", "block");
+                $("#mainDisplay").css("display", "none");
+                //$("#yourtxid").html("<a href='https://blockchain.info/tx/"+newTxid+"'>View Transaction</a>");
+                $("#yourtxid").html("Transaction Failed!");
+                $("#txsendstatus").html("Something is wrong, please try again later");
+                $(".tipsendcomplete").html("<div class='h1' style='padding: 60px 0 30px 0;'>Transaction Failed!</div><div class='h4'>Something is wrong, please try again later.</div></div>");
+                
+            } else {
+            
+                $("#sendtokenbutton").html("Sent! Refresh to continue...");
+                //$("#sendtokenbutton").prop('disabled', true);
+
+                var newTxid = rawtotxid(rawtx);
+
+                console.log(newTxid);
+                $("#freezeUnconfirmed").css("display", "block");
+                $("#mainDisplay").css("display", "none");
+                //$("#yourtxid").html("<a href='https://blockchain.info/tx/"+newTxid+"'>View Transaction</a>");
+                $("#yourtxid").html("<a href='https://chain.so/tx/BTC/"+newTxid+"'>View Transaction</a>");
+                $("#txsendstatus").html("Balance will update after one confirmation");
+                $(".tipsendcomplete").html("<div class='h1' style='padding: 60px 0 30px 0;'>Send Complete!</div><div class='h4'>Token balances update in wallet after one confirmation</div><hr><div class='h2'><a href='https://chain.so/tx/BTC/"+newTxid+"'>View Transaction</a></div>");
+                
+            }
             
             xhr.close;
         }
@@ -42,7 +62,7 @@ function sendBTCpush(hextx) {
 
 function sendBTC(add_from, add_to, sendtotal, transfee) {
     
-    var source_html = "https://insight.bitpay.com/api/addr/"+add_from+"/utxo";     
+    var source_html = "https://"+INSIGHT_SERVER+"/api/addr/"+add_from+"/utxo";     
     //var source_html = "https://chain.localbitcoins.com/api/addr/"+add_from+"/utxo";
     
     
