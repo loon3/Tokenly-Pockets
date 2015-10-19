@@ -63,7 +63,7 @@ var GLIDERA_STORAGE_KEY = 'glideraStorageKey';
 var GLIDERA_API_URL = GLIDERA_URL + '/api/v1/';
 var REDIRECT_URI = GLIDERA_URL + "/blank";
 
-var INSIGHT_SERVER = "insight.bitpay.com";
+var INSIGHT_SERVER = getInsightServer();
 
 if (!glidera) {
 	var glidera = {

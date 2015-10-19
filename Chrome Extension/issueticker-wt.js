@@ -92,9 +92,7 @@ function pad(str, max) {
   
 
 var bitcore = require('bitcore');
-var INSIGHT_SERVER = "insight.bitpay.com";
-console.log("Default Insight Server: "+INSIGHT_SERVER);
-//INSIGHT_SERVER = getInsightServer();
+var INSIGHT_SERVER = getInsightServer();
 
 
 $( document ).ready(function() {   
