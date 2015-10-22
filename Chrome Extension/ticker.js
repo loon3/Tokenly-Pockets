@@ -24,6 +24,15 @@ $( document ).ready(function() {
     
     setPinBackground();
     
+    chrome.storage.local.get(["infoalert"], function (alertstatus)
+        { 
+            if (alertstatus.infoalert == "disabled" || alertstatus.infoalert == "never") {
+                
+                $( "#infoalert" ).hide();
+                
+            }
+        });
+    
     $('#alltransactions').hide();
     
     $('#yourtxid').on('click', 'a', function(){
@@ -746,7 +755,7 @@ $(document).on("click", '.tokenlisting', function (event)
       $('#buysellTab').css({"margin-left":"12px"});
       $("#priceBox").show();
       $("#priceBoxBank").hide();
-      
+      $("#buysellTab").data("hovercheck", "on");
       
       $('.bg').animate({
             width: "320px"
@@ -784,7 +793,56 @@ $(document).on("click", '.tokenlisting', function (event)
         getNews();
         
     });
+     
+    $("#buysellTab").data("hovercheck", "on");
+            
+    $( "#buysellTab" ).hover(function() {
+        
+        var hovercheck = $("#buysellTab").data("hovercheck");
+        
+        if (hovercheck == "on") {
+        
+        $("#priceBox").toggle();
+        $("#priceBoxBank").toggle();
+            
+        
+            
+        }
+        
+    });
     
+    
+
+    
+    $( "#infoalertstatus" ).click(function () {
+        
+        chrome.storage.local.set(
+                    {
+                        
+                        'infoalert': "disabled"
+                        
+                    }, function () {
+                    
+                        
+                    
+                    });
+        
+    });
+    
+    $( "#nevershow-infoalert" ).click(function () {
+        
+        chrome.storage.local.set(
+                    {
+                        
+                        'infoalert': "never"
+                        
+                    }, function () {
+                    
+                        $("#infoalert").hide();
+                    
+                    });
+        
+    });
 
     
     $(document).on('click', '#buysellTab', function () {
@@ -798,6 +856,8 @@ $(document).on("click", '.tokenlisting', function (event)
         
         $("#priceBox").hide();
         $("#priceBoxBank").show();
+        
+         $("#buysellTab").data("hovercheck", "off");
              
     });
     
@@ -822,6 +882,7 @@ $(document).on("click", '.tokenlisting', function (event)
         $('#buysellTab').css({"margin-left":"12px"});
         $("#priceBox").show();
         $("#priceBoxBank").hide();
+        $("#buysellTab").data("hovercheck", "on");
         
     });
     
@@ -834,6 +895,7 @@ $(document).on("click", '.tokenlisting', function (event)
         $('#buysellTab').css({"margin-left":"12px"});
         $("#priceBox").show();
         $("#priceBoxBank").hide();
+        $("#buysellTab").data("hovercheck", "on");
     });
     
 $(document).on('click', '#toolsTab', function () {
@@ -846,6 +908,7 @@ $(document).on('click', '#toolsTab', function () {
     $('#buysellTab').css({"margin-left":"12px"});
         $("#priceBox").show();
         $("#priceBoxBank").hide();
+    $("#buysellTab").data("hovercheck", "on");
     
     var $link = $('li.active a[data-toggle="tab"]');
     $link.parent().removeClass('active');
