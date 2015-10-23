@@ -38,9 +38,9 @@ v0.1.13 - Fixes mining fee bug when sending tokens
 
 v0.1.14 - Fixes BTC send Insufficient Funds bug
 
-v0.1.15 - Help button and overlay, BTC added to transaction history (latest version available in Chrome Web Store)
+v0.1.15 - Help button and overlay, BTC added to transaction history
 
-v0.2.0 - BVAM via Webtorrent, Glidera integration (in development)
+v0.2.0 - BVAM via Webtorrent, Glidera integration
 
 ## Features
 
