@@ -3,6 +3,24 @@ function getNetwork() {
 	//return bitcore.Networks.testnet;
 }
 
+function infoalertstart() {
+ 
+    chrome.storage.local.get(["infoalert"], function (alertstatus)
+        { 
+            if (alertstatus.infoalert == "disabled" || alertstatus.infoalert == "never") {
+                
+                $( "#infoalert" ).hide();
+                
+            } else {
+                
+                $( "#infoalert" ).show();
+                
+            }
+                
+        });
+    
+}
+
 function getExchangeRatesList() { 
     
    
@@ -190,6 +208,8 @@ function getStorage()
             if ( data.encrypted == false) {
             
                 existingPassphrase(data.passphrase);
+                
+                infoalertstart();
             
             } else if ( data.encrypted == true) {
             
@@ -1588,11 +1608,11 @@ function setBvamwtOff() {
 
                 if (enabled == "no") {
 
-                    $('#bvamwttoggle').html("Enable BVAM via Webtorrent");
+                    $('#bvamwttoggle').html("Enable Asset Data via Webtorrent");
 
                 } else {
 
-                    $('#bvamwttoggle').html("Disable BVAM via Webtorrent");
+                    $('#bvamwttoggle').html("Disable Asset Data via Webtorrent");
 
                 }
             
@@ -1605,7 +1625,7 @@ function setBvamwtOff() {
                             'bvamwt_enabled': enabled
                         }, function () {
 
-                            $('#bvamwttoggle').html("Enable BVAM via Webtorrent");
+                            $('#bvamwttoggle').html("Enable Asset Data via Webtorrent");
 
                         });
             

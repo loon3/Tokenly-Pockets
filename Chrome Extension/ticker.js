@@ -24,14 +24,7 @@ $( document ).ready(function() {
     
     setPinBackground();
     
-    chrome.storage.local.get(["infoalert"], function (alertstatus)
-        { 
-            if (alertstatus.infoalert == "disabled" || alertstatus.infoalert == "never") {
-                
-                $( "#infoalert" ).hide();
-                
-            }
-        });
+    
     
     $('#alltransactions').hide();
     
@@ -143,10 +136,13 @@ $( document ).ready(function() {
             if (decrypted_passphrase.length > 0) {
                 
                 $("#pinsplash").hide();
+                
                 $(".hideEncrypted").hide();
                 
                 $("#priceBox").show();
             
+                infoalertstart();
+                
                 existingPassphrase(decrypted.toString(CryptoJS.enc.Utf8));
                 
             } 
@@ -228,9 +224,10 @@ $( document ).ready(function() {
                 }, function () {
                 
                     $("#welcomesplash").hide();
-                    $("#tutorial_splash").show();
+                    //$("#tutorial_splash").show();
                     $(".hideEncrypted").hide();
                     $(".bg").css("min-height", "200px");
+                    infoalertstart();
                 
                 });
         
@@ -331,7 +328,7 @@ $( document ).ready(function() {
                     
                         getStorage();
                         $("#welcomesplash").hide();
-                        $("#tutorial_splash").show();
+                        //$("#tutorial_splash").show();
                                           
                     });
         
@@ -501,6 +498,8 @@ $( document ).ready(function() {
       var ontab = $("ul#allTabs li.active a#walletLink").html();
       
       if(ontab !== undefined) {
+          
+            $( "#infoalertstatus" ).click();
           
             $("#btcsendbox").hide();
             $("#moreBTCinfo").hide();
@@ -811,7 +810,8 @@ $(document).on("click", '.tokenlisting', function (event)
         
     });
     
-    
+
+        
 
     
     $( "#infoalertstatus" ).click(function () {
@@ -1138,7 +1138,7 @@ $(document).on('click', '#toolsTab', function () {
         {
             var state = $('#bvamwttoggle').html();
               
-            if (state == "Disable BVAM via Webtorrent") {
+            if (state == "Disable Asset Data via Webtorrent") {
                 
                 var enabled = "no";
 
@@ -1147,7 +1147,7 @@ $(document).on('click', '#toolsTab', function () {
                             'bvamwt_enabled': enabled
                         }, function () {
                             
-                            $('#bvamwttoggle').html("Enable BVAM via Webtorrent");
+                            $('#bvamwttoggle').html("Enable Asset Data via Webtorrent");
                         
                         });
                 
@@ -1161,7 +1161,7 @@ $(document).on('click', '#toolsTab', function () {
                             'bvamwt_enabled': enabled
                         }, function () {
                             
-                            $('#bvamwttoggle').html("Disable BVAM via Webtorrent");
+                            $('#bvamwttoggle').html("Disable Asset Data via Webtorrent");
                         
                         });
                 
