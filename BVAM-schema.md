@@ -7,7 +7,16 @@
         "email": "",
         "phone": "",
         "pgpsig": "",
-        "twitter": ""
+        "twitter": "",
+        "location": [
+          {
+            address: "",
+            city: "",
+            state: "",
+            zip: "",
+            country: ""
+          }
+        ]  
       }
   ],
   "token": [
@@ -15,7 +24,7 @@
         "name": "",
         "description": "This is a description", 
         "expiration": "<UNIX time>",
-        "images": [
+        "image": [
             {
               url: "", 
               hash: "",
