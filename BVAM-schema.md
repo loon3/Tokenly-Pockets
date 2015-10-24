@@ -3,12 +3,11 @@
   "asset": "A11160532403717707375",
   "issuer": [
       {
-        "address": "<bitcoin address>",
         "name": "",
         "email": "",
+        "phone": "",
         "pgpsig": "",
-        "twitter": "",
-        "website": ""
+        "twitter": ""
       }
   ],
   "token": [
