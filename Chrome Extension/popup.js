@@ -2415,9 +2415,25 @@ function displayBvamWTasset(asset, assetbalance, assetname) {
                         
     var assethtml = "<div class='enhancedassetwt row'><div class='col-xs-2' style='margin-left: -10px;'><div style='padding: 5px 0 0 2px;'><img src='"+iconlink+"'></div></div><div class='col-xs-10'><div class='archiveasset'>Archive</div><div style='width: 200px;' class='assetname-enhanced' data-numeric='"+asset+"'>"+assetname+"</div><div class='movetowallet'>Send</div><div style='margin: 5px 0 8px 9px; width: 200px; font-size: 11px; font-style: italic;'>"+asset+"</div><div class='assetqtybox'><div class='assetqty' style='background-color: #6C4178; border-radius: 5px; padding: 3px 6px 3px 6px; min-width: 30px; margin-bottom: 3px; text-align: center;'>"+assetbalance+"</div> <div class='"+asset+"-pending assetqty-unconfirmed'></div></div><div id='assetdivisible' style='display: none;'>"+divisible+"</div></div></div>";
                         
+    $( "."+asset+"-loading" ).hide();
+    
     $( "#allassets" ).append( assethtml );
     
 }
+
+
+function loadingBvamWTasset(asset) {
+    
+    var iconlink = "http://counterpartychain.io/content/images/icons/xcp.png";
+                        
+    var assethtml = "<div class='enhancedassetwt-loading row "+asset+"-loading'><div class='col-xs-3'><div align='center' style='padding-top: 10px;'><i class='fa fa-spinner fa-pulse fa-3x'></i></div></div><div class='col-xs-9' style='margin-left: -10px; text-align: center;'>Searching for "+asset+" asset metadata...</div></div>";
+                        
+    
+    
+    $( "#allassets" ).append( assethtml );
+    
+}
+
 
 function displayUnconfirmedBTC(address) {
  

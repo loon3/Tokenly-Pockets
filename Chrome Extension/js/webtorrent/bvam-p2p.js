@@ -105,6 +105,8 @@ function getBvamWT(bvamhasharray, callback) {
                 var client = new WebTorrent()
             
                 $.each(bvamhasharray, function(m, item) {
+                    
+                    loadingBvamWTasset(bvamhasharray[m]["asset"]);
 
                     var filename_base58_decode = Bitcoin.Base58.decode(bvamhasharray[m]["hash"])
                     var infohash = Crypto.util.bytesToHex(filename_base58_decode)

@@ -1,3 +1,16 @@
+function txfailedDisplay(){
+    
+    $("#sendtokenbutton").html("Refresh to continue...");
+                
+    $("#freezeUnconfirmed").css("display", "block");
+    $("#mainDisplay").css("display", "none");
+    //$("#yourtxid").html("<a href='https://blockchain.info/tx/"+newTxid+"'>View Transaction</a>");
+    $("#yourtxid").html("Transaction Failed!");
+    $("#txsendstatus").html("Something is wrong, please try again later");
+    $(".tipsendcomplete").html("<div class='h1' style='padding: 60px 0 30px 0;'>Transaction Failed!</div><div class='h4'>Something is wrong, please try again later.</div></div>");
+    
+}
+
 
 function ajax(url, data, rawtx) {
     var xhr = new XMLHttpRequest();
@@ -11,14 +24,7 @@ function ajax(url, data, rawtx) {
             
             if (checksuccess.status != "success") {
                 
-                $("#sendtokenbutton").html("Refresh to continue...");
-                
-                $("#freezeUnconfirmed").css("display", "block");
-                $("#mainDisplay").css("display", "none");
-                //$("#yourtxid").html("<a href='https://blockchain.info/tx/"+newTxid+"'>View Transaction</a>");
-                $("#yourtxid").html("Transaction Failed!");
-                $("#txsendstatus").html("Something is wrong, please try again later");
-                $(".tipsendcomplete").html("<div class='h1' style='padding: 60px 0 30px 0;'>Transaction Failed!</div><div class='h4'>Something is wrong, please try again later.</div></div>");
+                txfailedDisplay();
                 
             } else {
             
@@ -40,6 +46,12 @@ function ajax(url, data, rawtx) {
             xhr.close;
         }
     }
+    
+    xhr.onerror = function() { 
+        console.log("onerror function");
+        txfailedDisplay();
+    };
+    
     xhr.open(data ? "POST" : "GET", url, true);
     if (data) xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.send(data);

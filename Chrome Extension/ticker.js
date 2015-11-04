@@ -187,8 +187,9 @@ $( document ).ready(function() {
 
             $("#xcpaddress").html(addr);
 
-            getPrimaryBalance(addr);
+            //getPrimaryBalance(addr);
                     
+            $('#refreshWallet').trigger('click');
 //                    });
         }
     
