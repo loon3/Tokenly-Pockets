@@ -1137,9 +1137,12 @@ $(document).on('click', '#toolsTab', function () {
     
      $('#bvamwtbutton').click( function ()
         {
+            
             var state = $('#bvamwttoggle').html();
               
             if (state == "Disable Asset Data via Webtorrent") {
+                
+                chrome.runtime.sendMessage({bvamwt: "end"});
                 
                 var enabled = "no";
 
@@ -1154,6 +1157,8 @@ $(document).on('click', '#toolsTab', function () {
                 
                 
             } else {
+                
+                chrome.runtime.sendMessage({bvamwt: "restart"});
                 
                 var enabled = "yes";
 

@@ -2303,6 +2303,12 @@ function checkImportedLabels(m, callback) {
 
 function addBvam(newbvamdata) {
     
+    if (newbvamdata.type == "BVAMWT") {
+        
+        chrome.runtime.sendMessage({bvamwt: "end"});
+        
+    }
+    
     chrome.storage.local.get(function(data) {
         
         if(typeof(data["bvam"]) === 'undefined') { 
@@ -2322,7 +2328,15 @@ function addBvam(newbvamdata) {
                         
                         'bvam': allbvam
                         
-                    }, function (){});
+                    }, function (){
+                    
+                            if (newbvamdata.type == "BVAMWT") {
+        
+                                chrome.runtime.sendMessage({bvamwt: "restart"});
+
+                            }
+   
+                    });
                    
     });
 
