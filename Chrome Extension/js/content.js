@@ -5,5 +5,8 @@ if( urlAndQs.length >= 2) {
 }
 chrome.extension.sendMessage({redirect: newurl});
 chrome.extension.onMessage.addListener(function(request, sender) {
-  chrome.tabs.update(sender.tab.id, {url: request.redirect});
+  
+if(sender.tab != undefined){
+    chrome.tabs.update(sender.tab.id, {url: request.redirect});
+}
 });

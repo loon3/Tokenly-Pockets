@@ -9,6 +9,8 @@ function startWebTorrents() {
         var enabled = data["bvamwt_enabled"];
 
         if (enabled == "yes") {
+            
+         console.log("calculating local bvam infohashes...");
 
          chrome.storage.local.get(function(data) {
 
@@ -66,6 +68,8 @@ function startWebTorrents() {
                     }
 
                 }
+                
+                console.log("start seeding!");
 
                
 
@@ -100,7 +104,7 @@ chrome.runtime.onMessage.addListener(
 
         if (request.bvamwt == "restart") {
             
-            console.log("restart seeding!");
+            console.log("restarting...");
             
             restartWebTorrents();
         
