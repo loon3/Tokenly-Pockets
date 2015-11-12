@@ -478,7 +478,7 @@ $( document ).ready(function() {
         } else {
       
             var currentaddr = $("#xcpaddress").html();
-            $("#btcbalance").append("<div id='moreBTCinfo'><div style='margin: 20px 0 10px 0; font-size: 10px; font-weight: bold;'>"+currentaddr+"</div><div id='btcqr' style='margin: 10px auto 20px auto; height: 100px; width: 100px;'></div><div>Cost per transaction is 0.0001547 BTC</div></div>");  
+            $("#btcbalance").append("<div id='moreBTCinfo'><div style='margin: 20px 0 10px 0; font-size: 10px; font-weight: bold;'>"+currentaddr+"</div><div id='btcqr' style='margin: 10px auto 20px auto; height: 100px; width: 100px;'></div><div>Cost per transaction is 0.0001543 BTC</div></div>");  
             var qrcode = new QRCode(document.getElementById("btcqr"), {
     			text: currentaddr,
     			width: 100,
@@ -1190,7 +1190,7 @@ $(document).on('click', '#toolsTab', function () {
 
                     var description = "BVAMWT-"+hash;
 
-                    var btc_total = 0.0000547;  //total btc to receiving address
+                    var btc_total = 0.0000543;  //total btc to receiving address
                     var msig_total = 0.000078;  //total btc to multisig output (returned to sender)
 
                     var transfee = 0.0001;  //bitcoin tx fee

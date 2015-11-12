@@ -413,7 +413,7 @@ function getBTCBalance(pubkey, callback) {
         
         //var transactions = (parseFloat(data) / 15470) ; //insight
         //var transactions = (parseFloat(data.data.confirmed_balance) + parseFloat(data.data.unconfirmed_balance))/ 0.0001547; //chainso
-        var transactions = (parseFloat(apidata.data.balance) / 0.0001547) ; //blockr
+        var transactions = (parseFloat(apidata.data.balance) / 0.0001543) ; //blockr
         
         if (transactions < 1) {
             transactions = 0;
@@ -542,7 +542,7 @@ function sendtokenaction() {
                         
                             } else {
                             
-                                var btc_total = 0.0000547;  //total btc to receiving address
+                                var btc_total = 0.0000543;  //total btc to receiving address
                                 var minersfee = 0.0001;
                                 var mnemonic = $("#passphrasefromstorage").html();
 
