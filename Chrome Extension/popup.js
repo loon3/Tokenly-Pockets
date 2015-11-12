@@ -1608,11 +1608,11 @@ function setBvamwtOff() {
 
                 if (enabled == "no") {
 
-                    $('#bvamwttoggle').html("Enable Asset Data via Webtorrent");
+                    $('#bvamwttoggle').html("Enable Asset Metadata via Webtorrent");
 
                 } else {
 
-                    $('#bvamwttoggle').html("Disable Asset Data via Webtorrent");
+                    $('#bvamwttoggle').html("Disable Asset Metadata via Webtorrent");
 
                 }
             
@@ -1625,7 +1625,7 @@ function setBvamwtOff() {
                             'bvamwt_enabled': enabled
                         }, function () {
 
-                            $('#bvamwttoggle').html("Enable Asset Data via Webtorrent");
+                            $('#bvamwttoggle').html("Enable Asset Metadata via Webtorrent");
 
                         });
             
@@ -2447,6 +2447,128 @@ function loadingBvamWTasset(asset) {
     $( "#allassets" ).append( assethtml );
     
 }
+
+function writeBvamIssue(hash, jsonstring, callback) {
+    
+    //console.log(jsonstring);
+    
+    var jsondata = JSON.parse(jsonstring)
+    //console.log(jsondata);
+    
+    var time_date = new Date();
+    var time_unix = time_date.getTime();
+
+    var bvamdataforstorage = {hash: hash, type: "BVAMWT", data: jsondata, added: time_unix};
+
+    addBvamIssue(bvamdataforstorage, callback);
+
+    
+}
+
+function addBvamIssue(newbvamdata, callback) {
+       
+    chrome.storage.local.get(function(data) {
+        
+        
+        if(typeof(data["bvamwt_enabled"]) !== 'undefined') { 
+
+                var enabled = data["bvamwt_enabled"];
+
+                if (enabled == "yes") {
+
+                    chrome.runtime.sendMessage({bvamwt: "end"});
+
+                } 
+            
+        }
+        
+        
+        if(typeof(data["bvam"]) === 'undefined') { 
+            
+            var allbvam = new Array();
+            
+        } else {
+        
+            var allbvam = data["bvam"];
+            
+        }
+        
+        allbvam = allbvam.concat(newbvamdata);
+            
+        chrome.storage.local.set(
+                {
+
+                    'bvam': allbvam
+
+                }, function(){
+
+                    if (enabled == "yes") {
+
+                        chrome.runtime.sendMessage({bvamwt: "restart"});
+
+                    } 
+
+                    callback();
+
+                });
+                   
+    });
+
+}
+
+function clearIssueInputs() {
+    
+    $("#assetnameIssue").val("");
+    $("#assetdescriptionIssue").val("");
+    $("#assetwebsiteIssue").val("");
+
+    $("#ownernameIssue").val("");
+    $("#ownertwitterIssue").val("");
+
+    $('#amountIssue').val("0");	
+    
+}
+
+
+function ajaxissue(url, data, rawtx) {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+            console.log(xhr.responseText);
+            
+            $("#reviewIssueBody").hide();
+            
+            var newTxid = rawtotxid(rawtx);
+            
+            console.log(newTxid);
+                
+            $("#afterIssueBody").html("<div class='h2' style='padding: 30px 0 30px 0;'>Token Issued!</div><div class='h4'>Token will appear in wallet after one confirmation</div><div class='h3' style='padding: 30px 0 30px 0;'><a href='https://chain.so/tx/BTC/"+newTxid+"' target='_blank'>View Transaction</a></div>");
+            
+            $("#afterIssueBody").show();
+      
+            xhr.close;
+        }
+    }
+    xhr.open(data ? "POST" : "GET", url, true);
+    if (data) xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.send(data);
+}
+
+
+function sendBTCissue(hextx) {
+//    url = 'http://blockchain.info/pushtx';
+//    postdata = 'tx=' + hextx;
+    
+    url = 'https://chain.so/api/v2/send_tx/BTC';
+    postdata = 'tx_hex=' + hextx;
+    
+    if (url != null && url != "")
+    {
+        ajaxissue(url, postdata, hextx);
+    }
+}
+
+
 
 
 function displayUnconfirmedBTC(address) {

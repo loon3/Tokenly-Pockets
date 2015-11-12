@@ -75,15 +75,9 @@ function getExtStorage()
     });
 }
 
-function padtrail(str, max) {
 
-    while (str.length < max) {
-        str += "0";
-    }
-    return str;
-}
 
-function pad(str, max) {   
+function padprefix(str, max) {   
     
     str = str.toString();
     return str.length < max ? padprefix('0' + str, max) : str;   

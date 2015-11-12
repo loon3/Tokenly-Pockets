@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+<meta name="viewport" content="width=device-width, initial-scale=1"> 
+<title>xcp.ninja</title>
+	<link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,900' rel='stylesheet' type='text/css'>
+	
+<link rel="shortcut icon" href="../favicon.ico">
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+		
+<script src="https://cdn.jsdelivr.net/webtorrent/latest/webtorrent.min.js"></script>
+	
+<script type="text/javascript" language="Javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+			
+<script type="text/javascript" language="Javascript" src="../js/bitcore/bitcore.min.js"></script>
+			
+<script type="text/javascript" language="Javascript" src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/1.1.1/js/md5.min.js"></script>
+			
+<script type="text/javascript" language="Javascript" src="http://cdn.bitcoinjs.org/libs/bitcoinjs-lib/latest/bitcoinjs-min.js"></script>
+			
+<script type="text/javascript" language="Javascript" src="../js/biginteger.js"></script>
+			
+<script>
+			
+var bitcore = require('bitcore');
+				
+$.fn.serializeObject = function()
+{
+    var o = {};
+    var a = this.serializeArray();
+    $.each(a, function() {
+        if (o[this.name] !== undefined) {
+            if (!o[this.name].push) {
+                o[this.name] = [o[this.name]];
+            }
+            o[this.name].push(this.value || '');
+        } else {
+            o[this.name] = this.value || '';
+        }
+    });
+    return o;
+};
+
+//4e494e4a4131 = NINJA1
+
+//c17e4d4ff9f060b4f395438236a69621 = md5 hash of asset json
+
+function randomIntFromInterval(min,max) {
+
+    return Math.floor(Math.random()*(max-min+1)+min); 
+    
+}
+
+function create_new_assetid() {
+         
+        var assetid = "A111";
+          
+        for (var i = 1; i < 18; i++) {
+            assetid += randomIntFromInterval(0,9);
+        };
+    
+    //26^12 + 1 and 256^8
+    
+        var lowerlimit = BigIntegerSM(26).pow(12);
+        lowerlimit = BigIntegerSM(lowerlimit).add(1);
+    
+        var upperlimit = BigIntegerSM(256).pow(8);
+    
+        console.log(BigIntegerSM.toJSValue(lowerlimit));
+        console.log(BigIntegerSM.toJSValue(upperlimit));
+        
+        return assetid;
+    
+}
+
+function is_asset_unique_init(assetid, callback) {
+
+	var source_html = "https://counterpartychain.io/api/asset/"+assetid;
+    
+    $.getJSON( source_html, function( data ) {
+        
+        console.log(data.success);
+        
+        if(data.success == 0) { //asset is unique
+            
+            callback(true);
+            
+        } else { //asset is not unique
+            
+            //setTimeout(create_asset_unique(quantity, divisible, description, function(){}), 2000);
+            
+            callback(false);
+            
+        }
+        
+    });
+}
+
+$( document ).ready(function() {
+	
+	var newasset = create_new_assetid();
+	
+	$("#asset").val(newasset);
+	
+	$("#showissuebutton").click(function() {
+		
+		window.scrollTo(0, 0);
+			
+		$("#issueninjaasset").show();
+				
+		$("#introissue").hide();
+				
+	});
+	
+	$("#hashjson").click(function() {
+		
+		var assetid = $("#asset").val();
+		
+		var assetname = $("#assetname").val();
+		var owneraddress = $("#owneraddress").val();
+
+    	var divisible = $('#divisible').val();
+    	var amount = $('#amount').val();		
+		
+		if (bitcore.Address.isValid(owneraddress)){
+		
+			is_asset_unique(assetid, function(result){
+			
+				if (result == true && assetid.length > 3 && assetname.length > 0 && owneraddress.length > 0) {
+	
+					var jsonform = JSON.stringify($("#assetinfoform").serializeObject());
+
+
+					//v1 hash		
+					// var firstSHA = Crypto.SHA256(jsonform);
+					// var hash160 = Crypto.RIPEMD160(Crypto.util.hexToBytes(firstSHA))
+					// var version = 0x41 // "T"
+					// var hashAndBytes = Crypto.util.hexToBytes(hash160)
+					// hashAndBytes.unshift(version)
+
+					// var doubleSHA = Crypto.SHA256(Crypto.util.hexToBytes(Crypto.SHA256(hashAndBytes)))
+					// var addressChecksum = doubleSHA.substr(0,8)
+
+					// var unencodedAddress = "41" + hash160 + addressChecksum
+
+					// var hash = Bitcoin.Base58.encode(Crypto.util.hexToBytes(unencodedAddress))
+		
+
+					//v2 webtorrent infohash
+					var blob = new Blob([jsonform], {type: "application/json"});
+					console.log(blob);
+
+    				var client = new WebTorrent()    
+					
+					client.seed(blob, {name: "BVAMWT.json"}, function (torrent) {
+			
+						var hash = torrent.infoHash;
+			
+						var hash_base58 = Bitcoin.Base58.encode(Crypto.util.hexToBytes(hash))
+	
+							// var tipsplash = $('.issue-button').html();
+							var tipsplash = $('.issue-webtorrent-button').html();
+
+							if (tipsplash.length > 0) {
+							
+				   				var description = "BVAMWT-"+hash_base58;	
+		
+								var issuebutton = "<div style='display: inline-block; padding: 5px;'><a href='"+tipsplash+"?address="+owneraddress+"&asset="+assetid+"&divisible="+divisible+"&amount="+amount+"&description="+description+"' class='btn btn-lg btn-primary' role='button'>Review and Issue Token with Tokenly Pockets</a></div>";
+		
+								$("#assetmd5").html( issuebutton );
+		
+							} else {
+		
+								$("#assetmd5").html( "<div class='small'>Issue "+assetid+" with the following description:</div><div style='margin: 20px 0 0 0;'><a href='http://xcp.ninja/p2p/infohash/"+hash+"/BVAMWT.json'>BVAMWT-"+hash_base58+"</a></div>" );
+		
+							}
+		
+							$.post( "logassetwt.php", { jsonpayload: jsonform, assetid: assetid, hash: hash_base58, infohash: hash } );
+
+							$("#hashjson").hide();
+		
+							$("#issueninjaasset").hide();
+						
+						client.destroy()
+						
+					})
+			
+				} else {
+				
+					$("#assetmd5").html( "<h1>Error</h1><p>You must provide a valid asset name and owner address.</p>" );
+				
+				}
+		
+			});
+		
+		} else {
+		
+			$("#assetmd5").html( "<h1>Error</h1><p>You must provide a valid owner address.</p>" );
+		
+		}
+		
+		$("#hashjson").hide();
+		
+		$("#issueninjaasset").hide();
+		  
+	});
+		
+		
+		
+		
+		
+		
+		
+		
+	
+});
+	
+
+</script>
+			
+<style>
+
+
+body {
+    font-family: 'Lato', Calibri, Arial, sans-serif;
+}
+a {
+	color: #3E385E;
+	text-decoration: none;
+}
+a:hover {
+	color: #ccc;
+}
+
+</style>
+</head>
+	<body>
+		<div class="container" style="margin-top: 50px;">
+			<!-- Top Navigation -->
+			
+			<div align="center">
+					
+				<div><img src="/images/ninja-icon.png" height="120px"></div>
+				<!--<div style="font-size: 72px; margin-top: -10px;">xcp.ninja</div>-->
+			</div>
+			<div id="introissue" style="margin: auto; padding: 20px 0 0 0; text-align: center; width: 700px;">
+				<div class="h2" style="text-decoration: underline; padding: 0 0 20px 0;">Peer to Peer Enhanced Tokens</div>
+				<div class="lead">Token data via Webtorrent is unique in that you, the issuer of an enhanced token (Counterparty Numeric Asset), are responsible for seeding the Blockchain Validated Asset Metadata (BVAM) file for other token holders to download.  BVAM can only be downloaded by wallet software if it is being actively seeded.</div>  
+				<div class="lead">xcp.ninja provides a link at the end of the token issuance process which can be used for seeding your BVAM file.  It is recommended that you download the newly created BVAMWT.json (do not change the file name!) so that it can be seeded via any Webtorrent client (ex. <a href="http://instant.io">instant.io</a>) in the event that xcp.ninja is unavailable.</div>
+				<div class="lead" style="padding: 0 0 20px 0;">For Tokenly Pockets users, once your wallet downloads BVAM for a given token, it is stored within the wallet for future reference and does not need to be downloaded again.</div>
+			<button id="showissuebutton" class="btn btn-lg btn-primary">
+				Continue...
+			</button>
+			</div>
+			<div id="issueninjaasset" style="width: 500px; margin: 20px auto 100px auto; text-align: left; display: none;">
+				
+				<div style="margin: 30px 0 50px;" align="center">
+				<legend><div align='center' class='small'>Token Issuance Details</div></legend>
+	
+				<div class="form-group">
+  <label class="control-label" for="amount">Token Quantity</label>
+  <div class="controls">
+    <input style="text-align: center;" type="text" id="amount" name="amount" value="0" class="form-control">
+  </div>
+</div>
+	
+	
+
+<div class="form-group">
+  <label class="control-label" for="amount">Divisible</label>
+  <div class="controls" style="margin: auto; width: 100px;">
+    <select id="divisible" class="form-control"><option value="true">true</option><option value="false">false</option></select>
+    </div>
+</div>
+		</div>		
+				
+			<form id="assetinfoform" method="post">
+<fieldset>
+
+<!-- method="post" action="logasset.php" -->
+<legend><div align='center' class='small'>Token Data</div></legend>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="control-label" for="ownername">Issuer Name</label>
+  <div class="controls">
+    <input id="ownername" name="ownername" type="text" placeholder="Jelly Corp." class="form-control" maxlength="100">
+    
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="control-label" for="owneremail">Issuer Twitter</label>
+  <div class="controls">
+    <input id="owneremail" name="ownertwitter" type="text" placeholder="@jellyrules" class="form-control" maxlength="100">
+    
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="control-label" for="owneraddress">Issuing Address (*required)</label>
+  <div class="controls">
+    <input id="owneraddress" name="owneraddress" type="text" placeholder="1GcFhAQGFZVDAr4jiR2tKwisHcgNUjhGNC" class="form-control" maxlength="50">
+    
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="control-label" for="assetid">Token ID</label>
+  <div class="controls">
+    <input id="asset" name="asset" type="text" placeholder="A111283739373738" class="form-control"  readonly="readonly">
+  </div>
+  <div class="text-muted" style="font-style: italic;">Counterparty Numeric Asset Name is randomly generated.</div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="control-label" for="assetname">Token Name (*required)</label>
+  <div class="controls">
+    <input id="assetname" name="assetname" type="text" placeholder="1-yr Jelly of the Month Club Subscription" class="form-control" maxlength="64">
+    
+  </div>
+</div>
+
+<!-- Textarea -->
+<div class="form-group">
+  <label class="control-label" for="assetdescription">Token Description</label>
+  <div>                     
+    <textarea id="assetdescription" name="assetdescription" class="form-control" placeholder="The holder of this token may redeem it for a 1-yr Jelly of the Month Club Subscription" maxlength="500"></textarea>
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="control-label" for="assetwebsite">Token Website</label>
+  <div class="controls">
+    <input id="assetwebsite" name="assetwebsite" type="text" placeholder="http://www.jellyrules.com" class="form-control" maxlength="200">
+    
+  </div>
+</div>
+
+
+
+    
+
+</fieldset>
+</form>
+   
+   <div style="text-align: center; padding: 30px;"> 
+    <button id="hashjson" name="hashjson" class="btn btn-primary btn-lg">Create Token Data</button>
+</div>
+    
+ 
+
+</div>
+
+<div id="assetmd5" class="lead" style="padding: 20px; text-align: center;"></div>
+    
+    
+    
+    	<div class='issue-webtorrent-button' style='display: none;'></div>
+    	<div class='issue-image' style='display: none;'></div>
+
+		
+
+	</body>
+</html>

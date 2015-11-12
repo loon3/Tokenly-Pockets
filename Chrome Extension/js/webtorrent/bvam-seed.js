@@ -1,4 +1,46 @@
- 
+// function bulkSeed (files, callback) {
+//  var index = 0
+//  function seeder () {
+//    client.seed(files[index], function onseed (torrent) {
+//    // do something with torrent
+//    if (index < files.lenght) {
+//      seeder()
+//      index ++
+//      }
+//      else callback()
+//    })
+//    }
+//    }
+
+//$( document ).ready(function() {  
+//
+//    var files = [1, 2, 3, 4, 5, 6];
+//
+//    function bulkSeed (files, callback) {
+//      var index = 0
+//      function seeder () {
+//        clientseed(files[index], function() {
+//        // do something with torrent
+//        if (index < files.length) {
+//
+//            index ++
+//            seeder()
+//
+//          }
+//          else callback()
+//        })
+//        }
+//     }
+//
+//    function clientseed(file, callback){
+//
+//        $("#files").append(file+"<br>");
+//
+//        callback();
+//
+//    }
+//    
+//});
 
 var client = new WebTorrent();
 

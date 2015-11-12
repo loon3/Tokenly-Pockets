@@ -1,3 +1,11 @@
+function padtrail(str, max) {
+
+    while (str.length < max) {
+        str += "0";
+    }
+    return str;
+}
+
 function create_new_assetid() {
          
         var assetid = "A111";
@@ -18,6 +26,29 @@ function create_new_assetid() {
         
         return assetid;
     
+}
+
+function is_asset_unique_init(assetid, callback) {
+
+	var source_html = "https://counterpartychain.io/api/asset/"+assetid;
+    
+    $.getJSON( source_html, function( data ) {
+        
+        console.log(data.success);
+        
+        if(data.success == 0) { //asset is unique
+            
+            callback(true);
+            
+        } else { //asset is not unique
+            
+            //setTimeout(create_asset_unique(quantity, divisible, description, function(){}), 2000);
+            
+            callback(false);
+            
+        }
+        
+    });
 }
 
 function is_asset_unique(assetid, quantity, divisible, description, callback){
@@ -135,19 +166,19 @@ function create_issuance_data(assetid, quantity, divisible, description) {
             var trans_id = "00000014";
 
             var descriptionlength = description.length;
-            var descriptionlength_hex = pad(descriptionlength.toString(16),2);
+            var descriptionlength_hex = padprefix(descriptionlength.toString(16),2);
 
             var initiallength = parseFloat(descriptionlength) + 39;
-            var initiallength_hex = pad(initiallength.toString(16),2);
+            var initiallength_hex = padprefix(initiallength.toString(16),2);
 
             var assetid_prehex = decToHex(assetid);
 
             console.log(assetid_prehex);
             console.log(assetid_prehex.substr(2));
 
-            var assetid_hex = pad(assetid_prehex.substr(2),16);
+            var assetid_hex = padprefix(assetid_prehex.substr(2),16);
 
-            var quantity_hex = pad(quantity_int.toString(16),16);
+            var quantity_hex = padprefix(quantity_int.toString(16),16);
 
             var description_hex_short = bin2hex(description);
             var description_hex = padtrail(description_hex_short, 44);
@@ -163,25 +194,24 @@ function create_issuance_data(assetid, quantity, divisible, description) {
 
             //var descriptionlength = 41;
             var descriptionlength = description.length;
-            var descriptionlength_hex = pad(descriptionlength.toString(16),2);
+            var descriptionlength_hex = padprefix(descriptionlength.toString(16),2);
 
             var initiallength = 61;
-            var initiallength_hex = pad(initiallength.toString(16),2);
+            var initiallength_hex = padprefix(initiallength.toString(16),2);
 
             //var secondlength = 27;
             var secondlength = descriptionlength - 14;
             
-            var secondlength_hex = pad(secondlength.toString(16),2);
-
+            var secondlength_hex = padprefix(secondlength.toString(16),2);
 
             var assetid_prehex = decToHex(assetid);
 
             console.log(assetid_prehex);
             console.log(assetid_prehex.substr(2));
 
-            var assetid_hex = pad(assetid_prehex.substr(2),16);
+            var assetid_hex = padprefix(assetid_prehex.substr(2),16);
 
-            var quantity_hex = pad(quantity_int.toString(16),16);
+            var quantity_hex = padprefix(quantity_int.toString(16),16);
 
             var description_hex_short_a = bin2hex(description.substr(0,22));
             var description_hex_a = padtrail(description_hex_short_a, 44);

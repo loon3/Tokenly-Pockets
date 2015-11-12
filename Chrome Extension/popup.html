@@ -13,11 +13,13 @@
     <script src="js/aes.js"></script>
     <script src="js/biginteger.js"></script>
     <script src="js/utxo.js"></script>
+    <script src="js/hex2dec-cs.js"></script>
     
     <script src="js/xcp-js/transactions.js"></script>
     <script src="js/xcp-js/rc4.js"></script>
     <script src="js/xcp-js/convert-type.js"></script>
     <script src="js/xcp-js/decode.js"></script>
+    <script src="js/xcp-js/issuance.js"></script>
     <script src="popup.js"></script>
 
     
@@ -349,6 +351,12 @@
                 </div>
             </a> 
 -->
+             <a id="ninjaButton" href="#IssuePage" data-toggle="tab">
+            <div class="col-xs-4 toolicon activetool" align="center"> 
+                <img src="factory-icon.png" height="48" width="48">
+                <div style="padding: 5px; font-size: 11px;">Create<br>Enhanced Token</div>
+            </div>
+           </a>
             
             <a id="signApp" href="#signPage" data-toggle="tab">
                 <div class="col-xs-4 toolicon activetool" align="center">
@@ -398,12 +406,7 @@
                 
                 
                 
-           <a id="ninjaButton">
-            <div class="col-xs-4 toolicon activetool" align="center"> 
-                <img src="images/ninja-icon.png" height="48" width="48">
-                <div style="padding: 5px; font-size: 11px;">Create an Enhanced Token</div>
-            </div>
-           </a>
+          
             
                 <a id="SwapbotApp" href="#SwapbotPage" data-toggle="tab">
              <div class="col-xs-4 toolicon comingsoon" align="center"> 
@@ -479,6 +482,120 @@
              
       </div>
         
+        
+      <div class="tab-pane" id="IssuePage">
+            
+           
+            <div id="IssueBody" align="left" class="applink" style="padding: 20px 10px 20px 10px;">        
+                
+                <div style="margin: 10px 0 10px 0;" align="center"><h2>Create<br>Enhanced Token</h2><div style="padding: 20px 0 0 0;">Token issuance cost is 0.000256 BTC</div></div>
+                
+                <div style="margin: 30px 0 20px; background-color: #fcfcfc; padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+                    <legend><div align='center' class='small'>Token Issuance Details</div></legend>
+                       
+                        <!-- Text input-->
+                    <div class="form-group">
+                      <label class="control-label" for="assetid">Token ID</label>
+                      <div class="controls">
+                        <input id="assetIssue" name="asset" type="text" class="form-control issuecenter" readonly="readonly">
+                      </div>
+                      <div class="text-muted" style="font-style: italic; font-size: 11px;">Counterparty Numeric Asset is randomly generated.</div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="control-label" for="owneraddress">Issuing Address</label>
+                      <div class="controls">
+        <!--                <input id="owneraddressIssue" name="owneraddress" type="text" placeholder="1GcFhAQGFZVDAr4jiR2tKwisHcgNUjhGNC" class="form-control" maxlength="50">-->
+
+                        <select id="owneraddressIssue" class="addressselectnoadd form-control issuecenter" style="font-size: 12px; margin-left: 0px; width: 270px;"></select>
+
+                      </div>
+                      <div class="text-muted" style="font-style: italic; font-size: 11px;">You must have 0.000256 BTC at this address</div>
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label" for="amount">Token Quantity</label>
+                      <div class="controls">
+                        <input type="text" id="amountIssue" name="amount" class="form-control  issuecenter">
+                      </div>
+                    </div>
+
+
+
+                    <div class="form-group">
+                      <label class="control-label" for="amount">Divisible</label>
+                      <div class="controls">
+                        <select id="divisibleIssue" class="form-control"><option value="true">true</option><option value="false">false</option></select>
+                        </div>
+                    </div>
+               
+            <!-- method="post" action="logasset.php" -->
+            <legend><div align='center' class='small' style='padding: 15px 0 0 0;'>Token Data</div></legend>
+
+
+              
+               <!-- Text input-->
+                    <div class="form-group">
+                      <label class="control-label" for="assetname">Token Name (*required)</label>
+                      <div class="controls">
+                        <input id="assetnameIssue" name="assetname" type="text" class="form-control issuecenter" maxlength="64" placeholder="My 1st Enhanced Token!">
+
+                      </div>
+                    </div>
+
+            <!-- Textarea -->
+            <div class="form-group">
+              <label class="control-label" for="assetdescription">Token Description</label>
+              <div>                     
+                <textarea id="assetdescriptionIssue" name="assetdescription" class="form-control" maxlength="500"></textarea>
+              </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group">
+              <label class="control-label" for="assetwebsite">Token Website</label>
+              <div class="controls">
+                <input id="assetwebsiteIssue" name="assetwebsite" type="text" class="form-control issuecenter" maxlength="200">
+
+              </div>
+            </div>
+              
+                          <!-- Text input-->
+            <div class="form-group">
+              <label class="control-label" for="ownername">Issuer Name</label>
+              <div class="controls">
+                <input id="ownernameIssue" name="ownername" type="text" class="form-control issuecenter" maxlength="100">
+
+              </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group">
+              <label class="control-label" for="owneremail">Issuer Twitter</label>
+              <div class="controls">
+                <input id="ownertwitterIssue" name="ownertwitter" type="text" class="form-control issuecenter" maxlength="100">
+
+              </div>
+            </div>
+
+        </div>
+
+               <div style="text-align: center; padding: 30px;"> 
+                <div><button id="hashjsonIssue" name="hashjson" class="btn btn-primary btn-lg">Review Token Data</button></div>
+                   <div id="errorIssue" style="text-align: center; padding-top: 5px;"></div>
+            </div>
+                
+                
+
+        </div>
+          <div id="reviewIssueBody" align="center" style="padding: 20px 10px 20px 10px; display: none;"> 
+              <div id="reviewIssueBodyInfo"></div>
+            <div style="text-align: center; padding: 30px;"> 
+                <div><button id="reviewIssueButton" class="btn btn-primary btn-lg">Issue Token</button></div>
+                <div id="errorReview" style="text-align: center; padding-top: 5px;"></div>
+            </div>
+          </div>
+         <div id="afterIssueBody" align="center" style="padding: 20px 10px 20px 10px; display: none;"></div>
+      </div>
     
       
       <div class="tab-pane" id="shapeshiftPage">
