@@ -1076,6 +1076,80 @@ $(document).on('click', '#toolsTab', function () {
         
    });
     
+    
+     $('#hashjsonIssueTOKNID').click(function(){
+        
+        var assetid = $("#assetIssue").val();
+        var assetname = $("#assetnameIssue").val();
+        var owneraddress = $("#owneraddressIssue").val();
+		
+		if (bitcore.Address.isValid(owneraddress)){
+		
+			is_asset_unique_init(assetid, function(result){
+                
+                var assetname = $("#assetnameIssue").val();
+			
+				if (result == true && assetname.length > 0) { 
+                    
+                        var assetid = $("#assetIssue").val();
+                        var assetname = $("#assetnameIssue").val();
+                        var assetdesc = $("#assetdescriptionIssue").val();
+                        var assetweb = $("#assetwebsiteIssue").val();
+
+                        var ownername = $("#ownernameIssue").val();
+                        var ownertwitter = $("#ownertwitterIssue").val();
+                        var owneraddress = $("#owneraddressIssue").val();
+
+                        var divisible = $('#divisibleIssue').val();
+                        var amount = $('#amountIssue').val();	   
+ 
+                        var prejsonform = {asset: assetid, assetdescription: assetdesc, assetname: assetname, assetwebsite: assetweb, owneraddress: owneraddress, ownername: ownername, ownertwitter: ownertwitter};
+		
+                        var jsonform = JSON.stringify(prejsonform);
+
+                        console.log(jsonform);
+
+                        var firstSHA = Crypto.SHA256(jsonform);
+                        var hash160 = Crypto.RIPEMD160(Crypto.util.hexToBytes(firstSHA))
+                        var version = 0x41 // "T"
+                        var hashAndBytes = Crypto.util.hexToBytes(hash160)
+                        hashAndBytes.unshift(version)
+
+                        var doubleSHA = Crypto.SHA256(Crypto.util.hexToBytes(Crypto.SHA256(hashAndBytes)))
+                        var addressChecksum = doubleSHA.substr(0,8)
+
+                        var unencodedAddress = "41" + hash160 + addressChecksum
+
+                        var hash = Bitcoin.Base58.encode(Crypto.util.hexToBytes(unencodedAddress))
+
+                        var description = "TOKNID-"+hash;	
+		
+                        var reviewinfo = "<div class='row' style='padding: 5px 0 5px 0;'><div class='col-xs-12' style='text-align: left; font-weight: bold;'>Token Name:</div><div class='col-xs-12' style='text-align: left;'>"+assetname+"</div></div><div class='row' style='padding: 5px 0 5px 0;'><div class='col-xs-12' style='text-align: left; font-weight: bold;'>Issuing Address:</div><div class='col-xs-12' style='text-align: left;'>"+owneraddress+"</div></div><div class='row' style='padding: 5px 0 5px 0;'><div class='col-xs-12' style='text-align: left; font-weight: bold;'>Token ID:</div><div class='col-xs-12' style='text-align: left;'>"+assetid+"</div></div><div class='row' style='padding: 5px 0 5px 0;'><div class='col-xs-12' style='text-align: left; font-weight: bold;'>Divisible:</div><div class='col-xs-12' style='text-align: left;'>"+divisible+"</div></div><div class='row' style='padding: 5px 0 5px 0;'><div class='col-xs-12' style='text-align: left; font-weight: bold;'>Amount to be Issued:</div><div class='col-xs-12' style='text-align: left;'>"+amount+"</div></div><div class='row' style='padding: 5px 0 5px 0;'><div class='col-xs-12' style='text-align: left; font-weight: bold;'>Description:</div><div class='col-xs-12' style='text-align: left;' id='descriptionReview'>"+description+"</div></div>";
+                            
+                        //<div class='row' style='padding: 5px 0 5px 0;'><div class='col-xs-12' style='text-align: left; font-weight: bold;'>BVAM json:</div><div class='col-xs-12' style='text-align: left;'>"+jsonstring+"</div></div>
+                        $("#reviewIssueBodyInfo").data("bvam_cache", jsonform);
+                        $("#reviewIssueBodyInfo").data("hash_cache", hash);
+                    
+                        $.post( "http://xcp.ninja/logasset.php", { jsonpayload: jsonform, assetid: assetid, hash: hash } );
+
+                        $("#reviewIssueBodyInfo").html(reviewinfo);
+
+                        $("#IssueBody").hide();
+                        $("#reviewIssueBody").show();
+                    
+                    
+                    } else {
+				
+					$("#errorIssue").html( "You must provide a token name!" );
+				
+				}
+        
+            })
+        }
+         
+   });         
+    
+    
     $('#hashjsonIssue').click(function(){
         
         console.log("yo");
@@ -1175,7 +1249,8 @@ $(document).on('click', '#toolsTab', function () {
 
                 writeBvamIssue(hash, bvamjson, function(){
 
-                    console.log("bvam infohash "+hash+" written to local storage!");
+                    //console.log("bvam infohash "+hash+" written to local storage!");
+                    console.log("bvam TOKNID hash "+hash+" written to local storage!");
 
                     $("#reviewIssueButton").prop('disabled', true);
                     $("#reviewIssueButton").html("Issuing... <i class='fa fa-spinner fa-spin'></i>");
@@ -1188,7 +1263,8 @@ $(document).on('click', '#toolsTab', function () {
                     var divisible = $('#divisibleIssue').val();
                     var quantity = $('#amountIssue').val();	
 
-                    var description = "BVAMWT-"+hash;
+                    //var description = "BVAMWT-"+hash;
+                    var description = "TOKNID-"+hash;
 
                     var btc_total = 0.0000547;  //total btc to receiving address
                     var msig_total = 0.000078;  //total btc to multisig output (returned to sender)

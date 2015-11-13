@@ -2450,7 +2450,8 @@ function writeBvamIssue(hash, jsonstring, callback) {
     var time_date = new Date();
     var time_unix = time_date.getTime();
 
-    var bvamdataforstorage = {hash: hash, type: "BVAMWT", data: jsondata, added: time_unix};
+    //var bvamdataforstorage = {hash: hash, type: "BVAMWT", data: jsondata, added: time_unix};
+    var bvamdataforstorage = {hash: hash, type: "TOKNID", data: jsondata, added: time_unix};
 
     addBvamIssue(bvamdataforstorage, callback);
 

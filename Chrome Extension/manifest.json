@@ -1,7 +1,7 @@
 {
    "author": "Joe Looney",
    "background": {
-      "scripts": [ "js/content.js", "js/jquery.min.js", "js/bitcoinjs-min.js", "js/webtorrent/webtorrent.min.js", "js/webtorrent/bvam-seed.js" ]
+      "scripts": [ "js/content.js" ]
    },
    "browser_action": {
       "default_icon": "pockets-48.png",
