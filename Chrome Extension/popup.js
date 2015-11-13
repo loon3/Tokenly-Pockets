@@ -2305,7 +2305,7 @@ function addBvam(newbvamdata) {
     
     if (newbvamdata.type == "BVAMWT") {
         
-        chrome.runtime.sendMessage({bvamwt: "end"});
+        chrome.runtime.sendMessage({bvamwt: "seed_new", bvamjson: newbvamdata.data});
         
     }
     
@@ -2328,15 +2328,7 @@ function addBvam(newbvamdata) {
                         
                         'bvam': allbvam
                         
-                    }, function (){
-                    
-                            if (newbvamdata.type == "BVAMWT") {
-        
-                                chrome.runtime.sendMessage({bvamwt: "restart"});
-
-                            }
-   
-                    });
+                    }, function (){});
                    
     });
 
@@ -2476,7 +2468,7 @@ function addBvamIssue(newbvamdata, callback) {
 
                 if (enabled == "yes") {
 
-                    chrome.runtime.sendMessage({bvamwt: "end"});
+                    chrome.runtime.sendMessage({bvamwt: "seed_new", bvamjson: newbvamdata.data});
 
                 } 
             
@@ -2502,11 +2494,11 @@ function addBvamIssue(newbvamdata, callback) {
 
                 }, function(){
 
-                    if (enabled == "yes") {
-
-                        chrome.runtime.sendMessage({bvamwt: "restart"});
-
-                    } 
+//                    if (enabled == "yes") {
+//
+//                        chrome.runtime.sendMessage({bvamwt: "restart"});
+//
+//                    } 
 
                     callback();
 

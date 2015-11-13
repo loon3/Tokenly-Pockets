@@ -57,6 +57,8 @@ function startWebTorrents() {
          chrome.storage.local.get(function(data) {
 
             if(typeof(data["bvam"]) !== 'undefined') { 
+                
+                var jsontoseed = new Array();
 
                 var allbvam = data["bvam"];
                 
@@ -86,30 +88,45 @@ function startWebTorrents() {
 
                         var prejsonform = {ownername: ownername, ownertwitter: ownertwitter, owneraddress: owneraddress, asset: assetid, assetname: assetname, assetdescription: assetdesc, assetwebsite: assetweb};
 
-                        var filename = "BVAMWT.json";
+                        //var filename = "BVAMWT.json";
 
                         var jsonstring = JSON.stringify(prejsonform);
-                        var blob = new Blob([jsonstring], {type: "application/json"});
+                        
 
-                        client.seed(blob, {name: filename}, function (torrent) {
+                        jsontoseed[k] = jsonstring;
+                        
+                        k++;
+
+                    }
+
+                }
+                
+                //console.log(jsontoseed);
+                
+                (function TorrentLoop (i) {          
+                   
+                  torrentfunc = setTimeout(function () {   
+                       
+                        jsonstring = jsontoseed[i-1];
+                                            
+                        var blob = new Blob([jsonstring], {type: "application/json"});
+                
+                        client.seed(blob, {name: "BVAMWT.json"}, function (torrent) {
 
                             console.log('Client is seeding ' + torrent.infoHash);
 
 
                             torrent.on('wire', function (wire, addr) {
                                 console.log(torrent.infoHash + ' connected to peer with address ' + addr);
-                            })
-
-
-
+                            })     
+        
                         })   
 
-
-
-
-                    }
-
-                }
+                       if (--i) TorrentLoop(i);  
+                       
+                   }, 500)
+                })(jsontoseed.length);  
+                
                 
                 console.log("start seeding!");
 
@@ -128,38 +145,74 @@ function startWebTorrents() {
     
 }
 
-function restartWebTorrents() {
+function seedNewTorrent(bvam){
     
-//    client.destroy(function(){
-        
-        client = new WebTorrent();
-        
-        startWebTorrents();
-        
-//    })
-  
+    var blob = new Blob([bvam], {type: "application/json"});
+                
+    client.seed(blob, {name: "BVAMWT.json"}, function (torrent) {
+
+        console.log('Client is seeding ' + torrent.infoHash);
+
+        torrent.on('wire', function (wire, addr) {
+            console.log(torrent.infoHash + ' connected to peer with address ' + addr);
+        })     
+
+    })   
+   
 }
+
 
 
 chrome.runtime.onMessage.addListener(
     function(request) {
 
         if (request.bvamwt == "restart") {
-            
+
             console.log("restarting...");
-            
-            restartWebTorrents();
+
+            client = new WebTorrent();
+
+            startWebTorrents();
+
+        }
         
-        } else if (request.bvamwt == "end") {
+        if (request.bvamwt == "seed_new") {
             
-            console.log("stop seeding!");
+            console.log(request.bvamjson);
             
-            client.destroy();
+            var newbvam = request.bvamjson;
             
+            var jsondata = JSON.stringify(newbvam);
+
+            seedNewTorrent(jsondata);
+
+        }
+        
+        if (request.bvamwt == "end") {
+
+            if (typeof(client) !== undefined) {
+                
+                clearTimeout(torrentfunc);
+
+                console.log(client.torrents);
+
+                client.destroy(function () {
+
+                    console.log("client destroyed!");
+
+                })   
+
+                chrome.runtime.reload();
+
+            } 
+
         } 
         
     }
 );
+
+
+
 
 
 startWebTorrents();
