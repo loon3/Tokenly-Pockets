@@ -83,12 +83,19 @@ function startWebTorrents() {
                   torrentfunc = setTimeout(function () {   
                        
                         jsonstring = jsontoseed[i-1];
+                      
+                        var jsondata = JSON.parse(jsonstring);
+                      
+                        console.log(jsondata);
+    
+                        var asset = jsondata["asset"];
+                        var assetname = jsondata["assetname"];
                                             
                         var blob = new Blob([jsonstring], {type: "application/json"});
                 
                         client.seed(blob, {name: "BVAMWT.json"}, function (torrent) {
 
-                            $("#seedinfo").append('<br>Client is seeding ' + torrent.infoHash);
+                             $("#seedinfo").append('<div>Client is seeding ' + asset + " - " + assetname + " - <a href='https://instant.io/#" + torrent.infoHash + "'>" + torrent.infoHash + "</a></div>");
 
 
                             torrent.on('wire', function (wire, addr) {
@@ -122,12 +129,17 @@ function startWebTorrents() {
 
 function seedNewTorrent(bvam){
     
+    var jsondata = JSON.parse(bvam);
+    
+    var asset = jsondata["asset"];
+    var assetname = jsondata["assetname"];
+    
     var blob = new Blob([bvam], {type: "application/json"});
                 
     client.seed(blob, {name: "BVAMWT.json"}, function (torrent) {
 
-        $("#seedinfo").append('<br>Client is seeding ' + torrent.infoHash);
-
+        $("#seedinfo").append('<div>Client is seeding ' + asset + " - " + assetname + " - <a href='https://instant.io/#" + torrent.infoHash + "'>" + torrent.infoHash + "</a></div>");
+        
         torrent.on('wire', function (wire, addr) {
             $("#seedinfo").append('<br>' + torrent.infoHash + ' connected to peer with address ' + addr);
         })     
@@ -181,8 +193,29 @@ var client = new WebTorrent();
 startWebTorrents();
 
 setTimeout(function(){
+    
         chrome.tabs.getCurrent(function(tab) {
-                chrome.tabs.reload(tab.id, function() { });
-            });
-    }, 60000);
+            chrome.tabs.reload(tab.id, function() { });
+        });
+    
+    
+    
+    }, 90000);
 
+//setInterval(function(){
+//    
+//        chrome.tabs.getCurrent(function(tab) {
+//            
+//            chrome.processes.getProcessIdForTab(tab.id, function(processId) { 
+//                
+//                chrome.processes.getProcessInfo(processId, function(processes) {
+//                    
+//                    console.log(processes);
+//     
+//                });
+//               
+//            });
+//            
+//        });
+//    
+//    }, 5000);

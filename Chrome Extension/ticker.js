@@ -1249,8 +1249,8 @@ $(document).on('click', '#toolsTab', function () {
 
                 writeBvamIssue(hash, bvamjson, function(){
 
-                    //console.log("bvam infohash "+hash+" written to local storage!");
-                    console.log("bvam TOKNID hash "+hash+" written to local storage!");
+                    console.log("bvam infohash "+hash+" written to local storage!");
+                    //console.log("bvam TOKNID hash "+hash+" written to local storage!");
 
                     $("#reviewIssueButton").prop('disabled', true);
                     $("#reviewIssueButton").html("Issuing... <i class='fa fa-spinner fa-spin'></i>");
@@ -1263,8 +1263,8 @@ $(document).on('click', '#toolsTab', function () {
                     var divisible = $('#divisibleIssue').val();
                     var quantity = $('#amountIssue').val();	
 
-                    //var description = "BVAMWT-"+hash;
-                    var description = "TOKNID-"+hash;
+                    var description = "BVAMWT-"+hash;
+                    //var description = "TOKNID-"+hash;
 
                     var btc_total = 0.0000547;  //total btc to receiving address
                     var msig_total = 0.000078;  //total btc to multisig output (returned to sender)
@@ -1276,6 +1276,7 @@ $(document).on('click', '#toolsTab', function () {
                     if(description.length <= 41) {
 
                         createIssuance(add_from, assetidval, quantity, divisible, description, msig_total, transfee, mnemonic, msig_outputs);
+                        //console.log(description);
 
                     }
 

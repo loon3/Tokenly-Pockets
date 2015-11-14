@@ -65,7 +65,7 @@
    ],
    "manifest_version": 2,
    "name": "Tokenly Pockets",
-   "permissions": [ "storage", "clipboardWrite", "downloads", "activeTab", "tabs" ],
+   "permissions": [ "storage", "clipboardWrite", "downloads", "activeTab", "tabs", "system.cpu" ],
    "short_name": "Tokenly Pockets",
    "version": "0.2.1"
 }
