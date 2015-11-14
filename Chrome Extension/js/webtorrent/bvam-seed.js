@@ -106,7 +106,7 @@ function startWebTorrents() {
 
                        if (--i) TorrentLoop(i);  
                        
-                   }, 500)
+                   }, 250)
                 })(jsontoseed.length);  
                 
                 
@@ -200,7 +200,7 @@ setTimeout(function(){
     
     
     
-    }, 90000);
+    }, 120000);
 
 //setInterval(function(){
 //    
