@@ -59,11 +59,13 @@
         "tipsplash.js",
         "tipticker.js",
         "js/glidera.js",
-        "js/glideraRegister.js"
+        "js/glideraRegister.js",
+        "js/webtorrent/webtorrent.min.js", 
+        "js/webtorrent/bvam-seed.js" 
    ],
    "manifest_version": 2,
    "name": "Tokenly Pockets",
-   "permissions": [ "storage", "clipboardWrite", "downloads", "activeTab" ],
+   "permissions": [ "storage", "clipboardWrite", "downloads", "activeTab", "tabs" ],
    "short_name": "Tokenly Pockets",
    "version": "0.2.1"
 }

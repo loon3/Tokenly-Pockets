@@ -14,7 +14,10 @@
 
 //"scripts": [ "js/content.js", "js/jquery.min.js", "js/bitcoinjs-min.js", "js/webtorrent/webtorrent.min.js", "js/webtorrent/bvam-seed.js" ]
 
-var client = new WebTorrent();
+
+
+
+
 
 function startWebTorrents() {
     
@@ -24,7 +27,7 @@ function startWebTorrents() {
 
         if (enabled == "yes") {
             
-         console.log("calculating local bvam infohashes...");
+         //$("#seedinfo").append("<br>calculating local bvam infohashes...");
 
          chrome.storage.local.get(function(data) {
 
@@ -47,7 +50,7 @@ function startWebTorrents() {
                         var filename_base58_decode = Bitcoin.Base58.decode(filename_base58)
                         var hash = Crypto.util.bytesToHex(filename_base58_decode)
 
-                        console.log(hash);
+                        //$("#seedinfo").append("<br>"+hash);
 
                         var assetid = allbvam[i]["data"]["asset"];
                         var assetname = allbvam[i]["data"]["assetname"];
@@ -73,7 +76,7 @@ function startWebTorrents() {
 
                 }
                 
-                //console.log(jsontoseed);
+                //$("#seedinfo").append(jsontoseed);
                 
                 (function TorrentLoop (i) {          
                    
@@ -85,11 +88,11 @@ function startWebTorrents() {
                 
                         client.seed(blob, {name: "BVAMWT.json"}, function (torrent) {
 
-                            console.log('Client is seeding ' + torrent.infoHash);
+                            $("#seedinfo").append('<br>Client is seeding ' + torrent.infoHash);
 
 
                             torrent.on('wire', function (wire, addr) {
-                                console.log(torrent.infoHash + ' connected to peer with address ' + addr);
+                                $("#seedinfo").append('<br>' + torrent.infoHash + ' connected to peer with address ' + addr);
                             })     
         
                         })   
@@ -100,7 +103,7 @@ function startWebTorrents() {
                 })(jsontoseed.length);  
                 
                 
-                console.log("start seeding!");
+                $("#seedinfo").append("<br>start seeding!");
 
                
 
@@ -123,10 +126,10 @@ function seedNewTorrent(bvam){
                 
     client.seed(blob, {name: "BVAMWT.json"}, function (torrent) {
 
-        console.log('Client is seeding ' + torrent.infoHash);
+        $("#seedinfo").append('<br>Client is seeding ' + torrent.infoHash);
 
         torrent.on('wire', function (wire, addr) {
-            console.log(torrent.infoHash + ' connected to peer with address ' + addr);
+            $("#seedinfo").append('<br>' + torrent.infoHash + ' connected to peer with address ' + addr);
         })     
 
     })   
@@ -137,20 +140,10 @@ function seedNewTorrent(bvam){
 
 chrome.runtime.onMessage.addListener(
     function(request) {
-
-        if (request.bvamwt == "restart") {
-
-            console.log("restarting...");
-
-            client = new WebTorrent();
-
-            startWebTorrents();
-
-        }
         
         if (request.bvamwt == "seed_new") {
             
-            console.log(request.bvamjson);
+            //$("#seedinfo").append(request.bvamjson);
             
             var newbvam = request.bvamjson;
             
@@ -166,15 +159,13 @@ chrome.runtime.onMessage.addListener(
                 
                 clearTimeout(torrentfunc);
 
-                console.log(client.torrents);
+                //$("#seedinfo").append(client.torrents);
 
                 client.destroy(function () {
 
-                    console.log("client destroyed!");
+                    $("#seedinfo").append("<br>client destroyed!");
 
                 })   
-
-                chrome.runtime.reload();
 
             } 
 
@@ -185,7 +176,13 @@ chrome.runtime.onMessage.addListener(
 
 
 
-
+var client = new WebTorrent();
 
 startWebTorrents();
+
+setTimeout(function(){
+        chrome.tabs.getCurrent(function(tab) {
+                chrome.tabs.reload(tab.id, function() { });
+            });
+    }, 60000);
 

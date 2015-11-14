@@ -1378,7 +1378,7 @@ $(document).on('click', '#toolsTab', function () {
               
             if (state == "Disable Asset Metadata via Webtorrent") {
                 
-                chrome.runtime.sendMessage({bvamwt: "end"});
+                //chrome.runtime.sendMessage({bvamwt: "end"});
                 
                 var enabled = "no";
 
@@ -1394,7 +1394,7 @@ $(document).on('click', '#toolsTab', function () {
                 
             } else {
                 
-                chrome.runtime.sendMessage({bvamwt: "restart"});
+                //chrome.runtime.sendMessage({bvamwt: "restart"});
                 
                 var enabled = "yes";
 
@@ -1408,6 +1408,13 @@ $(document).on('click', '#toolsTab', function () {
                         });
                 
             }
+        });
+    
+         $('#bvamseedbutton').click( function ()
+        {
+                
+                chrome.runtime.sendMessage({bvamwt: "create_seed_tab"});
+
         });
     
 //loadSwapbots();
