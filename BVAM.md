@@ -49,7 +49,7 @@ Referenced Counterparty Asset, https://counterpartychain.io/asset/A1116111162418
 
 BVAM via Webtorrent can be enabled in the Wallet Settings tab of Tokenly Pockets. Once downloaded, Pockets caches BVAM locally for future reference.
 
-1.  Token issuers seed BVAM JSON files with Enhanced Asset info via Webtorrent.  BVAM creation and seeding is currently available at [xcp.ninja](http://xcp.ninja).
+1.  Token issuers seed BVAM JSON files with Enhanced Asset info via Webtorrent.  BVAM creation and seeding is currently available at [xcp.ninja](http://xcp.ninja).  _Token issuance, BVAM creation and seeding (via Webtorrent Control Panel) is available in the current Repository v0.2.1_
 
 2.  When issuing a new asset in Counterparty, the asset description references the Webtorrent infohash of the enhanced asset JSON file named BVAMWT.json which contains BVAM unique to that asset.  To save space, the Webtorrent infohash is Base58 encoded.
 
