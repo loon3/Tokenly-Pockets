@@ -14,6 +14,7 @@ body
         width: 320px;
         min-height: 420px;
         max-height: 700px;
+        height: 100%;
         margin: 5px 2px 5px 2px; 
         background-color: #fff;      
     }
@@ -594,12 +595,14 @@ a {
 #footer {
   
 	width: 100%;
-    padding: 0 10px 5px 0;
+    padding: 5px 10px 5px 0;
     text-align: right;
     bottom: 0;
-	height: 25px;
+	height: 30px;
 	color: #616161;
     font-weight: bold;
+    position: fixed;
+    background-color: #fff;
 
 }
 #refreshWallet {

@@ -24,7 +24,19 @@ $( document ).ready(function() {
     
     setPinBackground();
     
-    
+                
+
+    $(window).resize(function(){
+        
+        
+        if($("body").data("resizebypass") == "glidera"){
+            window.resizeTo(382,610);
+        } else if($("body").data("resizebypass") == "tall"){
+            window.resizeTo(324,610);
+        } else {
+            window.resizeTo(324,400);
+        }
+    })
     
     $('#alltransactions').hide();
     
@@ -107,7 +119,7 @@ $( document ).ready(function() {
     //on open
     var manifest = chrome.runtime.getManifest();
     
-    var infobutton = "<div style='display: inline-block; padding-left: 5px;'><a id='infoButton' href='#infoPage' data-toggle='tab'><img src='info-icon.png' height='16' width='16'></a><div id='helpButton' style='display: inline-block; cursor: pointer; margin-left: 3px;'><img src='images/help-icon.png' height='16' width='16'></div></div>";
+    var infobutton = "<div style='display: inline-block; padding-left: 5px;'><a id='infoButton' href='#infoPage' data-toggle='tab'><img src='info-icon.png' height='16' width='16'></a><div id='helpButton' style='display: inline-block; cursor: pointer; margin-left: 3px;'><img src='images/help-icon.png' height='16' width='16'></div><div id='openinwindowbutton' style='display: inline-block; cursor: pointer; margin-left: 3px;'><img src='images/expand-icon.png' height='20' width='20'></div></div>";
     
     $("#nameversion").html("Tokenly Pockets v" + manifest.version + infobutton);
   
@@ -444,12 +456,27 @@ $( document ).ready(function() {
         
         
         
-        $("#btcsendbox").toggle();
+        $("#btcsendbox").toggle(function(){
+            
+            if($("#btcsendbox").is(":visible")) {
+                
+                $("body").data("resizebypass", "tall");
+                window.resizeTo(324,610);
+                
+            } else {
+             
+                $("body").data("resizebypass", "false");
+                window.resizeTo(324,400);
+                
+            }
+            
+        });
         
         
         
         if($("#moreBTCinfo").is(":visible")) {
             $("#moreBTCinfo").hide();
+
         }
             
             
@@ -466,12 +493,27 @@ $( document ).ready(function() {
   {
             if($("#btcsendbox").is(":visible")) {
                 $("#btcsendbox").hide();
+               
             }
       
       
         if ($("#moreBTCinfo").length){
           
-            $("#moreBTCinfo").toggle();
+            $("#moreBTCinfo").toggle(function(){
+            
+                if($("#moreBTCinfo").is(":visible")) {
+
+                    $("body").data("resizebypass", "tall");
+                    window.resizeTo(324,610);
+
+                } else {
+                    
+                    $("body").data("resizebypass", "false");
+                    window.resizeTo(324,400);
+                    
+                }
+            
+            });
             
             
           
@@ -487,6 +529,9 @@ $( document ).ready(function() {
     			colorLight : "#ffffff",
     			correctLevel : QRCode.CorrectLevel.H
 				});
+            
+            $("body").data("resizebypass", "tall");
+            window.resizeTo(324,610);
         }
         });
 
@@ -699,7 +744,8 @@ $(document).on("click", '.tokenlisting', function (event)
       getPrimaryBalance(pubkey);
       
       
-      
+      window.resizeTo(324,400);
+      $("body").data("resizebypass", "false");
       
       $('#allTabs a:first').tab('show');
       
@@ -779,7 +825,8 @@ $(document).on("click", '.tokenlisting', function (event)
       $('.bg').animate({
             width: "320px"
         }, 100 );
-      
+      window.resizeTo(324,610);
+      $("body").data("resizebypass", "tall");
     var address = $("#xcpaddress").html();
         
     if ($('#assettransactiontoggle').html() == "View Tokens") {
@@ -890,6 +937,10 @@ $(document).on("click", '.tokenlisting', function (event)
         
         //$('.bg').css({"width":"378px"});
         
+        $("body").data("resizebypass", "glidera");
+        
+        window.resizeTo(382,610);
+        
     });
     
     
@@ -899,6 +950,10 @@ $(document).on("click", '.tokenlisting', function (event)
         $('.bg').animate({
             width: "320px"
         }, 100 );
+
+     
+        window.resizeTo(324,400);
+        $("body").data("resizebypass", "false");
         $('#buysellTab').css({"margin-left":"12px"});
         $("#priceBox").show();
         $("#priceBoxBank").hide();
@@ -912,6 +967,8 @@ $(document).on("click", '.tokenlisting', function (event)
         $('.bg').animate({
             width: "320px"
         }, 100 );
+            window.resizeTo(324,610);
+            $("body").data("resizebypass", "tall");
         $('#buysellTab').css({"margin-left":"12px"});
         $("#priceBox").show();
         $("#priceBoxBank").hide();
@@ -925,6 +982,8 @@ $(document).on('click', '#toolsTab', function () {
         $('.bg').animate({
             width: "320px"
         }, 100 );
+    window.resizeTo(324,610);
+    $("body").data("resizebypass", "tall");
     $('#buysellTab').css({"margin-left":"12px"});
         $("#priceBox").show();
         $("#priceBoxBank").hide();
@@ -1418,6 +1477,15 @@ $(document).on('click', '#toolsTab', function () {
 
         });
     
+    
+    $('#openinwindowbutton').click( function ()
+        {
+            chrome.windows.create({ url: 'popup.html', type: 'popup', width: 324, height: 380, left: 500, top: 150 }, function(data){
+    
+                console.log(data);
+
+            });
+        });
 //loadSwapbots();
     
 //loadFeatureRequests();
