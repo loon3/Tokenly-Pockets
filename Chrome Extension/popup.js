@@ -35,7 +35,7 @@ function getExchangeRatesList() {
         
         $("#ExchangeRate").html("");
         
-        var ratedisplay = "<table class='table table-condensed' style='margin-top: 20px;'><thead class='small tokenlistingheader' style='cursor: pointer;'><th>Symbol</th><th>Token</th><th style='text-align:center;'>Market Price per Token</th></thead><tbody>";
+        var ratedisplay = "<table class='table table-condensed' style='margin-top: 5px;'><thead class='small tokenlistingheader' style='cursor: pointer;'><th>Symbol</th><th>Token</th><th style='text-align:center;'>Market Price per Token</th></thead><tbody>";
         
         ratedisplay += "<tr class='tokenlisting' style='cursor: pointer;' data-token='BTC'><td style='vertical-align:middle'><div style='width: 50px;'><img src='bitcoin_48x48.png' width='36' height='36px'></div></td><td style='vertical-align:middle'>BTC</td><td style='vertical-align:middle; text-align:center;'>1 BTC<br>$"+parseFloat(1/btcperusd).toFixed(2)+"</td></tr>"; 
         

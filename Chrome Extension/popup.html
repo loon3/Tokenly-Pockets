@@ -189,6 +189,8 @@
             </div>  
         </div>
   <!-- Nav tabs -->
+           
+           <div id="headerblock">
   <ul class="nav nav-tabs" id="allTabs">
     <li class="active" id="walletTab"><a id="walletLink" href="#walletPage" data-toggle="tab"><img src="wallet_icon.png" height="24" width="24"></a></li>
     <li id="inventoryTab"><a href="#inventoryPage" data-toggle="tab"><img src="inventory_icon.png" height="24" width="24"></a></li>
@@ -211,7 +213,8 @@
     </li>
     
   </ul>
-
+</div>
+           <div style="height: 56px;"></div>
   <!-- Tab panes -->
   <div class="tab-content">
     <div class="tab-pane active" id="walletPage">
@@ -243,7 +246,7 @@
 		</div>
         
         <div align="center">
-            <div id="fiatvaluebox" style="margin-top: 6px;">($<div style="display: inline-block;" id="xcpfiatValue"></div>)</div>
+            <div id="fiatvaluebox" style="margin-top: 0px;">($<div style="display: inline-block;" id="xcpfiatValue"></div>)</div>
             <div id="switchtoxcp">Switch to BTC</div>
         </div>
         
@@ -327,7 +330,7 @@
         
     </div>
     <div class="tab-pane" id="inventoryPage">
-        <div style="padding: 10px;"><button id="assettransactiontoggle" class="btn btn-default btn-block btn-sm" style="width: 100%;">View Token Transaction History</button></div>
+        <div style="padding: 5px 10px 10px 10px;"><button id="assettransactiontoggle" class="btn btn-default btn-block btn-sm" style="width: 100%;">View Token Transaction History</button></div>
 		
         
         <div id="allassets" style="padding-bottom: 20px;"></div>
@@ -339,7 +342,7 @@
         <div style="padding: 10px 0 40px 0;"><button id="hiddentokentoggle" class="btn btn-default btn-block btn-sm" style="width: 100%;">View Hidden Tokens</button></div>-->
     </div>
     <div class="tab-pane" id="toolsPage">
-        <div class="row applink" style="padding: 15px 0 30px 0; width: 300px; margin: auto;">
+        <div class="row applink" style="padding: 2px 0 30px 0; width: 300px; margin: auto;">
             
 <!--
             <a id="shapeshiftApp" href="#shapeshiftPage" data-toggle="tab">
@@ -708,7 +711,7 @@
       
     <div class="tab-pane" id="settingsPage">
 
-		<div style="margin-top: 15px; padding: 5px;">
+		<div style="margin-top: 5px; padding: 5px;">
 			<div class="lead" align="center">Wallet Settings</div>
 			<a href="#" id="revealPassphrase" class="btn btn-primary btn-block keybutton">Reveal Passphrase</a>
             <div id="passphrasebox" style="display: none;">

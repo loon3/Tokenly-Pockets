@@ -176,11 +176,11 @@ a {
 	background-color: #fafafa;
     border: 2px solid #ccc;
     color: #000;
-	padding: 5px 5px 8px 5px;
+	padding: 5px 5px 5px 5px;
 	display: block;
 	border-radius: 5px;
 	text-align: center;
-	margin: 10px 5px 10px 5px;
+	margin: 3px 5px 10px 5px;
     z-index: 0;
 }
 
@@ -190,7 +190,7 @@ a {
     margin: 0 5px 0 5px; 
     background-color: #555; 
     border: 4px solid #ccc;
-    margin-bottom: 20px; 
+    margin-bottom: 10px; 
     display: none;
     border-radius: 5px;
 }
@@ -605,6 +605,17 @@ a {
     background-color: #fff;
 
 }
+
+#headerblock
+{
+    top: 0;
+    padding: 5px 0 0 0;
+	height: 60px;
+    position: fixed;
+    background-color: #fff;
+    z-index: 1;
+}
+
 #refreshWallet {
 cursor: pointer;
 }
