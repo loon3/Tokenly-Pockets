@@ -95,6 +95,8 @@ function getBvamWT(bvamhasharray, callback) {
         checkBvamwtEnabled(function() {
 
             console.log("BVAM via webtorrent is on!");
+            
+//             var client = new WebTorrent();
              
             var datacount = bvamhasharray.length;
 
@@ -102,7 +104,7 @@ function getBvamWT(bvamhasharray, callback) {
                 
                 console.log("looking for BVAM webtorrents...");
                 
-                var client = new WebTorrent()
+               
             
                 $.each(bvamhasharray, function(m, item) {
                     
@@ -147,35 +149,124 @@ function getBvamWT(bvamhasharray, callback) {
                                                 addBvam(bvamdataforstorage);
 
                                           }
+                                    
+
+                                    //datacount--;
+                                        
+                                         //console.log(client.torrents);
+                                    
+                                    torrent.destroy(function(){
+                              
+                                          console.log(infohash + " destroyed!");
+                                        
+                                          console.log(client.torrents);
+
+                                      })
+                                    
                                     }
 
-                                    datacount--;
-
                                 })
 
-                            } else {
+                            } 
+//                          else {
+//
+//                                datacount--;
+//
+//                            }
 
-                                datacount--;
-
-                            }
 
 
+//                            if (datacount == 0) {
+//
+//                                client.destroy(function(){
+//
+//                                    callback(status);
+//
+//                                })
+//
+//                            }
 
-                            if (datacount == 0) {
-
-                                client.destroy(function(){
-
-                                    callback(status);
-
-                                })
-
-                            }
-
+                          
+                          
+                          
                       })
 
+                      
+                      
+//                      
+//                      torrent.destroy(function(){
+//                              
+//                                          console.log(infohash + " destroyed!");
+//                                        
+//                                        //console.log(client.torrents);
+//
+//                                      })
+                      
+                      
                     })
+                    
+                   
 
                 })
+                
+                console.log(client.torrents);
+                
+                 window.setTimeout( function() {
+                                document.location.reload(true);
+//                                client.destroy(function(){
+//                                
+//                                    console.log(client);
+//                                    console.log("destroyed!");
+//                                
+//                                })
+                                
+//                                console.log(client);
+                            }, 60000);
+                
+//                var p1 = new Promise(function(resolve, reject) {  
+//                    
+//                        if(client.torrents.length > 0) {
+//                           
+//                            console.log("promise countdown...");
+//                            console.log(client.torrents);
+//                            
+//                            window.setTimeout( function() {
+//                                // We fulfill the promise !
+//                                resolve(client);
+//                            }, 60000);
+//                        
+//                        }
+//
+//                    });
+//                
+//                p1.then(function(torrents){
+//                    
+//                    console.log("promise made!");
+//                    
+//                    document.location.reload(true);
+//                    
+////                    torrents[0].destroy(function(){
+////                        
+////                        console.log("destroyed!");
+////                        console.log(torrents);
+////                        
+////                    })
+//                    
+////                    torrent.destroy(function(){
+////
+////                        console.log("destroyed!");
+////
+////                    });
+//                    
+//                });
+                
+                //client.destroy works here!
+                
+//                client.destroy(function(){
+//                
+//                    console.log("destroyed!");
+//                
+//                });
 
             }
         

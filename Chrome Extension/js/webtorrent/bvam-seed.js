@@ -200,7 +200,7 @@ setTimeout(function(){
     
     
     
-    }, 120000);
+    }, 60000);
 
 //setInterval(function(){
 //    

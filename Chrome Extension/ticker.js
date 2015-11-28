@@ -1,10 +1,13 @@
 var bitcore = require('bitcore');
 
+var client = new WebTorrent();
 
 var INSIGHT_SERVER = getInsightServer();
 
 
 $( document ).ready(function() { 
+    
+    window.resizeTo(324,400);
     
 //    getImageHash("pockets-48.png", function(hash){
 //    
@@ -24,11 +27,10 @@ $( document ).ready(function() {
     
     setPinBackground();
     
+    
                 
 
     $(window).resize(function(){
-        
-        
         if($("body").data("resizebypass") == "glidera"){
             window.resizeTo(382,610);
         } else if($("body").data("resizebypass") == "tall"){
@@ -92,7 +94,25 @@ $( document ).ready(function() {
               
    });
     
-
+//    $("li").click(function(){
+//        
+//        if (this.id != "inventoryTab"){
+//        
+//            client.remove("magnet:?xt=urn:btih:1d1c88903daa90b27107251d4a3462a63b5d2f8e", function(err){
+//            
+//                client.remove("magnet:?xt=urn:btih:5eebd992b799b0577ebc922e40fa765d096f8d6c", function(err){
+//            
+//                    console.log("all done!");
+//                    
+//                })
+//                
+//            })
+//            
+//        };
+//    
+//    //
+//    
+//    });
   
     
     $('#shapeshiftStartButton').click(function(){
