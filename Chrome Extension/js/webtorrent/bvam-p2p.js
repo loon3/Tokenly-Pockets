@@ -70,25 +70,7 @@ function getBvamWT(bvamhasharray, callback) {
             }
             
         }
-                
-                //({hash: bvamhash, asset: assetname, amount: assetbalance, data: ""})
-                
-                
-//                
-//    {
-//		"added": 1442718500339,
-//		"data": {
-//			"asset": "A11130674620369256769",
-//			"assetdescription": "",
-//			"assetname": "Kitten Mittens",
-//			"assetwebsite": "",
-//			"owneraddress": "1Dhx3kGVkLaVFDYacZARheNzAWhYPTxHLq",
-//			"ownername": "",
-//			"ownertwitter": ""
-//		},
-//		"hash": "TC6aVqhcSDH77xtFAXpqPCBxw88x26MQgD",
-//		"type": "TOKNID"
-//	},
+
             
         console.log(bvamhasharray);
 
@@ -97,15 +79,15 @@ function getBvamWT(bvamhasharray, callback) {
             console.log("BVAM via webtorrent is on!");
             
 //             var client = new WebTorrent();
+            
+            console.log(client);
              
             var datacount = bvamhasharray.length;
 
             if(bvamhasharray.length != 0) {
                 
                 console.log("looking for BVAM webtorrents...");
-                
-               
-            
+     
                 $.each(bvamhasharray, function(m, item) {
                     
                     loadingBvamWTasset(bvamhasharray[m]["asset"]);
@@ -149,11 +131,7 @@ function getBvamWT(bvamhasharray, callback) {
                                                 addBvam(bvamdataforstorage);
 
                                           }
-                                    
 
-                                    //datacount--;
-                                        
-                                         //console.log(client.torrents);
                                     
                                     torrent.destroy(function(){
                               
@@ -168,105 +146,42 @@ function getBvamWT(bvamhasharray, callback) {
                                 })
 
                             } 
-//                          else {
-//
-//                                datacount--;
-//
-//                            }
-
-
-
-//                            if (datacount == 0) {
-//
-//                                client.destroy(function(){
-//
-//                                    callback(status);
-//
-//                                })
-//
-//                            }
-
-                          
                           
                           
                       })
-
-                      
-                      
-//                      
-//                      torrent.destroy(function(){
-//                              
-//                                          console.log(infohash + " destroyed!");
-//                                        
-//                                        //console.log(client.torrents);
-//
-//                                      })
                       
                       
                     })
                     
                    
-
                 })
                 
                 console.log(client.torrents);
+                console.log(client.torrents.length);
                 
-                 window.setTimeout( function() {
-                                document.location.reload(true);
-//                                client.destroy(function(){
-//                                
-//                                    console.log(client);
-//                                    console.log("destroyed!");
-//                                
-//                                })
+                 window.setTimeout(function() {
+                     
+                     if(client.torrents.length > 0) {
                                 
-//                                console.log(client);
-                            }, 60000);
+                                do {
+                                    
+                                    var l = client.torrents.length;
+                                    
+                                    window.client.torrents[l-1].destroy(function(){
+                                        
+                                        console.log("destroyed!");
+                                        
+                                        console.log(client);
+                                        
+                                    });
+                                    
+                                } while (l > 1);
+                         
+                     }
+
+                     
+                }, 30000);
                 
-//                var p1 = new Promise(function(resolve, reject) {  
-//                    
-//                        if(client.torrents.length > 0) {
-//                           
-//                            console.log("promise countdown...");
-//                            console.log(client.torrents);
-//                            
-//                            window.setTimeout( function() {
-//                                // We fulfill the promise !
-//                                resolve(client);
-//                            }, 60000);
-//                        
-//                        }
-//
-//                    });
-//                
-//                p1.then(function(torrents){
-//                    
-//                    console.log("promise made!");
-//                    
-//                    document.location.reload(true);
-//                    
-////                    torrents[0].destroy(function(){
-////                        
-////                        console.log("destroyed!");
-////                        console.log(torrents);
-////                        
-////                    })
-//                    
-////                    torrent.destroy(function(){
-////
-////                        console.log("destroyed!");
-////
-////                    });
-//                    
-//                });
-                
-                //client.destroy works here!
-                
-//                client.destroy(function(){
-//                
-//                    console.log("destroyed!");
-//                
-//                });
 
             }
         

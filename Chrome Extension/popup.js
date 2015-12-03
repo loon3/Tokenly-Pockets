@@ -2432,7 +2432,7 @@ function loadingBvamWTasset(asset) {
     
     var iconlink = "http://counterpartychain.io/content/images/icons/xcp.png";
                         
-    var assethtml = "<div class='enhancedassetwt-loading row "+asset+"-loading'><div class='col-xs-3'><div align='center' style='padding-top: 10px;'><i class='fa fa-spinner fa-pulse fa-3x'></i></div></div><div class='col-xs-9' style='margin-left: -10px; text-align: center;'>Searching for "+asset+" asset metadata...</div></div>";
+    var assethtml = "<div class='enhancedassetwt-loading row "+asset+"-loading'><div class='col-xs-3'><div align='center' style='padding-top: 10px;'><i class='fa fa-spinner fa-pulse fa-3x'></i></div></div><div class='col-xs-9' style='margin-left: -10px; text-align: center;'>Searching for "+asset+" token metadata...</div></div>";
                         
     
     
