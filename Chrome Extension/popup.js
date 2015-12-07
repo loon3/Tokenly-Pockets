@@ -2535,7 +2535,7 @@ function ajaxissue(url, data, rawtx) {
             
             console.log(newTxid);
                 
-            $("#afterIssueBody").html("<div class='h2' style='padding: 30px 0 30px 0;'>Token Issued!</div><div class='h4'>Token will appear in wallet after one confirmation</div><div class='h3' style='padding: 30px 0 30px 0;'><a href='https://chain.so/tx/BTC/"+newTxid+"' target='_blank'>View Transaction</a></div><div>Token data is not stored on a server and must be shared by users via Webtorrent.  Open the Webtorrent Control Panel <div style='display: inline-block;'><img src='images/ninja-icon.png' height='16' width='16'></div> to start sharing Token data with other Pockets users.");
+            $("#afterIssueBody").html("<div class='h2' style='padding: 30px 0 30px 0;'>Token Issued!</div><div class='h4'>Token will appear in wallet after one confirmation</div><div class='h3' style='padding: 30px 0 30px 0;'><a href='https://chain.so/tx/BTC/"+newTxid+"' target='_blank'>View Transaction</a></div><div style='padding-bottom: 30px;'>Token data is not stored on a server, but shared p2p via Webtorrent.  Open the Webtorrent Control Panel to share token data with other Pockets users.</div>");
             
             $("#afterIssueBody").show();
       
@@ -2562,6 +2562,27 @@ function sendBTCissue(hextx) {
 }
 
 
+$(document).ready(function () {
+
+});
+
+function timerIncrement() {
+    
+    idleTime++;
+    idleTimeDisplay = idleTime * 10;
+    
+    if(idleTime > 1 && idleTime <= 5) {
+        console.log("Idle for "+idleTimeDisplay+" seconds");
+    }
+    
+    if (idleTime == 5) {
+        console.log("refreshing window in 10 seconds...");
+    }
+    
+    if (idleTime > 5) { // 60 seconds
+        window.location.reload();
+    }
+}
 
 
 function displayUnconfirmedBTC(address) {

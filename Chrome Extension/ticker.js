@@ -4,8 +4,19 @@ var client = new WebTorrent();
 
 var INSIGHT_SERVER = getInsightServer();
 
-
+var idleTime = 0;
 $( document ).ready(function() { 
+    
+    //Increment the idle time counter every minute.
+    var idleInterval = setInterval(timerIncrement, 10000); // 5 seconds
+
+    //Zero the idle timer on mouse movement.
+    $(this).mousemove(function (e) {
+        idleTime = 0;
+    });
+    $(this).keypress(function (e) {
+        idleTime = 0;
+    });
     
     window.resizeTo(324,400);
     
