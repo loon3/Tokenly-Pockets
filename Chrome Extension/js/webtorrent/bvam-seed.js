@@ -202,6 +202,18 @@ setTimeout(function(){
     
     }, 60000);
 
+$( document ).ready(function() { 
+    
+     $(document).on("click", 'a', function (event)
+        {
+            event.preventDefault();
+            chrome.tabs.create({url: $(this).attr('href')});
+            
+        })
+     
+    
+});
+
 //setInterval(function(){
 //    
 //        chrome.tabs.getCurrent(function(tab) {
