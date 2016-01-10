@@ -657,6 +657,9 @@ $(document).on("click", '.tokenlisting', function (event)
   $(document).on("click", '#refreshWallet', function (event)
   {
       
+      window.resizeTo(324,400);
+      $("body").data("resizebypass", "false");
+      
       $("#shapeshiftbuttonbox").show();
       $("#shapeshiftselectadd").hide();
       
