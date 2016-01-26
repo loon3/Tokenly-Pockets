@@ -312,7 +312,7 @@ function qrdepositDropdown() {
             
             var currentaddr = $("#xcpaddress").html();
             
-            $("#btcbalance").html("Deposit bitcoin for transaction fees<div style='margin: 20px 0 10px 0; font-size: 10px; font-weight: bold;'>"+currentaddr+"</div><div id='btcqr' style='margin: 10px auto 20px auto; height: 100px; width: 100px;'></div><div>Cost per transaction is 0.00015470 BTC</div></div>");
+            $("#btcbalance").html("Deposit bitcoin for transaction fees<div style='margin: 20px 0 10px 0; font-size: 10px; font-weight: bold;'>"+currentaddr+"</div><div id='btcqr' style='margin: 10px auto 20px auto; height: 100px; width: 100px;'></div><div>Cost per transaction is 0.00015430 BTC</div></div>");
                                   
             var qrcode = new QRCode(document.getElementById("btcqr"), {
     			text: currentaddr,
@@ -351,7 +351,7 @@ function getBTCBalance(pubkey) {
         
         //var transactions = (parseFloat(data) / 15470) ; //insight
         //var transactions = (parseFloat(data.data.confirmed_balance) + parseFloat(data.data.unconfirmed_balance))/ 0.0001547; //chainso
-        var transactions = (parseFloat(apidata.data.balance) / 0.0001547) ; //blockr
+        var transactions = (parseFloat(apidata.data.balance) / 0.0001543) ; //blockr
         
         if (transactions < 1) {
             transactions = 0;
@@ -1520,7 +1520,7 @@ function sendtokenaction() {
                         
                         } else if (txsAvailable > 1) {
                             
-                            var btc_total = 0.0000547;  //total btc to receiving address
+                            var btc_total = 0.0000543;  //total btc to receiving address
                             var msig_total = 0.000078;  //total btc to multisig output (returned to sender)
                             var mnemonic = $("#newpassphrase").html();
                             

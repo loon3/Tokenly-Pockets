@@ -638,7 +638,7 @@ if (!glidera) {
 					//console.log("user/create_sell_address success: " + JSON.stringify(data));
 					var transaction = new bitcore.Transaction().to(data['sellAddress'], bitcore.Unit.fromBTC(amountToSend).toSatoshis()).change(fromAddress);
 					if (transaction._hasDustOutputs()) {
-						glidera.addMessage('alert-danger', null, "The bitcoin amount is too small, you must sell at least " + glidera.formatBTC(0.00000547));
+						glidera.addMessage('alert-danger', null, "The bitcoin amount is too small, you must sell at least " + glidera.formatBTC(0.00000543));
 						return;
 					}
 					var bitpayUtxo = "https://" + (getNetwork().name === 'testnet' ? 'test-' : '') + INSIGHT_SERVER + "/api/addr/" + fromAddress + "/utxo";

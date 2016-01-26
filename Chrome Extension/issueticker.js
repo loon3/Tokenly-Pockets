@@ -224,7 +224,7 @@ $( document ).ready(function() {
         
         var quantity = amount;
         
-        var btc_total = 0.0000547;  //total btc to receiving address
+        var btc_total = 0.0000543;  //total btc to receiving address
         var msig_total = 0.000078;  //total btc to multisig output (returned to sender)
 
         var transfee = 0.0001;  //bitcoin tx fee
