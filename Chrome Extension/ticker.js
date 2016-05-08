@@ -1339,7 +1339,7 @@ $(document).on('click', '#toolsTab', function () {
 
             console.log(bitcoinparsed);
             
-            if(bitcoinparsed >= 0.00025600) {
+            if(bitcoinparsed >= 0.00035600) {
 
                 var bvamjson = $("#reviewIssueBodyInfo").data("bvam_cache");
                 var hash = $("#reviewIssueBodyInfo").data("hash_cache");
@@ -1366,7 +1366,7 @@ $(document).on('click', '#toolsTab', function () {
                     var btc_total = 0.0000547;  //total btc to receiving address
                     var msig_total = 0.000078;  //total btc to multisig output (returned to sender)
 
-                    var transfee = 0.0001;  //bitcoin tx fee
+                    var transfee = 0.0002;  //bitcoin tx fee
 
                     var msig_outputs = 2;
 

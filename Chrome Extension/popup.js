@@ -2530,12 +2530,13 @@ function ajaxissue(url, data, rawtx) {
             console.log(xhr.responseText);
             
             $("#reviewIssueBody").hide();
-            
+                   
             var newTxid = rawtotxid(rawtx);
-            
+
             console.log(newTxid);
-                
-            $("#afterIssueBody").html("<div class='h2' style='padding: 30px 0 30px 0;'>Token Issued!</div><div class='h4'>Token will appear in wallet after one confirmation</div><div class='h3' style='padding: 30px 0 30px 0;'><a href='https://chain.so/tx/BTC/"+newTxid+"' target='_blank'>View Transaction</a></div><div style='padding-bottom: 30px;'>Token data is not stored on a server, but shared p2p via Webtorrent.  Open the Webtorrent Control Panel to share token data with other Pockets users.</div>");
+
+            $("#afterIssueBody").html("<div class='h2' style='padding: 30px 0 30px 0;'>Token Issued!</div><div class='h4'>Token will appear in wallet after one confirmation</div><div class='h3' style='padding: 30px 0 30px 0;'><a href='https://blockchain.info/tx/"+newTxid+"' target='_blank'>View Transaction</a></div><div style='padding-bottom: 30px;'>Token data is not stored on a server, but shared p2p via Webtorrent.  Open the Webtorrent Control Panel to share token data with other Pockets users.</div>");
+   
             
             $("#afterIssueBody").show();
       
@@ -2549,11 +2550,11 @@ function ajaxissue(url, data, rawtx) {
 
 
 function sendBTCissue(hextx) {
-//    url = 'http://blockchain.info/pushtx';
-//    postdata = 'tx=' + hextx;
+    url = 'http://blockchain.info/pushtx';
+    postdata = 'tx=' + hextx;
     
-    url = 'https://chain.so/api/v2/send_tx/BTC';
-    postdata = 'tx_hex=' + hextx;
+//    url = 'https://chain.so/api/v2/send_tx/BTC';
+//    postdata = 'tx_hex=' + hextx;
     
     if (url != null && url != "")
     {
