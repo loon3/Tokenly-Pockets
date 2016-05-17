@@ -1597,6 +1597,14 @@ function resetFive() {
     
 }
 
+function disableBvamwt() {
+
+    var enabled = "no";
+    
+    chrome.storage.local.set({'bvamwt_enabled': enabled}, function () {})
+    
+}
+
 function setBvamwtOff() {
 
     chrome.storage.local.get(function(data) {
